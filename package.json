@@ -8,10 +8,17 @@
     "node": ">=6.13.0"
   },
   "scripts": {
+    "babel": "babel -w . --out-dir compiled --presets=react --ignore=node_modules,compiled --source-maps inline"
   },
   "dependencies": {
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
   },
   "devDependencies": {
-    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.23.0"
   }
 }
