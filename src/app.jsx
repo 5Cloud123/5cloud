@@ -14,12 +14,14 @@ class App extends React.Component {
       currentSongIndex: 0,
       currentTime: 0,
       timerIntervalID: null,
+      currentSongLengthString: 'Please choose a song first!',
     };
 
     // Bind functions to this
     this.changeCurrentSong = this.changeCurrentSong.bind(this);
     this.handleSongChoice = this.handleSongChoice.bind(this);
     this.chooseCurrentSong = this.chooseCurrentSong.bind(this);
+    this.recordNextSongsLength = this.recordNextSongsLength.bind(this);
     this.playSong = this.playSong.bind(this);
     this.pauseSong = this.pauseSong.bind(this);
     this.incrementTimer = this.incrementTimer.bind(this);
@@ -27,6 +29,7 @@ class App extends React.Component {
     this.stopTimer = this.stopTimer.bind(this);
   }
 
+  // TODO - look for redundancy in changing song
   changeCurrentSong() {
     // Get next song's index
     const nextSongIndex =
@@ -49,6 +52,30 @@ class App extends React.Component {
     this.setState({
       currentSong: new Audio(songURL),
     });
+  }
+
+  recordNextSongsLength(song) {
+    // Iteratively reduce durationRemaining to create time string
+    let durationRemaining = Math.floor(song.duration);
+    let length = '';
+    // If 1+ hours long, record those hours
+    if (durationRemaining > 3600) {
+      const hours = Math.floor(durationRemaining / 3600);
+      length += `${hours} hours, `;
+      durationRemaining -= hours * 3600;
+    }
+    // If 1+ minutes long, record those minutes
+    if (durationRemaining > 60) {
+      const minutes = Math.floor(durationRemaining / 60);
+      length += `${minutes} minutes, `;
+      durationRemaining -= minutes * 3600;
+    }
+    // If 1+ seconds long, record those seconds
+    if (durationRemaining > 0) {
+      length += `${durationRemaining} seconds, `;
+    }
+    // Save to state
+    this.setState({currentSongCurrentTime: length});
   }
 
   playSong() {
@@ -115,6 +142,9 @@ class App extends React.Component {
         </button>
         <div id='current-playback-time'>
           Current Playback time: {this.state.currentTime}
+        </div>
+        <div id='song-length'>
+          Song Length: {this.state.currentSongLengthString}
         </div>
       </div>
     );
