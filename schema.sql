@@ -9,7 +9,7 @@ CREATE TABLE users (
   username VARCHAR(25),
   pro_unlimited BOOLEAN DEFAULT 0,
   follower_count INT,
-  phys_location VARCHAR(25)
+  phys_location VARCHAR(25),
 
   PRIMARY KEY(id)
 );
@@ -23,7 +23,7 @@ CREATE TABLE songs (
   artist VARCHAR(25),
   title VARCHAR(50),
   song_art BLOB,
-
+  added DATE,
 
   PRIMARY KEY(id)
 );
@@ -42,54 +42,61 @@ CREATE TABLE hashtags (
   uses INT DEFAULT 0,
 
   PRIMARY KEY(id)
-)
+);
 
 
 CREATE TABLE song_user_likes (
   id INT AUTO_INCREMENT NOT NULL,
-  FOREIGN KEY (user_id) 
+  user INT NOT NULL,
+  song INT NOT NULL,
+  FOREIGN KEY (user) 
     REFERENCES users(id)
     ON DELETE CASCADE,
-  FOREIGN KEY (song_id)
+  FOREIGN KEY (song)
     REFERENCES songs(id)
     ON DELETE CASCADE,
 
   PRIMARY KEY(id)
-)
+);
 
 CREATE TABLE song_user_reposts (
   id INT AUTO_INCREMENT NOT NULL,
-  FOREIGN KEY (user_id) 
+  user INT NOT NULL,
+  song INT NOT NULL,
+  FOREIGN KEY (user) 
     REFERENCES users(id)
     ON DELETE CASCADE,
-  FOREIGN KEY (song_id)
+  FOREIGN KEY (song)
     REFERENCES songs(id)
     ON DELETE CASCADE,
 
   PRIMARY KEY(id)
-)
+);
 
 CREATE TABLE playlist_song_included (
   id INT AUTO_INCREMENT NOT NULL,
-  FOREIGN KEY (playlist_id) 
+  playlist INT NOT NULL,
+  song INT NOT NULL,
+  FOREIGN KEY (playlist) 
     REFERENCES playlists(id)
     ON DELETE CASCADE,
-  FOREIGN KEY (song_id)
+  FOREIGN KEY (song)
     REFERENCES songs(id)
     ON DELETE CASCADE,
 
   PRIMARY KEY(id)
-)
+);
 
 CREATE TABLE hashtag_song_assignments (
   id INT AUTO_INCREMENT NOT NULL,
-  FOREIGN KEY (hashtag_id)
+  hashtag INT NOT NULL,
+  song INT NOT NULL,
+  FOREIGN KEY (hashtag)
     REFERENCES hashtags(id)
     ON DELETE CASCADE,
-  FOREIGN KEY (song_id)
+  FOREIGN KEY (song)
     REFERENCES songs(id)
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
 
   PRIMARY KEY(id)
-
-)
+);
