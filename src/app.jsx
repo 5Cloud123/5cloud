@@ -4,7 +4,8 @@ class App extends React.Component {
 
     // Set state - mostly revolves around current song playing
     this.state = {
-      currentSong: new Audio('./Assets/song.mp3'),
+      currentSong: null,
+      songQueue: [],
       currentSongCurrentTime: 0,
       songs: [
         './Assets/song.mp3',
@@ -26,8 +27,55 @@ class App extends React.Component {
     this.incrementTimer = this.incrementTimer.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
+    this.playNextFromQueue = this.playNextFromQueue.bind(this);
+    this.enqueueSong = this.enqueueSong.bind(this);
   }
 
+  componentDidMount() {
+    // Enqueue all songs
+    for (let i = 0; i < this.state.songs.length; i++) {
+      const songURL = this.state.songs[i];
+      console.log(songURL);
+      this.enqueueSong(songURL);
+    }
+  }
+
+  enqueueSong(songURL) {
+    const song = new Audio(songURL);
+    const songQueue = this.state.songQueue;
+    songQueue.push(song);
+    this.setState({
+      songQueue,
+    });
+  }
+
+  playNextFromQueue() {
+    // If queue has songs, get the next one
+    if (this.state.songQueue.length) {
+      const songQueue = this.state.songQueue.slice();
+      console.log(songQueue);
+      const song = songQueue.pop();
+      this.setState(
+        (state) => {
+          return {
+            currentSong: song,
+            songQueue: songQueue,
+            currentTime: 0,
+            timerIntervalID: null,
+            currentSongReadyToPlay: false,
+          };
+        },
+        // Then, update song length on page
+        () => {
+          this.recordNextSongsLength(song);
+        }
+      );
+    } else {
+      alert('No songs in queue. Please enqueue some songs!');
+    }
+  }
+
+  // TODO - incorporate this
   enablePlayCurrentSong() {
     song.addEventListener('canplay', () => {
       this.setState({currentSongReadyToPlay: true});
@@ -36,6 +84,7 @@ class App extends React.Component {
 
   handleSongChoice(event) {
     const song = new Audio(event.target.value);
+    console.log(song);
     song.addEventListener('canplay', () => {
       this.recordNextSongsLength(song);
       this.setState({currentSong: song});
@@ -117,6 +166,7 @@ class App extends React.Component {
           id='song-select'
           onChange={this.handleSongChoice}
         >
+          <option></option>
           <option value={songs[0]}>Flicker</option>
           <option value={songs[1]}>All I Got</option>
           <option value={songs[2]}>Say My Name</option>
@@ -126,6 +176,9 @@ class App extends React.Component {
         </button>
         <button id='pause' onClick={this.pauseSong}>
           Pause
+        </button>
+        <button id='next-song-btn' onClick={this.playNextFromQueue}>
+          Next Song
         </button>
         <div id='current-playback-time'>
           Current Playback time: {this.state.currentTime}
