@@ -4,7 +4,11 @@ class App extends React.Component {
     this.state = {
       currentSong: new Audio('./Assets/song.mp3'),
       currentSongCurrentTime: 0,
-      songs: ['./Assets/song.mp3', './Assets/All_I_got.mp3'],
+      songs: [
+        './Assets/song.mp3',
+        './Assets/All_I_got.mp3',
+        './Assets/Say_My_Name.mp3',
+      ],
       currentSongIndex: 0,
     };
 
