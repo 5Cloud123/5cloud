@@ -15,12 +15,11 @@ class App extends React.Component {
       currentTime: 0,
       timerIntervalID: null,
       currentSongLengthString: 'Please choose a song first!',
+      currentSongReadyToPlay: false,
     };
 
     // Bind functions to this
-    this.changeCurrentSong = this.changeCurrentSong.bind(this);
     this.handleSongChoice = this.handleSongChoice.bind(this);
-    this.chooseCurrentSong = this.chooseCurrentSong.bind(this);
     this.recordNextSongsLength = this.recordNextSongsLength.bind(this);
     this.playSong = this.playSong.bind(this);
     this.pauseSong = this.pauseSong.bind(this);
@@ -29,28 +28,17 @@ class App extends React.Component {
     this.stopTimer = this.stopTimer.bind(this);
   }
 
-  // TODO - look for redundancy in changing song
-  changeCurrentSong() {
-    // Get next song's index
-    const nextSongIndex =
-      (this.state.currentSongIndex + 1) % this.state.songs.length;
-    // Create audio element given path from state
-    console.log(`next song url: ${this.state.songs[nextSongIndex]}`);
-    const nextSong = new Audio(this.state.songs[nextSongIndex]);
-    // Set new song as current song in state
-    this.setState({
-      currentSong: nextSong,
-      currentSongIndex: nextSongIndex,
+  enablePlayCurrentSong() {
+    song.addEventListener('canplay', () => {
+      this.setState({currentSongReadyToPlay: true});
     });
   }
 
   handleSongChoice(event) {
-    this.setState({currentSong: new Audio(event.target.value)});
-  }
-
-  chooseCurrentSong(songURL) {
-    this.setState({
-      currentSong: new Audio(songURL),
+    const song = new Audio(event.target.value);
+    song.addEventListener('canplay', () => {
+      this.recordNextSongsLength(song);
+      this.setState({currentSong: song});
     });
   }
 
@@ -61,21 +49,23 @@ class App extends React.Component {
     // If 1+ hours long, record those hours
     if (durationRemaining > 3600) {
       const hours = Math.floor(durationRemaining / 3600);
-      length += `${hours} hours, `;
+      length += `${hours}:`;
       durationRemaining -= hours * 3600;
     }
     // If 1+ minutes long, record those minutes
     if (durationRemaining > 60) {
       const minutes = Math.floor(durationRemaining / 60);
-      length += `${minutes} minutes, `;
-      durationRemaining -= minutes * 3600;
+      length += `${minutes}:`;
+      durationRemaining -= minutes * 60;
+    } else {
+      length += '0:';
     }
     // If 1+ seconds long, record those seconds
     if (durationRemaining > 0) {
-      length += `${durationRemaining} seconds, `;
+      length += `${durationRemaining}`;
     }
     // Save to state
-    this.setState({currentSongCurrentTime: length});
+    this.setState({currentSongLengthString: length});
   }
 
   playSong() {
@@ -122,9 +112,6 @@ class App extends React.Component {
     const {songs} = this.state;
     return (
       <div id='playbackCenter'>
-        {/* <button id='chooseSong' onClick={this.changeCurrentSong}>
-          Change Song
-        </button> */}
         <select
           name='song-select'
           id='song-select'
