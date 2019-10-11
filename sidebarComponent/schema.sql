@@ -16,14 +16,16 @@ CREATE TABLE users (
 
 CREATE TABLE songs (
   id INT AUTO_INCREMENT NOT NULL,
+  song_id VARCHAR(25) NOT NULL,
   like_count INT DEFAULT 0,
   play_count INT DEFAULT 0,
   repost_count INT DEFAULT 0,
   comment_count INT DEFAULT 0,
-  artist VARCHAR(25),
-  title VARCHAR(50),
+  artist_name VARCHAR(25),
+  song_name VARCHAR(50),
   song_art VARCHAR(150),
-  added DATE,
+  date_posted DATE,
+  tag VARCHAR(25),
 
   PRIMARY KEY(id)
 );
@@ -35,6 +37,16 @@ CREATE TABLE playlists (
 
   PRIMARY KEY(id)
 );
+
+CREATE TABLE albums (
+  id INT AUTO_INCREMENT NOT NULL,
+  user VARCHAR(25),
+  album_name VARCHAR(25),
+  year_posted INT,
+
+  PRIMARY KEY(id)
+);
+
 
 
 CREATE TABLE song_user_likes (
@@ -78,3 +90,18 @@ CREATE TABLE playlist_song_included (
 
   PRIMARY KEY(id)
 );
+
+CREATE TABLE album_song_included (
+  id INT AUTO_INCREMENT NOT NULL,
+  album INT NOT NULL,
+  song INT NOT NULL,
+  FOREIGN KEY (album) 
+    REFERENCES albums(id)
+    ON DELETE CASCADE,
+  FOREIGN KEY (song)
+    REFERENCES songs(id)
+    ON DELETE CASCADE,
+
+  PRIMARY KEY(id)
+);
+
