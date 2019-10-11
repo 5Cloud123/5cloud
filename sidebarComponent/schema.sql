@@ -5,7 +5,7 @@ USE 5cloud;
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT NOT NULL,
-  avatar BLOB,
+  avatar VARCHAR(150),
   username VARCHAR(25),
   pro_unlimited BOOLEAN DEFAULT 0,
   follower_count INT,
@@ -22,7 +22,7 @@ CREATE TABLE songs (
   comment_count INT DEFAULT 0,
   artist VARCHAR(25),
   title VARCHAR(50),
-  song_art BLOB,
+  song_art VARCHAR(150),
   added DATE,
 
   PRIMARY KEY(id)
@@ -32,14 +32,6 @@ CREATE TABLE playlists (
   id INT AUTO_INCREMENT NOT NULL,
   like_count INT,
   repost_count INT,
-
-  PRIMARY KEY(id)
-);
-
-CREATE TABLE hashtags (
-  id INT AUTO_INCREMENT NOT NULL,
-  tag VARCHAR(25),
-  uses INT DEFAULT 0,
 
   PRIMARY KEY(id)
 );
@@ -79,20 +71,6 @@ CREATE TABLE playlist_song_included (
   song INT NOT NULL,
   FOREIGN KEY (playlist) 
     REFERENCES playlists(id)
-    ON DELETE CASCADE,
-  FOREIGN KEY (song)
-    REFERENCES songs(id)
-    ON DELETE CASCADE,
-
-  PRIMARY KEY(id)
-);
-
-CREATE TABLE hashtag_song_assignments (
-  id INT AUTO_INCREMENT NOT NULL,
-  hashtag INT NOT NULL,
-  song INT NOT NULL,
-  FOREIGN KEY (hashtag)
-    REFERENCES hashtags(id)
     ON DELETE CASCADE,
   FOREIGN KEY (song)
     REFERENCES songs(id)
