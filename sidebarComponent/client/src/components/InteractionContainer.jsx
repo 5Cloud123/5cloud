@@ -1,13 +1,7 @@
 import React from 'react';
 
-
-
-let InteractionContainer = (props) => {
-  return (
-
-  );
-
-}
-
+let InteractionContainer = props => {
+  return <div></div>;
+};
 
 export default InteractionContainer;
