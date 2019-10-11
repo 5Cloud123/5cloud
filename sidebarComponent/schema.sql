@@ -24,6 +24,7 @@ CREATE TABLE songs (
   title VARCHAR(50),
   song_art VARCHAR(150),
   added DATE,
+  hashtag VARCHAR(25),
 
   PRIMARY KEY(id)
 );
