@@ -13,6 +13,8 @@
     "seed": "node db/seedDB.js"
   },
   "dependencies": {
+    "csv-parse": "^4.6.3",
+    "mysql": "^2.17.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   },

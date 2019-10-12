@@ -216,7 +216,8 @@ class App extends React.Component {
     const {songObjs} = this.state;
     const {name, currentTime, lengthString} = this.state.currentSongObj;
     return (
-      <div id='playbackCenter'>
+      <div>
+        {/* KEEP SELECTOR HERE FOR NOW */}
         <select
           name='song-select'
           id='song-select'
@@ -228,6 +229,33 @@ class App extends React.Component {
           <option value={songObjs[1].URL}>{songObjs[1].name}</option>
           <option value={songObjs[2].URL}>{songObjs[2].name}</option>
         </select>
+        <div id='playbackCenter' className='outer-player-panel'>
+          <div className='inner-player-panel'>
+            <div className='player-head'>
+              <div className='play-button'></div>
+              <div className='artist-name fit-width-to-contents'>ODESZA</div>
+              <div className='song-name fit-width-to-contents'>Say My Name</div>
+            </div>
+            <div className='player-song-info'></div>
+            <div className='player-song'></div>
+            <div className='album-art'>
+              <img
+                src='https://i.scdn.co/image/387b19d3bc6178b7429493f9fdf4f7c8c33aabc5'
+                alt=''
+                className='album-art'
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.querySelector('#app'));
+
+/*
+
         <button id='play' onClick={this.playSong}>
           Play
         </button>
@@ -242,9 +270,7 @@ class App extends React.Component {
           Current Playback Time: {currentTime}
         </div>
         <div id='song-length'>Song Length: {lengthString}</div>
-      </div>
-    );
-  }
-}
+          <div id='song-length'>Song Length: {lengthString}</div>
 
-ReactDOM.render(<App />, document.querySelector('#app'));
+
+*/

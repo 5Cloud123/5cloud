@@ -7,7 +7,6 @@ let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: process.env.HR_FRONTEND_MYSQL_PASSWORD,
-  // password: '123454321',
   database: '5cloud_song_display',
 });
 
@@ -16,13 +15,6 @@ connection.connect(function(err) {
     return console.error('error: ' + err.message);
   }
   console.log('\nConnected to the MySQL server.\n');
-});
-
-connection.query('SELECT * FROM songs', function(err, results, fields) {
-  if (err) {
-    console.log(err.message);
-  }
-  // console.log(results);
 });
 
 // Open seed csv file
@@ -46,12 +38,10 @@ fs.readFile(
         columns: true,
         delimiter: ',',
       },
-      (err, data) => {
+      (err, songs) => {
         if (err) {
           console.error(err);
         } else {
-          songs = data;
-
           //  Load into table 'songs'
           for (let i = 0; i < songs.length; i++) {
             // Convert string time to integer time
