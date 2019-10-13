@@ -1,13 +1,7 @@
 import React from 'react';
 
-
-
-let Playlist = (props) => {
-  return (
-
-  );
-
-}
-
+let Playlist = props => {
+  return <div></div>;
+};
 
 export default Playlist;
