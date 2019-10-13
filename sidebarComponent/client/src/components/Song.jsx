@@ -1,14 +1,7 @@
 import React from 'react';
 
-
-
-
-let Song = (props) => {
-  return (
-
-  );
-
-}
-
+let Song = props => {
+  return <div></div>;
+};
 
 export default Song;

@@ -1,13 +1,7 @@
 import React from 'react';
 
-
-
-let User = (props) => {
-  return (
-
-  );
-
-}
-
+let User = props => {
+  return <div></div>;
+};
 
 export default User;
