@@ -10,9 +10,9 @@ class App extends React.Component {
       currentSongObj: {
         lengthString: 'Please choose a song first!',
         currentTime: 0,
-        name: '',
-        URL: '',
-        artist: '',
+        name: 'Flicker',
+        URL: './Assets/flicker.mp3',
+        artist: 'Porter Robinson',
       },
       songQueueAudio: [],
       songQueueObjects: [],
@@ -214,7 +214,7 @@ class App extends React.Component {
   // Render App component
   render() {
     const {songObjs} = this.state;
-    const {name, currentTime, lengthString} = this.state.currentSongObj;
+    const {name, currentTime, lengthString, artist} = this.state.currentSongObj;
     return (
       <div>
         {/* KEEP SELECTOR HERE FOR NOW */}
@@ -232,16 +232,17 @@ class App extends React.Component {
         <div id='playbackCenter' className='outer-player-panel'>
           <div className='inner-player-panel'>
             <div className='player-head'>
-              <div className='play-button'></div>
+              {/* <a className='play-button' onClick={this.playSong}> */}
+              <div className='play-button-wrapper'>
+                <div href='' className='play-button'></div>
+              </div>
               <div className='artist-name-container'>
                 <span className='artist-name fit-width-to-contents'>
-                  ODESZA
+                  {artist}
                 </span>
               </div>
               <div className='song-name-container'>
-                <span className='song-name fit-width-to-contents'>
-                  Say My Name (feat. Zyra)
-                </span>
+                <span className='song-name fit-width-to-contents'>{name}</span>
               </div>
             </div>
             <div className='player-song-info'></div>
