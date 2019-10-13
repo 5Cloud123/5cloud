@@ -1,5 +1,5 @@
 let express = require('express');
-let mysql = require('../database/methods.js');
+let db = require('../database/methods.js');
 
 let app = express();
 
@@ -11,7 +11,22 @@ app.listen(PORT, () => {
 
 app.use(express.json());
 
-app.use('/sidebar', (req, res) => {
-  console.log('getting hit with GET req');
-  mysql.getAllSongNames(req, res);
+app.post('/relatedtracks', (req, res) => {
+  db.getRelatedTracks(req, res);
+});
+
+app.post('/userlike', (req, res) => {
+  db.getUsersLiked(req, res);
+});
+
+app.post('/userrepost', (req, res) => {
+  db.getUsersRepost(req, res);
+});
+
+app.post('/playlistincluded', (req, res) => {
+  db.getInclusivePlaylists(req, res);
+});
+
+app.post('/albumincluded', (req, res) => {
+  db.getInclusiveAlbums(req, res);
 });
