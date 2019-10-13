@@ -234,7 +234,7 @@ class App extends React.Component {
             <div className='player-head'>
               {/* <a className='play-button' onClick={this.playSong}> */}
               <div className='play-button-wrapper'>
-                <div href='' className='play-button'></div>
+                <div href='' className='pause-button'></div>
               </div>
               <div className='artist-name-container'>
                 <span className='artist-name fit-width-to-contents'>
