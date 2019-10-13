@@ -1,4 +1,5 @@
 let express = require('express');
+let mysql = require('../database/methods.js');
 
 let app = express();
 
@@ -10,4 +11,7 @@ app.listen(PORT, () => {
 
 app.use(express.json());
 
-app.use('/sidebar', (req, res) => {});
+app.use('/sidebar', (req, res) => {
+  console.log('getting hit with GET req');
+  mysql.getAllSongNames(req, res);
+});

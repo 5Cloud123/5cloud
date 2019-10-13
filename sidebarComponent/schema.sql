@@ -18,14 +18,14 @@ CREATE TABLE users (
 CREATE TABLE songs (
   id INT AUTO_INCREMENT NOT NULL,
   song_id VARCHAR(25) NOT NULL,
-  song_name VARCHAR(50),
-  artist_name VARCHAR(25),
-  date_posted DATE,
-  tag VARCHAR(25),
-  like_count INT DEFAULT 0,
-  play_count INT DEFAULT 0,
-  repost_count INT DEFAULT 0,
-  comment_count INT DEFAULT 0,
+  song_name VARCHAR(50) NOT NULL,
+  artist_name VARCHAR(100) NOT NULL,
+  date_posted VARCHAR(25) NOT NULL,
+  tag VARCHAR(25) NOT NULL,
+  like_count INT(25)  DEFAULT 0,
+  play_count INT(25)  DEFAULT 0,
+  repost_count INT(25)  DEFAULT 0,
+  comment_count INT(25)  DEFAULT 0,
   song_art VARCHAR(150),
 
   PRIMARY KEY(id)
@@ -33,6 +33,7 @@ CREATE TABLE songs (
 
 CREATE TABLE playlists (
   id INT AUTO_INCREMENT NOT NULL,
+  playlist_name VARCHAR(25),
   like_count INT,
   repost_count INT,
 
