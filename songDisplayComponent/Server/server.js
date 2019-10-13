@@ -14,8 +14,7 @@ app.get('/', (req, res) => {
   res.end('Get / WORKS');
 });
 
-// TODO -- complete all-songs query
-app.get('/all-songs');
+app.get('/all-songs', (req, res) => db.getAllSongs(res));
 
 app.get('/ten-songs', (req, res) => db.getTenSongs(res));
 

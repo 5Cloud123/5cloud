@@ -27,4 +27,16 @@ const getTenSongs = (res) => {
   });
 };
 
+const getAllSongs = (res) => {
+  const query = 'SELECT * FROM songs;';
+  // Insert information
+  connection.query(query, (err, results, fields) => {
+    if (err) {
+      console.error(err);
+    } else {
+      res.end(JSON.stringify(results));
+    }
+  });
+};
+
 module.exports.getTenSongs = getTenSongs;

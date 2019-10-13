@@ -233,8 +233,16 @@ class App extends React.Component {
           <div className='inner-player-panel'>
             <div className='player-head'>
               <div className='play-button'></div>
-              <div className='artist-name fit-width-to-contents'>ODESZA</div>
-              <div className='song-name fit-width-to-contents'>Say My Name</div>
+              <div className='artist-name-container'>
+                <span className='artist-name fit-width-to-contents'>
+                  ODESZA
+                </span>
+              </div>
+              <div className='song-name-container'>
+                <span className='song-name fit-width-to-contents'>
+                  Say My Name (feat. Zyra)
+                </span>
+              </div>
             </div>
             <div className='player-song-info'></div>
             <div className='player-song'></div>

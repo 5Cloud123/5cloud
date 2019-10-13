@@ -16,38 +16,84 @@ body {
 .outer-player-panel {
   margin-top: 35px;
   background-color: #999999;
+  height: 600px;
+  min-width: 700px;
 }
 
 .inner-player-panel {
+  height: 500px;
+  width: 100%;
+  display: inline-grid;
+  grid-template-columns: [col1] 20px [col2] auto [col3] 340px [col4] 20px;
+  grid-template-rows: [row1] 20px [row2] 70px [row3] 280px [row4] 100px [row5] 20px;
 }
 
 .player-head {
-  height: 560px;
+  display: inline-grid;
+  grid-template-columns: [col1] 70px [col2] auto;
+  grid-template-rows: [row1] 40% [row2] 60%;
+  grid-column-start: col2;
+  grid-column-end: col3;
+  grid-row-start: row2;
+  grid-row-end: row3;
 }
 
 .player-song-info {
 }
 
 .album-art {
-  /* height: 340px;
-  width: 340px; */
-  height: 100px;
-  width: 100px;
+  height: 340px;
+  width: 340px;
+  grid-column-start: col3;
+  grid-column-end: col4;
+  grid-row-start: row2;
+  grid-row-end: row5;
 }
 
 .player-song {
 }
 
-.song-name {
-  color: #ffffff;
-  background-color: #000000;
-  width: auto;
+.play-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border-color: #f50;
+  background-color: #f50;
+  grid-column-start: col1;
+  margin-top: 3px;
+}
+
+.artist-name-container {
+  grid-column-start: col2;
+  grid-row-start: row1;
+  height: 22px;
 }
 
 .artist-name {
   color: #cccccc;
   background-color: #000000;
-  width: auto;
+  font-size: 1.25em;
+  line-height: 22px;
+  margin-bottom: 5px;
+  padding: 0 7px !important;
+}
+
+.song-name-container {
+  grid-column-start: col2;
+  grid-row-start: row2;
+  display: flex;
+  align-items: center;
+  height: 35px;
+}
+
+.song-name {
+  color: #ffffff;
+  font-size: 100%;
+  background-color: #000000;
+  font-size: 1.9em;
+  line-height: 35px;
+  margin-top: 5px;
+  padding: 0 7px !important;
 }
 
 .tags {
@@ -63,14 +109,6 @@ body {
 }
 
 .user-comment {
-}
-
-.play-button {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border-color: #f50;
-  background-color: #f50;
 }
 
 .fit-width-to-contents {
