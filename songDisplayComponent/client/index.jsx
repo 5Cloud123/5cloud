@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -10,9 +11,13 @@ class App extends React.Component {
       currentSongObj: {
         lengthString: 'Please choose a song first!',
         currentTime: 0,
-        name: 'Flicker',
         URL: './Assets/flicker.mp3',
-        artist: 'Porter Robinson',
+        Id: 2,
+        song_id: 'Song_00002',
+        song_name: 'Flicker',
+        artist_name: 'Porter Robinson',
+        upload_time: 1470985200000,
+        tag: '#electronic',
       },
       songQueueAudio: [],
       songQueueObjects: [],
@@ -21,23 +26,35 @@ class App extends React.Component {
         {
           lengthString: 'Please choose a song first!',
           currentTime: 0,
-          name: 'Flicker',
           URL: './Assets/flicker.mp3',
-          artist: 'Porter Robinson',
+          Id: 2,
+          song_id: 'Song_00002',
+          song_name: 'Flicker',
+          artist_name: 'Porter Robinson',
+          upload_time: 1470985200000,
+          tag: '#electronic',
         },
         {
           lengthString: 'Please choose a song first!',
           currentTime: 0,
-          name: 'All I Got',
           URL: './Assets/All_I_got.mp3',
-          artist: 'Said The Sky',
+          Id: 1,
+          song_id: 'Song_00001',
+          song_name: 'All I Got',
+          artist_name: 'Said the Sky',
+          upload_time: 1494572400000,
+          tag: '#electronic',
         },
         {
           lengthString: 'Please choose a song first!',
           currentTime: 0,
-          name: 'Say My Name',
           URL: './Assets/Say_My_Name.mp3',
-          artist: 'Odesza',
+          Id: 3,
+          song_id: 'Song_00003',
+          song_name: 'Say My Name',
+          artist_name: 'ODESZA',
+          upload_time: 1485072000000,
+          tag: '#electronic',
         },
       ],
       // Store ID of interval for timer
@@ -110,18 +127,32 @@ class App extends React.Component {
     }
   }
 
+  getSongObj(songURL) {
+    // Loop through objects in state, return one with correct url
+    for (let i = 0; i < this.state.songObjs.length; i++) {
+      if (this.state.songObjs[i].URL === songURL) {
+        return this.state.songObjs[i];
+      }
+    }
+  }
+
   // Handle user's selecting song from dropdown box
   handleSongChoice(event) {
+    // Get song object for chosen song
+    const songObj = this.getSongObj(event.target.value);
     const songAudio = new Audio(event.target.value);
     // Store song in state when it is buffered (ready to play)
     songAudio.addEventListener('canplay', () => {
       // Pause current song's playback
       this.pauseSong();
       this.recordNextSongsLength(songAudio);
-      this.setState({currentSongAudio: songAudio}, () => {
-        // Start new song's playback
-        this.playSong();
-      });
+      this.setState(
+        {currentSongAudio: songAudio, currentSongObj: songObj},
+        () => {
+          // Start new song's playback
+          this.playSong();
+        }
+      );
     });
   }
 
@@ -219,7 +250,13 @@ class App extends React.Component {
   // Render App component
   render() {
     const {songObjs, playButtonState} = this.state;
-    const {name, currentTime, lengthString, artist} = this.state.currentSongObj;
+    const {
+      name,
+      currentTime,
+      lengthString,
+      artist_name,
+      song_name,
+    } = this.state.currentSongObj;
     return (
       <div>
         <div className='nav-bar'>
@@ -230,10 +267,13 @@ class App extends React.Component {
             onChange={this.handleSongChoice}
           >
             <option></option>
-            // TODO - dynamically-render song options
-            <option value={songObjs[0].URL}>{songObjs[0].name}</option>
-            <option value={songObjs[1].URL}>{songObjs[1].name}</option>
-            <option value={songObjs[2].URL}>{songObjs[2].name}</option>
+            {songObjs.map((songObj) => {
+              return (
+                <option value={songObj.URL} key={songObj.song_id}>
+                  {songObj.song_name}
+                </option>
+              );
+            })}
           </select>
         </div>
 
@@ -255,11 +295,13 @@ class App extends React.Component {
               </div>
               <div className='artist-name-container'>
                 <span className='artist-name fit-width-to-contents'>
-                  {artist}
+                  {artist_name}
                 </span>
               </div>
               <div className='song-name-container'>
-                <span className='song-name fit-width-to-contents'>{name}</span>
+                <span className='song-name fit-width-to-contents'>
+                  {song_name}
+                </span>
               </div>
               <div className='date-posted-container'>
                 <div className='date-posted'>5 years ago</div>
