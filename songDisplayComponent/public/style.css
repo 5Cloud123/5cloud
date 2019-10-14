@@ -1,11 +1,12 @@
 html {
-  background-color: #333333;
 }
 
 body {
   font: 12px/1.4 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Garuda,
     Verdana, Tahoma, sans-serif;
   margin: 0;
+  background-color: #cccccc;
+  grid-template-rows: [row1] 30px [row2] auto;
 }
 
 .container {
@@ -13,32 +14,37 @@ body {
   margin: 0 15%;
 }
 
+.nav-bar {
+  background-image: url('../public/Assets/navbar.png');
+  height: 46px;
+}
+
 .outer-player-panel {
-  margin-top: 35px;
-  background-color: #cccccc;
-  height: 600px;
-  min-width: 700px;
+  margin: 0 20px 0 20px;
+  background-color: #cccccc !important;
+  height: 380px;
+  min-width: 900px;
+  grid-row-start: row2;
 }
 
 .inner-player-panel {
-  height: 500px;
+  height: 100%;
   width: 100%;
   display: inline-grid;
-  grid-template-columns: [col1] 20px [col2] auto [col3] 340px [col4] 20px;
-  grid-template-rows: [row1] 20px [row2] 70px [row3] 280px [row4] 100px [row5] 20px;
+  grid-template-columns: [col1] 30px [col2] auto [col3] 340px [col4] 20px;
+  grid-template-rows: [row1] 30px [row2] 70px [row3] 280px [row4] 100px [row5] 20px;
+  background: linear-gradient(135deg, rgb(149, 91, 78) 0%, rgb(72, 55, 59) 100%)
+    repeat scroll 0% 0%;
 }
 
 .player-head {
   display: inline-grid;
-  grid-template-columns: [col1] 70px [col2] auto;
+  grid-template-columns: [col1] 70px [col2] auto [col3] 140px;
   grid-template-rows: [row1] 40% [row2] 60%;
   grid-column-start: col2;
   grid-column-end: col3;
   grid-row-start: row2;
   grid-row-end: row3;
-}
-
-.player-song-info {
 }
 
 .album-art {
@@ -48,6 +54,7 @@ body {
   grid-column-end: col4;
   grid-row-start: row2;
   grid-row-end: row5;
+  margin-top: -4px !important;
 }
 
 .player-song {
@@ -104,8 +111,6 @@ body {
 .song-name-container {
   grid-column-start: col2;
   grid-row-start: row2;
-  display: flex;
-  align-items: center;
   height: 35px;
 }
 
@@ -115,14 +120,39 @@ body {
   background-color: #000000;
   font-size: 1.9em;
   line-height: 35px;
-  margin-top: 5px;
   padding: 0 7px !important;
 }
 
 .tags {
+  color: #ffffff !important;
+  background-color: #a5a5a5 !important;
+  border-radius: 15px;
+  font-size: 1.3em;
+  padding: 0 7px !important;
+  float: right;
+}
+
+.tags-container {
+  grid-column-start: col3;
+  grid-row-start: row2;
+  height: 35px;
+  margin: 5px 0;
+  padding-right: 30px !important;
+  margin-top: 10px;
 }
 
 .date-posted {
+  line-height: 22px;
+  color: #cccccc;
+  font-size: 1.3em;
+  float: right;
+}
+
+.date-posted-container {
+  grid-column-start: col3;
+  grid-row-start: row1;
+  padding-right: 30px !important;
+  height: 22px;
 }
 
 .user-image {
@@ -137,4 +167,8 @@ body {
 .fit-width-to-contents {
   display: inline-block;
   padding: 0 3px;
+}
+
+#playback-center {
+  height: 380px;
 }

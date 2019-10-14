@@ -166,7 +166,6 @@ class App extends React.Component {
   // Start song playback if a song is selected
   playSong() {
     if (this.state.currentSongAudio) {
-      console.log('play button ');
       // Change play button to pause button
       this.setState({playButtonState: 'pause'});
       this.state.currentSongAudio.play();
@@ -178,7 +177,6 @@ class App extends React.Component {
   // Pause song playback if a song is selected
   pauseSong() {
     if (this.state.currentSongAudio) {
-      console.log('pause ');
       // Change play button to pause button
       this.setState({playButtonState: 'play'});
       this.state.currentSongAudio.pause();
@@ -224,18 +222,21 @@ class App extends React.Component {
     const {name, currentTime, lengthString, artist} = this.state.currentSongObj;
     return (
       <div>
-        {/* KEEP SELECTOR HERE FOR NOW */}
-        <select
-          name='song-select'
-          id='song-select'
-          onChange={this.handleSongChoice}
-        >
-          <option></option>
-          // TODO - dynamically-render song options
-          <option value={songObjs[0].URL}>{songObjs[0].name}</option>
-          <option value={songObjs[1].URL}>{songObjs[1].name}</option>
-          <option value={songObjs[2].URL}>{songObjs[2].name}</option>
-        </select>
+        <div className='nav-bar'>
+          {/* KEEP SELECTOR HERE FOR NOW */}
+          <select
+            name='song-select'
+            id='song-select'
+            onChange={this.handleSongChoice}
+          >
+            <option></option>
+            // TODO - dynamically-render song options
+            <option value={songObjs[0].URL}>{songObjs[0].name}</option>
+            <option value={songObjs[1].URL}>{songObjs[1].name}</option>
+            <option value={songObjs[2].URL}>{songObjs[2].name}</option>
+          </select>
+        </div>
+
         <div id='playbackCenter' className='outer-player-panel'>
           <div className='inner-player-panel'>
             <div className='player-head'>
@@ -260,9 +261,13 @@ class App extends React.Component {
               <div className='song-name-container'>
                 <span className='song-name fit-width-to-contents'>{name}</span>
               </div>
+              <div className='date-posted-container'>
+                <div className='date-posted'>5 years ago</div>
+              </div>
+              <div className='tags-container'>
+                <div className='tags fit-width-to-contents'># Electronic</div>
+              </div>
             </div>
-            <div className='player-song-info'></div>
-            <div className='player-song'></div>
             <div className='album-art'>
               <img
                 src='https://i.scdn.co/image/387b19d3bc6178b7429493f9fdf4f7c8c33aabc5'
