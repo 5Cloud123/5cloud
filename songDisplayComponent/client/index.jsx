@@ -9,64 +9,64 @@ class App extends React.Component {
       currentSongAudio: null,
       // Store current song's metadata
       currentSongObj: {
-        lengthString: 'Please choose a song first!',
-        currentTime: 0,
-        song_url: '',
-        Id: 0,
-        song_id: '',
-        song_name: '',
-        artist_name: '',
-        upload_time: 0,
-        tag: '',
+        // lengthString: 'Please choose a song first!',
+        // currentTime: 0,
+        // song_url: '',
+        // Id: 0,
+        // song_id: '',
+        // song_name: '',
+        // artist_name: '',
+        // upload_time: 0,
+        // tag: '',
       },
       songQueueAudio: [],
       songQueueObjects: [],
       // TODO Song objects hard-coded for now; will be replaced with MySQL data
       songObjs: [
-        {
-          lengthString: 'Please choose a song first!',
-          currentTime: 0,
-          song_url: './Assets/songs/Feel Good (feat. Daya).mp3',
-          Id: 2,
-          song_id: 'Song_00099',
-          song_name: 'Feels Great (feat. Fetty Wap)',
-          artist_name: 'Cheat Codes',
-          upload_time: 1470985200000,
-          tag: '# Electronic',
-        },
-        {
-          lengthString: 'Please choose a song first!',
-          currentTime: 0,
-          song_url: './Assets/flicker.mp3',
-          Id: 2,
-          song_id: 'Song_00002',
-          song_name: 'Flicker',
-          artist_name: 'Porter Robinson',
-          upload_time: 1470985200000,
-          tag: '#electronic',
-        },
-        {
-          lengthString: 'Please choose a song first!',
-          currentTime: 0,
-          song_url: './Assets/All_I_got.mp3',
-          Id: 1,
-          song_id: 'Song_00001',
-          song_name: 'All I Got',
-          artist_name: 'Said the Sky',
-          upload_time: 1494572400000,
-          tag: '#electronic',
-        },
-        {
-          lengthString: 'Please choose a song first!',
-          currentTime: 0,
-          song_url: './Assets/Say_My_Name.mp3',
-          Id: 3,
-          song_id: 'Song_00003',
-          song_name: 'Say My Name',
-          artist_name: 'ODESZA',
-          upload_time: 1485072000000,
-          tag: '#electronic',
-        },
+        // {
+        //   lengthString: 'Please choose a song first!',
+        //   currentTime: 0,
+        //   song_url: './Assets/songs/Feel Good (feat. Daya).mp3',
+        //   Id: 2,
+        //   song_id: 'Song_00099',
+        //   song_name: 'Feels Great (feat. Fetty Wap)',
+        //   artist_name: 'Cheat Codes',
+        //   upload_time: 1470985200000,
+        //   tag: '# Electronic',
+        // },
+        // {
+        //   lengthString: 'Please choose a song first!',
+        //   currentTime: 0,
+        //   song_url: './Assets/flicker.mp3',
+        //   Id: 2,
+        //   song_id: 'Song_00002',
+        //   song_name: 'Flicker',
+        //   artist_name: 'Porter Robinson',
+        //   upload_time: 1470985200000,
+        //   tag: '#electronic',
+        // },
+        // {
+        //   lengthString: 'Please choose a song first!',
+        //   currentTime: 0,
+        //   song_url: './Assets/All_I_got.mp3',
+        //   Id: 1,
+        //   song_id: 'Song_00001',
+        //   song_name: 'All I Got',
+        //   artist_name: 'Said the Sky',
+        //   upload_time: 1494572400000,
+        //   tag: '#electronic',
+        // },
+        // {
+        //   lengthString: 'Please choose a song first!',
+        //   currentTime: 0,
+        //   song_url: './Assets/Say_My_Name.mp3',
+        //   Id: 3,
+        //   song_id: 'Song_00003',
+        //   song_name: 'Say My Name',
+        //   artist_name: 'ODESZA',
+        //   upload_time: 1485072000000,
+        //   tag: '#electronic',
+        // },
       ],
       // Store ID of interval for timer
       timerIntervalID: null,
@@ -74,6 +74,7 @@ class App extends React.Component {
     };
 
     // Bind functions to this
+    this.setState = this.setState.bind(this);
     this.handleSongChoice = this.handleSongChoice.bind(this);
     this.recordNextSongsLength = this.recordNextSongsLength.bind(this);
     this.playSong = this.playSong.bind(this);
@@ -89,10 +90,42 @@ class App extends React.Component {
   // TODO - replace hard-coded songs with songs from MySQL
   componentDidMount() {
     // Enqueue all songs
-    for (let i = 0; i < this.state.songObjs.length; i++) {
-      const songObj = this.state.songObjs[i];
-      this.enqueueSong(songObj);
-    }
+    // for (let i = 0; i < this.state.songObjs.length; i++) {
+    //   const songObj = this.state.songObjs[i];
+    //   this.enqueueSong(songObj);
+    // }
+
+    // GET songs from db
+    axios
+      .get('http://localhost:5001/ten-songs')
+      .then((response) => {
+        const songObjs = response.data;
+        // Create first song's audio file
+        const firstSongObj = songObjs.pop();
+        const firstSongAudio = new Audio(firstSongObj.song_data_url);
+        // Set to state then do the same for the rest of the songs
+        this.setState(
+          {
+            currentSongObj: firstSongObj,
+            currentSongAudio: firstSongAudio,
+          },
+          () => {
+            // Create Audio object for remaining songs
+            const remainingSongsAudio = [];
+            for (let i = 0; i < songObjs.length; i++) {
+              remainingSongsAudio.push(new Audio(songObjs[i].song_data_url));
+            }
+            // Set state with new audio objects, song objects
+            this.setState({
+              songQueueAudio: remainingSongsAudio,
+              songQueueObjects: songObjs,
+            });
+          }
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   // Add Audio objects of songs to queue; this preloads the songs for playback
@@ -158,7 +191,11 @@ class App extends React.Component {
       this.pauseSong();
       this.recordNextSongsLength(songAudio);
       this.setState(
-        {currentSongAudio: songAudio, currentSongObj: songObj},
+        {
+          currentSongAudio: songAudio,
+          currentSongObj: songObj,
+          songObjs: songObjs,
+        },
         () => {
           // Start new song's playback
           this.playSong();
@@ -208,6 +245,10 @@ class App extends React.Component {
   // Start song playback if a song is selected
   playSong() {
     if (this.state.currentSongAudio) {
+      // Console the actual song playing
+      console.log(
+        `Actual song playing: ${this.state.currentSongObj.song_data_url}`
+      );
       // Change play button to pause button
       this.setState({playButtonState: 'pause'});
       this.state.currentSongAudio.play();
@@ -270,24 +311,10 @@ class App extends React.Component {
     } = this.state.currentSongObj;
     return (
       <div>
-        <div className='nav-bar'>
-          {/* KEEP SELECTOR HERE FOR NOW - REMOVE WHEN WE CAN CHOOSE SONGS*/}
-          <select
-            name='song-select'
-            id='song-select'
-            onChange={this.handleSongChoice}
-          >
-            <option></option>
-            {songObjs.map((songObj) => {
-              return (
-                <option value={songObj.song_url} key={songObj.song_id}>
-                  {songObj.song_name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-
+        <div className='nav-bar'></div>
+        <button id='next-song-btn' onClick={this.playNextFromQueue}>
+          Next Song
+        </button>
         <div id='playbackCenter' className='outer-player-panel'>
           <div className='inner-player-panel'>
             <div className='player-head'>
@@ -339,21 +366,39 @@ ReactDOM.render(<App />, document.querySelector('#app'));
 
 /*
 
-        <button id='play' onClick={this.playSong}>
-          Play
-        </button>
-        <button id='pause' onClick={this.pauseSong}>
-          Pause
-        </button>
-        <button id='next-song-btn' onClick={this.playNextFromQueue}>
-          Next Song
-        </button>
-        <div id='currnet-song-name'>Current Song: {name}</div>
-        <div id='current-playback-time'>
-          Current Playback Time: {currentTime}
-        </div>
-        <div id='song-length'>Song Length: {lengthString}</div>
-          <div id='song-length'>Song Length: {lengthString}</div>
+<button id='play' onClick={this.playSong}>
+  Play
+</button>
+<button id='pause' onClick={this.pauseSong}>
+  Pause
+</button>
+<button id='next-song-btn' onClick={this.playNextFromQueue}>
+  Next Song
+</button>
+<div id='currnet-song-name'>Current Song: {name}</div>
+<div id='current-playback-time'>
+  Current Playback Time: {currentTime}
+</div>
+<div id='song-length'>Song Length: {lengthString}</div>
+  <div id='song-length'>Song Length: {lengthString}</div>
+
+
+SONG SELECTOR
+
+<select
+  name='song-select'
+  id='song-select'
+  onChange={this.handleSongChoice}
+>
+  <option></option>
+  {songObjs.map((songObj) => {
+    return (
+      <option value={songObj.song_url} key={songObj.song_id}>
+        {songObj.song_name}
+      </option>
+    );
+  })}
+</select>
 
 
 */
