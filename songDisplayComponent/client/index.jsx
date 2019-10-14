@@ -42,6 +42,7 @@ class App extends React.Component {
       ],
       // Store ID of interval for timer
       timerIntervalID: null,
+      playButtonState: 'play',
     };
 
     // Bind functions to this
@@ -165,6 +166,9 @@ class App extends React.Component {
   // Start song playback if a song is selected
   playSong() {
     if (this.state.currentSongAudio) {
+      console.log('play button ');
+      // Change play button to pause button
+      this.setState({playButtonState: 'pause'});
       this.state.currentSongAudio.play();
       // Start song timer
       this.startTimer();
@@ -174,6 +178,9 @@ class App extends React.Component {
   // Pause song playback if a song is selected
   pauseSong() {
     if (this.state.currentSongAudio) {
+      console.log('pause ');
+      // Change play button to pause button
+      this.setState({playButtonState: 'play'});
       this.state.currentSongAudio.pause();
       // Stop song timer
       this.stopTimer();
@@ -213,7 +220,7 @@ class App extends React.Component {
 
   // Render App component
   render() {
-    const {songObjs} = this.state;
+    const {songObjs, playButtonState} = this.state;
     const {name, currentTime, lengthString, artist} = this.state.currentSongObj;
     return (
       <div>
@@ -233,8 +240,17 @@ class App extends React.Component {
           <div className='inner-player-panel'>
             <div className='player-head'>
               {/* <a className='play-button' onClick={this.playSong}> */}
-              <div className='play-button-wrapper'>
-                <div href='' className='pause-button'></div>
+              <div
+                className='play-button-wrapper'
+                onClick={() => {
+                  if (playButtonState === 'play') {
+                    this.playSong();
+                  } else {
+                    this.pauseSong();
+                  }
+                }}
+              >
+                <div className={playButtonState + '-button'}></div>
               </div>
               <div className='artist-name-container'>
                 <span className='artist-name fit-width-to-contents'>
