@@ -223,7 +223,7 @@ class App extends React.Component {
     return (
       <div>
         <div className='nav-bar'>
-          {/* KEEP SELECTOR HERE FOR NOW */}
+          {/* KEEP SELECTOR HERE FOR NOW - REMOVE WHEN WE CAN CHOOSE SONGS*/}
           <select
             name='song-select'
             id='song-select'

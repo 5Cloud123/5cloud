@@ -62,15 +62,3 @@ fs.readFile(
     );
   }
 );
-
-// Create docker container for mysql
-// docker run -p 3306:3306 --name 5clouddb -e MYSQL_ROOT_PASSWORD=123454321 -v /Users/jonathanolson/HackReactor/FrontEndCapstone/db/schema.sql:/schema.sql -d mysql:5.7
-
-// Get into docker container
-// docker exec -it 5clouddb bash
-
-// Load .sql file into mysql
-// mysql -p < schema.sql
-
-// Get into mysql
-// mysql -p

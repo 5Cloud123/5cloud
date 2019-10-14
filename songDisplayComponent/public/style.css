@@ -1,12 +1,13 @@
 html {
+  background-color: #cccccc;
 }
 
 body {
   font: 12px/1.4 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Garuda,
     Verdana, Tahoma, sans-serif;
   margin: 0;
-  background-color: #cccccc;
   grid-template-rows: [row1] 30px [row2] auto;
+  height: 1500px;
 }
 
 .container {
@@ -21,7 +22,6 @@ body {
 
 .outer-player-panel {
   margin: 0 20px 0 20px;
-  background-color: #cccccc !important;
   height: 380px;
   min-width: 900px;
   grid-row-start: row2;
