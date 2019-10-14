@@ -11,22 +11,25 @@ app.listen(PORT, () => {
 
 app.use(express.json());
 
-app.post('/relatedtracks', (req, res) => {
+app.get('/relatedtracks/:songid', (req, res) => {
   db.getRelatedTracks(req, res);
 });
 
-app.post('/userlike', (req, res) => {
+app.get('/userlike/:songid', (req, res) => {
   db.getUsersLiked(req, res);
 });
 
-app.post('/userrepost', (req, res) => {
+app.get('/userrepost/:songid', (req, res) => {
   db.getUsersRepost(req, res);
 });
 
-app.post('/playlistincluded', (req, res) => {
+app.get('/playlistincluded/:songid', (req, res) => {
   db.getInclusivePlaylists(req, res);
 });
 
-app.post('/albumincluded', (req, res) => {
+app.get('/albumincluded/:songid', (req, res) => {
   db.getInclusiveAlbums(req, res);
 });
+
+//new idea: use one route that accepts the song_id and it GETs all of the above information by
+//calling each of the premade mysql methods
