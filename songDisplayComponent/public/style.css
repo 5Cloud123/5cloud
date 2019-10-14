@@ -16,7 +16,7 @@ body {
 }
 
 .nav-bar {
-  background-image: url('../public/Assets/navbar.png');
+  background-image: url('./Assets/navbar.png');
   height: 46px;
 }
 

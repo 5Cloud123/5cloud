@@ -11,13 +11,13 @@ class App extends React.Component {
       currentSongObj: {
         lengthString: 'Please choose a song first!',
         currentTime: 0,
-        URL: './Assets/flicker.mp3',
-        Id: 2,
-        song_id: 'Song_00002',
-        song_name: 'Flicker',
-        artist_name: 'Porter Robinson',
-        upload_time: 1470985200000,
-        tag: '#electronic',
+        song_url: '',
+        Id: 0,
+        song_id: '',
+        song_name: '',
+        artist_name: '',
+        upload_time: 0,
+        tag: '',
       },
       songQueueAudio: [],
       songQueueObjects: [],
@@ -26,7 +26,18 @@ class App extends React.Component {
         {
           lengthString: 'Please choose a song first!',
           currentTime: 0,
-          URL: './Assets/flicker.mp3',
+          song_url: './Assets/songs/Feel Good (feat. Daya).mp3',
+          Id: 2,
+          song_id: 'Song_00099',
+          song_name: 'Feels Great (feat. Fetty Wap)',
+          artist_name: 'Cheat Codes',
+          upload_time: 1470985200000,
+          tag: '# Electronic',
+        },
+        {
+          lengthString: 'Please choose a song first!',
+          currentTime: 0,
+          song_url: './Assets/flicker.mp3',
           Id: 2,
           song_id: 'Song_00002',
           song_name: 'Flicker',
@@ -37,7 +48,7 @@ class App extends React.Component {
         {
           lengthString: 'Please choose a song first!',
           currentTime: 0,
-          URL: './Assets/All_I_got.mp3',
+          song_url: './Assets/All_I_got.mp3',
           Id: 1,
           song_id: 'Song_00001',
           song_name: 'All I Got',
@@ -48,7 +59,7 @@ class App extends React.Component {
         {
           lengthString: 'Please choose a song first!',
           currentTime: 0,
-          URL: './Assets/Say_My_Name.mp3',
+          song_url: './Assets/Say_My_Name.mp3',
           Id: 3,
           song_id: 'Song_00003',
           song_name: 'Say My Name',
@@ -86,7 +97,7 @@ class App extends React.Component {
 
   // Add Audio objects of songs to queue; this preloads the songs for playback
   enqueueSong(songObj) {
-    const song = new Audio(songObj.URL);
+    const song = new Audio(songObj.song_url);
     const {songQueueAudio, songQueueObjects} = this.state;
     songQueueAudio.push(song);
     songQueueObjects.push(songObj);
@@ -130,7 +141,7 @@ class App extends React.Component {
   getSongObj(songURL) {
     // Loop through objects in state, return one with correct url
     for (let i = 0; i < this.state.songObjs.length; i++) {
-      if (this.state.songObjs[i].URL === songURL) {
+      if (this.state.songObjs[i].song_url === songURL) {
         return this.state.songObjs[i];
       }
     }
@@ -269,7 +280,7 @@ class App extends React.Component {
             <option></option>
             {songObjs.map((songObj) => {
               return (
-                <option value={songObj.URL} key={songObj.song_id}>
+                <option value={songObj.song_url} key={songObj.song_id}>
                   {songObj.song_name}
                 </option>
               );
