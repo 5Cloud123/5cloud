@@ -13,6 +13,7 @@
     "seed-database": "node database/seed.js"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.6",
     "csv-parse": "^4.6.3",
@@ -21,11 +22,14 @@
     "jest": "^24.9.0",
     "mysql": "^2.17.1",
     "nodemon": "^1.19.3",
+    "path": "^0.12.7",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "webpack": "^4.41.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "webpack-cli": "^3.3.9"
   }

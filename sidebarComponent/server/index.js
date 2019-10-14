@@ -1,15 +1,14 @@
 let express = require('express');
 let db = require('../database/methods.js');
+let path = require('path');
 
 let app = express();
 
 const PORT = 5000;
 
-app.listen(PORT, () => {
-  console.log(`listening on port ${PORT}`);
-});
-
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, '../public/dist')));
 
 app.get('/relatedtracks/:songid', (req, res) => {
   db.getRelatedTracks(req, res);
@@ -33,3 +32,7 @@ app.get('/albumincluded/:songid', (req, res) => {
 
 //new idea: use one route that accepts the song_id and it GETs all of the above information by
 //calling each of the premade mysql methods
+
+app.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`);
+});
