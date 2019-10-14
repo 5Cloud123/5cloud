@@ -12,7 +12,7 @@ class App extends React.Component {
         currentTime: 0,
         name: 'Flicker',
         URL: './Assets/flicker.mp3',
-        artist: 'Porter Robinson',
+        artist: 'Porter Robinson'
       },
       songQueueAudio: [],
       songQueueObjects: [],
@@ -23,26 +23,26 @@ class App extends React.Component {
           currentTime: 0,
           name: 'Flicker',
           URL: './Assets/flicker.mp3',
-          artist: 'Porter Robinson',
+          artist: 'Porter Robinson'
         },
         {
           lengthString: 'Please choose a song first!',
           currentTime: 0,
           name: 'All I Got',
           URL: './Assets/All_I_got.mp3',
-          artist: 'Said The Sky',
+          artist: 'Said The Sky'
         },
         {
           lengthString: 'Please choose a song first!',
           currentTime: 0,
           name: 'Say My Name',
           URL: './Assets/Say_My_Name.mp3',
-          artist: 'Odesza',
-        },
+          artist: 'Odesza'
+        }
       ],
       // Store ID of interval for timer
       timerIntervalID: null,
-      playButtonState: 'play',
+      playButtonState: 'play'
     };
 
     // Bind functions to this
@@ -70,12 +70,12 @@ class App extends React.Component {
   // Add Audio objects of songs to queue; this preloads the songs for playback
   enqueueSong(songObj) {
     const song = new Audio(songObj.URL);
-    const {songQueueAudio, songQueueObjects} = this.state;
+    const { songQueueAudio, songQueueObjects } = this.state;
     songQueueAudio.push(song);
     songQueueObjects.push(songObj);
     this.setState({
       songQueueAudio,
-      songQueueObjects,
+      songQueueObjects
     });
   }
 
@@ -83,19 +83,19 @@ class App extends React.Component {
   playNextFromQueue() {
     // If queue has songs, get the next one
     if (this.state.songQueueAudio.length) {
-      const {songQueueAudio, songQueueObjects} = this.state;
+      const { songQueueAudio, songQueueObjects } = this.state;
       const songAudio = songQueueAudio.pop();
       const songObj = songQueueObjects.pop();
       // Stop current song's playback
       this.pauseSong();
       this.setState(
-        (state) => {
+        state => {
           return {
             currentSongAudio: songAudio,
             songQueueAudio: songQueueAudio,
             songQueueObjects: songQueueObjects,
             timerIntervalID: null,
-            currentSongObj: songObj,
+            currentSongObj: songObj
           };
         },
         // Then, update song length on page
@@ -118,7 +118,7 @@ class App extends React.Component {
       // Pause current song's playback
       this.pauseSong();
       this.recordNextSongsLength(songAudio);
-      this.setState({currentSongAudio: songAudio}, () => {
+      this.setState({ currentSongAudio: songAudio }, () => {
         // Start new song's playback
         this.playSong();
       });
@@ -154,11 +154,11 @@ class App extends React.Component {
       }
     }
     // Save to state
-    this.setState((state) => {
-      const {currentSongObj} = state;
+    this.setState(state => {
+      const { currentSongObj } = state;
       currentSongObj.lengthString = length;
       return {
-        currentSongObj,
+        currentSongObj
       };
     });
   }
@@ -167,7 +167,7 @@ class App extends React.Component {
   playSong() {
     if (this.state.currentSongAudio) {
       // Change play button to pause button
-      this.setState({playButtonState: 'pause'});
+      this.setState({ playButtonState: 'pause' });
       this.state.currentSongAudio.play();
       // Start song timer
       this.startTimer();
@@ -178,7 +178,7 @@ class App extends React.Component {
   pauseSong() {
     if (this.state.currentSongAudio) {
       // Change play button to pause button
-      this.setState({playButtonState: 'play'});
+      this.setState({ playButtonState: 'play' });
       this.state.currentSongAudio.pause();
       // Stop song timer
       this.stopTimer();
@@ -188,12 +188,12 @@ class App extends React.Component {
   // Increment the current song's timer every second
   incrementTimer() {
     const currentTime = this.state.currentSongAudio.currentTime;
-    this.setState((state) => {
-      const {currentSongObj} = this.state;
+    this.setState(state => {
+      const { currentSongObj } = this.state;
       // Save timer as integer in state
       currentSongObj.currentTime = Math.floor(currentTime + 1);
       return {
-        currentSongObj,
+        currentSongObj
       };
     });
   }
@@ -204,7 +204,7 @@ class App extends React.Component {
     const timerIntervalID = setInterval(this.incrementTimer, 1000);
     // Record id of interval
     this.setState({
-      timerIntervalID,
+      timerIntervalID
     });
   }
 
@@ -218,15 +218,20 @@ class App extends React.Component {
 
   // Render App component
   render() {
-    const {songObjs, playButtonState} = this.state;
-    const {name, currentTime, lengthString, artist} = this.state.currentSongObj;
+    const { songObjs, playButtonState } = this.state;
+    const {
+      name,
+      currentTime,
+      lengthString,
+      artist
+    } = this.state.currentSongObj;
     return (
       <div>
-        <div className='nav-bar'>
+        <div className="nav-bar">
           {/* KEEP SELECTOR HERE FOR NOW - REMOVE WHEN WE CAN CHOOSE SONGS*/}
           <select
-            name='song-select'
-            id='song-select'
+            name="song-select"
+            id="song-select"
             onChange={this.handleSongChoice}
           >
             <option></option>
@@ -237,12 +242,12 @@ class App extends React.Component {
           </select>
         </div>
 
-        <div id='playbackCenter' className='outer-player-panel'>
-          <div className='inner-player-panel'>
-            <div className='player-head'>
+        <div id="playbackCenter" className="outer-player-panel">
+          <div className="inner-player-panel">
+            <div className="player-head">
               {/* <a className='play-button' onClick={this.playSong}> */}
               <div
-                className='play-button-wrapper'
+                className="play-button-wrapper"
                 onClick={() => {
                   if (playButtonState === 'play') {
                     this.playSong();
@@ -253,26 +258,26 @@ class App extends React.Component {
               >
                 <div className={playButtonState + '-button'}></div>
               </div>
-              <div className='artist-name-container'>
-                <span className='artist-name fit-width-to-contents'>
+              <div className="artist-name-container">
+                <span className="artist-name fit-width-to-contents">
                   {artist}
                 </span>
               </div>
-              <div className='song-name-container'>
-                <span className='song-name fit-width-to-contents'>{name}</span>
+              <div className="song-name-container">
+                <span className="song-name fit-width-to-contents">{name}</span>
               </div>
-              <div className='date-posted-container'>
-                <div className='date-posted'>5 years ago</div>
+              <div className="date-posted-container">
+                <div className="date-posted">5 years ago</div>
               </div>
-              <div className='tags-container'>
-                <div className='tags fit-width-to-contents'># Electronic</div>
+              <div className="tags-container">
+                <div className="tags fit-width-to-contents"># Electronic</div>
               </div>
             </div>
-            <div className='album-art'>
+            <div className="album-art">
               <img
-                src='https://i.scdn.co/image/387b19d3bc6178b7429493f9fdf4f7c8c33aabc5'
-                alt=''
-                className='album-art'
+                src="https://i.scdn.co/image/387b19d3bc6178b7429493f9fdf4f7c8c33aabc5"
+                alt=""
+                className="album-art"
               />
             </div>
           </div>
