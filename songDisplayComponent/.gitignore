@@ -1,0 +1,6 @@
+# Configuration files
+config.js
+
+# .mp3 files, images
+Public/Assets/
+Public/bundle.js
