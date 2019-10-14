@@ -1,4 +1,44 @@
 /* eslint-disable camelcase */
+
+// Calculate relative date posted
+calculateDatePosted = (dateInteger) => {
+  const today = Date.now();
+  console.log(dateInteger);
+  const daysSince = Math.round((today - dateInteger) / (1000 * 60 * 60 * 24));
+  console.log(`days since: ${daysSince}`);
+  // If in years, record years
+  if (daysSince >= 350) {
+    return `${Math.round(daysSince / 365, 0)} years ago`;
+  }
+  // If in months, record months
+  if (daysSince >= 27) {
+    return `${Math.round(daysSince / 30, 0)} months ago`;
+  }
+  // If in weeks, record weeks
+  if (daysSince >= 6) {
+    return `${Math.round(daysSince / 7, 0)} weeks ago`;
+  }
+  // If in days, record days
+  if (daysSince === 1) {
+    return `${Math.round(daysSince, 0)} day ago`;
+  }
+  if (daysSince > 1) {
+    return `${Math.round(daysSince, 0)} days ago`;
+  }
+  // If in hours, record hours
+  if (daysSince >= 1 / 24) {
+    return `${Math.round(daysSince / 24, 1)} hours ago`;
+  }
+  // If in minutes, record minutes
+  if (daysSince >= 1 / 1440) {
+    return `${Math.round(daysSince / 1440, 0)} minutes ago`;
+  }
+  // If in seconds, record < 1 minute
+  if (daysSince <= 1 / 1440) {
+    return 'Less than a minute ago';
+  }
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -9,65 +49,19 @@ class App extends React.Component {
       currentSongAudio: null,
       // Store current song's metadata
       currentSongObj: {
-        // lengthString: 'Please choose a song first!',
-        // currentTime: 0,
-        // song_url: '',
-        // Id: 0,
-        // song_id: '',
-        // song_name: '',
-        // artist_name: '',
-        // upload_time: 0,
-        // tag: '',
+        lengthString: 'Please choose a song first!',
+        currentTime: 0,
+        song_url: '',
+        Id: 0,
+        song_id: '',
+        song_name: '',
+        artist_name: '',
+        upload_time: 0,
+        tag: '',
       },
       songQueueAudio: [],
       songQueueObjects: [],
-      // TODO Song objects hard-coded for now; will be replaced with MySQL data
-      songObjs: [
-        // {
-        //   lengthString: 'Please choose a song first!',
-        //   currentTime: 0,
-        //   song_url: './Assets/songs/Feel Good (feat. Daya).mp3',
-        //   Id: 2,
-        //   song_id: 'Song_00099',
-        //   song_name: 'Feels Great (feat. Fetty Wap)',
-        //   artist_name: 'Cheat Codes',
-        //   upload_time: 1470985200000,
-        //   tag: '# Electronic',
-        // },
-        // {
-        //   lengthString: 'Please choose a song first!',
-        //   currentTime: 0,
-        //   song_url: './Assets/flicker.mp3',
-        //   Id: 2,
-        //   song_id: 'Song_00002',
-        //   song_name: 'Flicker',
-        //   artist_name: 'Porter Robinson',
-        //   upload_time: 1470985200000,
-        //   tag: '#electronic',
-        // },
-        // {
-        //   lengthString: 'Please choose a song first!',
-        //   currentTime: 0,
-        //   song_url: './Assets/All_I_got.mp3',
-        //   Id: 1,
-        //   song_id: 'Song_00001',
-        //   song_name: 'All I Got',
-        //   artist_name: 'Said the Sky',
-        //   upload_time: 1494572400000,
-        //   tag: '#electronic',
-        // },
-        // {
-        //   lengthString: 'Please choose a song first!',
-        //   currentTime: 0,
-        //   song_url: './Assets/Say_My_Name.mp3',
-        //   Id: 3,
-        //   song_id: 'Song_00003',
-        //   song_name: 'Say My Name',
-        //   artist_name: 'ODESZA',
-        //   upload_time: 1485072000000,
-        //   tag: '#electronic',
-        // },
-      ],
+      songObjs: [],
       // Store ID of interval for timer
       timerIntervalID: null,
       playButtonState: 'play',
@@ -75,7 +69,6 @@ class App extends React.Component {
 
     // Bind functions to this
     this.setState = this.setState.bind(this);
-    this.handleSongChoice = this.handleSongChoice.bind(this);
     this.recordNextSongsLength = this.recordNextSongsLength.bind(this);
     this.playSong = this.playSong.bind(this);
     this.pauseSong = this.pauseSong.bind(this);
@@ -83,25 +76,34 @@ class App extends React.Component {
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
     this.playNextFromQueue = this.playNextFromQueue.bind(this);
-    this.enqueueSong = this.enqueueSong.bind(this);
+    this.initialGetThreeSongs = this.initialGetThreeSongs.bind(this);
+    this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
   }
 
-  // On mount, enqueue all current songs
-  // TODO - replace hard-coded songs with songs from MySQL
+  // On mount, get some songs from S3; set interval to get more songs
   componentDidMount() {
-    // Enqueue all songs
-    // for (let i = 0; i < this.state.songObjs.length; i++) {
-    //   const songObj = this.state.songObjs[i];
-    //   this.enqueueSong(songObj);
-    // }
-
     // GET songs from db
+    this.initialGetThreeSongs();
+    // Set listener to get more songs if user has fewer than two songs enqueued
+    setInterval(() => {
+      if (this.state.songQueueAudio.length < 2) {
+        console.log('loading more songs!');
+        this.backgroundGetThreeSongs();
+      }
+    }, 10000);
+  }
+
+  // Get three songs loaded from AWS
+  initialGetThreeSongs() {
     axios
-      .get('http://localhost:5001/ten-songs')
+      .get('http://localhost:5001/three-songs')
       .then((response) => {
         const songObjs = response.data;
         // Create first song's audio file
         const firstSongObj = songObjs.pop();
+        firstSongObj.date_posted = calculateDatePosted(
+          firstSongObj.upload_time
+        );
         const firstSongAudio = new Audio(firstSongObj.song_data_url);
         // Set to state then do the same for the rest of the songs
         this.setState(
@@ -110,9 +112,17 @@ class App extends React.Component {
             currentSongAudio: firstSongAudio,
           },
           () => {
+            // Set listener to play first song when it's ready
+            this.state.currentSongAudio.addEventListener(
+              'canplay',
+              this.playSong
+            );
             // Create Audio object for remaining songs
             const remainingSongsAudio = [];
             for (let i = 0; i < songObjs.length; i++) {
+              songObjs[i].date_posted = calculateDatePosted(
+                songObjs[i].upload_time
+              );
               remainingSongsAudio.push(new Audio(songObjs[i].song_data_url));
             }
             // Set state with new audio objects, song objects
@@ -128,16 +138,30 @@ class App extends React.Component {
       });
   }
 
-  // Add Audio objects of songs to queue; this preloads the songs for playback
-  enqueueSong(songObj) {
-    const song = new Audio(songObj.song_url);
-    const {songQueueAudio, songQueueObjects} = this.state;
-    songQueueAudio.push(song);
-    songQueueObjects.push(songObj);
-    this.setState({
-      songQueueAudio,
-      songQueueObjects,
-    });
+  // Get one song loaded from AWS
+  backgroundGetThreeSongs() {
+    axios
+      .get('http://localhost:5001/three-songs')
+      .then((response) => {
+        const songObjs = response.data;
+        // Create Audio object for remaining songs
+        const remainingSongsAudio = [];
+        for (let i = 0; i < songObjs.length; i++) {
+          // Convert date posted to relative data posted
+          songObjs[i].date_posted = calculateDatePosted(
+            songObjs[i].upload_time
+          );
+          remainingSongsAudio.push(new Audio(songObjs[i].song_data_url));
+        }
+        // Set state with new audio objects, song objects
+        this.setState({
+          songQueueAudio: remainingSongsAudio,
+          songQueueObjects: songObjs,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   // Remove song from Audio and Obj queues; set to current song in state
@@ -167,41 +191,8 @@ class App extends React.Component {
         }
       );
     } else {
-      alert('No songs in queue. Please enqueue some songs!');
+      this.initialGetThreeSongs();
     }
-  }
-
-  getSongObj(songURL) {
-    // Loop through objects in state, return one with correct url
-    for (let i = 0; i < this.state.songObjs.length; i++) {
-      if (this.state.songObjs[i].song_url === songURL) {
-        return this.state.songObjs[i];
-      }
-    }
-  }
-
-  // Handle user's selecting song from dropdown box
-  handleSongChoice(event) {
-    // Get song object for chosen song
-    const songObj = this.getSongObj(event.target.value);
-    const songAudio = new Audio(event.target.value);
-    // Store song in state when it is buffered (ready to play)
-    songAudio.addEventListener('canplay', () => {
-      // Pause current song's playback
-      this.pauseSong();
-      this.recordNextSongsLength(songAudio);
-      this.setState(
-        {
-          currentSongAudio: songAudio,
-          currentSongObj: songObj,
-          songObjs: songObjs,
-        },
-        () => {
-          // Start new song's playback
-          this.playSong();
-        }
-      );
-    });
   }
 
   // Calculate a song's length in format MM:SS; save in state
@@ -308,6 +299,8 @@ class App extends React.Component {
       lengthString,
       artist_name,
       song_name,
+      date_posted,
+      tag,
     } = this.state.currentSongObj;
     return (
       <div>
@@ -342,10 +335,10 @@ class App extends React.Component {
                 </span>
               </div>
               <div className='date-posted-container'>
-                <div className='date-posted'>5 years ago</div>
+                <div className='date-posted'>{date_posted}</div>
               </div>
               <div className='tags-container'>
-                <div className='tags fit-width-to-contents'># Electronic</div>
+                <div className='tags fit-width-to-contents'>{tag}</div>
               </div>
             </div>
             <div className='album-art'>
@@ -366,39 +359,10 @@ ReactDOM.render(<App />, document.querySelector('#app'));
 
 /*
 
-<button id='play' onClick={this.playSong}>
-  Play
-</button>
-<button id='pause' onClick={this.pauseSong}>
-  Pause
-</button>
-<button id='next-song-btn' onClick={this.playNextFromQueue}>
-  Next Song
-</button>
-<div id='currnet-song-name'>Current Song: {name}</div>
 <div id='current-playback-time'>
   Current Playback Time: {currentTime}
 </div>
 <div id='song-length'>Song Length: {lengthString}</div>
   <div id='song-length'>Song Length: {lengthString}</div>
-
-
-SONG SELECTOR
-
-<select
-  name='song-select'
-  id='song-select'
-  onChange={this.handleSongChoice}
->
-  <option></option>
-  {songObjs.map((songObj) => {
-    return (
-      <option value={songObj.song_url} key={songObj.song_id}>
-        {songObj.song_name}
-      </option>
-    );
-  })}
-</select>
-
 
 */

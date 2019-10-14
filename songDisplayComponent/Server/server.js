@@ -20,4 +20,10 @@ app.get('/all-songs', (req, res) => db.getAllSongs(res));
 // Return only ten songs
 app.get('/ten-songs', (req, res) => db.getTenSongs(res));
 
+// Return only three songs
+app.get('/three-songs', (req, res) => db.getThreeSongs(res));
+
+// Return only one song
+app.get('/one-song', (req, res) => db.getOneSong(res));
+
 app.listen(port, () => console.log(`Express App running on port ${port}`));
