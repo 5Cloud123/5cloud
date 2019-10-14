@@ -2,7 +2,7 @@ let db = require('./index.js');
 
 let getRelatedTracks = function(req, res) {
   db.query(
-    `select * from songs where tag = "${req.body.tag}"`,
+    `select * from songs where tag = (select tag from songs where song_id = "${req.params.songid}")`,
     (err, songs) => {
       if (err) {
         console.log(err);
@@ -16,9 +16,10 @@ let getRelatedTracks = function(req, res) {
 
 let getUsersLiked = function(req, res) {
   db.query(
-    `select * from users where id = (select user from song_user_likes where song = "${req.body.id}")`,
+    `select * from users where id in (select user from song_user_likes where song = (select id from songs where song_id = "${req.params.songid}"))`,
     (err, users) => {
       if (err) {
+        console.log(err);
         res.sendStatus(500);
       } else {
         res.send(users);
@@ -29,9 +30,10 @@ let getUsersLiked = function(req, res) {
 
 let getUsersRepost = function(req, res) {
   db.query(
-    `select * from users where id = (select user from song_user_reposts where song = ${req.body.id})`,
+    `select * from users where id in (select user from song_user_reposts where song = (select id from songs where song_id = "${req.params.songid}"))`,
     (err, users) => {
       if (err) {
+        console.log(err);
         res.sendStatus(500);
       } else {
         res.send(users);
@@ -42,9 +44,10 @@ let getUsersRepost = function(req, res) {
 
 let getInclusivePlaylists = function(req, res) {
   db.query(
-    `select * from playlists where id = (select playlist from playlist_song_included where song = ${req.body.id})`,
+    `select * from playlists where id in (select playlist from playlist_song_included where song = (select id from songs where song_id =  "${req.params.songid}"))`,
     (err, playlists) => {
       if (err) {
+        console.log(err);
         res.sendStatus(500);
       } else {
         res.send(playlists);
@@ -55,9 +58,10 @@ let getInclusivePlaylists = function(req, res) {
 
 let getInclusiveAlbums = function(req, res) {
   db.query(
-    `select * from albums where id = (select album from album_song_included where song = ${req.body.id})`,
+    `select * from albums where id in (select album from album_song_included where song = (select id from songs where song_id = "${req.params.songid}"))`,
     (err, albums) => {
       if (err) {
+        console.log(err);
         res.sendStatus(500);
       } else {
         res.send(albums);
