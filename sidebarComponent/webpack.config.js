@@ -9,7 +9,7 @@ module.exports = {
     path: DIST_DIR
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx', '.css']
   },
   module: {
     rules: [

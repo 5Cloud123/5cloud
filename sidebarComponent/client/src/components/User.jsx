@@ -1,7 +1,11 @@
 import React from 'react';
 
 let User = props => {
-  return <div></div>;
+  return (
+    <span>
+      <img className="user-avatar" src="./assets/pictures/sample.jpg" />
+    </span>
+  );
 };
 
 export default User;

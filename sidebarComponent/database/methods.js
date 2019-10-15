@@ -1,5 +1,18 @@
 let db = require('./index.js');
 
+let getCurrentSong = function(req, res) {
+  db.query(
+    `select * from songs where song_id = "${req.params.songid}"`,
+    (err, song) => {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.send(song);
+      }
+    }
+  );
+};
+
 let getRelatedTracks = function(req, res) {
   db.query(
     `select * from songs where tag = (select tag from songs where song_id = "${req.params.songid}")`,
@@ -75,3 +88,4 @@ module.exports.getUsersLiked = getUsersLiked;
 module.exports.getUsersRepost = getUsersRepost;
 module.exports.getInclusivePlaylists = getInclusivePlaylists;
 module.exports.getInclusiveAlbums = getInclusiveAlbums;
+module.exports.getCurrentSong = getCurrentSong;
