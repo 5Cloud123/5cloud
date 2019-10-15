@@ -33,15 +33,14 @@ let seedSongs = function() {
           console.log(err);
         } else {
           for (let i = 1; i < output.length; i++) {
-            let queryString = `insert into songs (song_id, song_name, artist_name, date_posted, tag, like_count, play_count, repost_count, comment_count) VALUES ("${
+            let queryString = `insert into songs (song_id, song_name, artist_name, date_posted, tag, like_count, play_count, repost_count, comment_count, song_art_url) VALUES ("${
               output[i][0]
             }", "${output[i][1]}", "${output[i][2]}", "${output[i][3]}", "${
               output[i][4]
-            }", "${output[i][5] ? parseInt(output[i][5]) : 0}", "${
-              output[i][6] ? parseInt(output[i][6]) : 0
-            }", "${output[i][7] ? parseInt(output[i][7]) : 0}", "${
-              output[i][8] ? parseInt(output[i][8]) : 0
-            }")`;
+            }", "${parseInt(output[i][5]) || 0}", "${parseInt(output[i][6]) ||
+              0}", "${parseInt(output[i][7]) || 0}", "${parseInt(
+              output[i][8]
+            ) || 0}", "${output[i][9]}")`;
             db.query(queryString, (err, data) => {
               if (err) {
                 console.log(err);

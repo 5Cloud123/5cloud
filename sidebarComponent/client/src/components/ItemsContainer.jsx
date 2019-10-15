@@ -14,7 +14,7 @@ let ItemsContainer = props => {
       }
 
       return (
-        <div className={style.container}>
+        <div className={style['master-container']}>
           <div className={style.topbar}>
             <i className="tracks-icon top-bar-icon"></i>
             <span>Related tracks</span>
@@ -41,7 +41,7 @@ let ItemsContainer = props => {
       }
 
       return (
-        <div className={style.container}>
+        <div className={style['master-container']}>
           <div className={style.topbar}>
             <i className="playlists-icon top-bar-icon"></i>
             <span>In Playlists</span>
@@ -68,11 +68,11 @@ let ItemsContainer = props => {
       }
 
       return (
-        <div className={style.container}>
+        <div className={style['master-container']}>
           <div className={style.topbar}>
-            <i className="albums-icon top-bar-icon"></i>
-            <span>In Albums</span>
-            <span>View all</span>
+            <i className={style.icon}></i>
+            <span className={style.descriptor}>In Albums</span>
+            <span className={style.view}>View all</span>
           </div>
 
           <div>

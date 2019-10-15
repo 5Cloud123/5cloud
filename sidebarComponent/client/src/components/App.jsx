@@ -2,6 +2,7 @@ import React from 'react';
 import InteractionContainer from './InteractionContainer.jsx';
 import ItemsContainer from './ItemsContainer.jsx';
 import axios from 'axios';
+import style from './styles/App.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -78,7 +79,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className={style.container}>
         <span>React is working!</span>
         <ItemsContainer
           type="relatedTracks"

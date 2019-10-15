@@ -26,7 +26,7 @@ CREATE TABLE songs (
   play_count INT(25)  DEFAULT 0,
   repost_count INT(25)  DEFAULT 0,
   comment_count INT(25)  DEFAULT 0,
-  song_art VARCHAR(150),
+  song_art_url VARCHAR(250),
 
   PRIMARY KEY(id)
 );

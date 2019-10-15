@@ -1,5 +1,6 @@
 .topbar {
   grid-area: topbar;
+  justify-self: center;
   color: rgb(182, 174, 174);
 }
 
@@ -8,9 +9,23 @@
   color: rgb(182, 174, 174);
 }
 
-.container {
+.icon {
+}
+.descriptor {
+  justify-self: start;
+}
+
+.view {
+  justify-self: end;
+}
+
+.inner-container {
+  justify-self: center;
+}
+
+.master-container {
   display: grid;
-  grid-template-columns: 250px;
+  grid-template-columns: 200px;
   grid-template-rows: 25px, auto, auto, auto, auto;
   grid-template-areas:
     'topbar'
