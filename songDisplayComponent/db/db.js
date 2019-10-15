@@ -27,8 +27,9 @@ const getOneSong = (res) => {
   });
 };
 
-const getThreeSongs = (res) => {
-  const query = 'SELECT * FROM songs LIMIT 3;';
+const getThreeRandomSongs = (res) => {
+  const query = 'SELECT * FROM songs ORDER BY RAND() LIMIT 3;';
+  // const query = 'SELECT * FROM songs ORDER BY song_name DESC LIMIT 3;';
   // Insert information
   connection.query(query, (err, results, fields) => {
     if (err) {
@@ -66,4 +67,4 @@ const getAllSongs = (res) => {
 module.exports.getTenSongs = getTenSongs;
 module.exports.getOneSong = getOneSong;
 module.exports.getAllSongs = getAllSongs;
-module.exports.getThreeSongs = getThreeSongs;
+module.exports.getThreeRandomSongs = getThreeRandomSongs;

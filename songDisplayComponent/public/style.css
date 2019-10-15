@@ -8,6 +8,7 @@ body {
   margin: 0;
   grid-template-rows: [row1] 30px [row2] auto;
   height: 1500px;
+  max-width: 1240px;
 }
 
 .container {
@@ -33,13 +34,11 @@ body {
   display: inline-grid;
   grid-template-columns: [col1] 30px [col2] auto [col3] 340px [col4] 20px;
   grid-template-rows: [row1] 30px [row2] 70px [row3] 280px [row4] 100px [row5] 20px;
-  background: linear-gradient(135deg, rgb(149, 91, 78) 0%, rgb(72, 55, 59) 100%)
-    repeat scroll 0% 0%;
 }
 
 .player-head {
   display: inline-grid;
-  grid-template-columns: [col1] 70px [col2] auto [col3] 140px;
+  grid-template-columns: [col1] 70px [col2] auto [col3] 200px;
   grid-template-rows: [row1] 40% [row2] 60%;
   grid-column-start: col2;
   grid-column-end: col3;
@@ -172,3 +171,15 @@ body {
 #playback-center {
   height: 380px;
 }
+
+/* background: linear-gradient(
+    135deg,
+    rgb(149, 91, 78) 0%,
+    rgb(72, 55, 59) 100%
+  ); */
+/* background: linear-gradient(
+      135deg,
+      rgb(188, 113, 57) 0%,
+      rgb(57, 53, 89) 100%
+    )
+    repeat scroll 0% 0%; */

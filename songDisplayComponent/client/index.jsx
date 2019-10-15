@@ -3,9 +3,7 @@
 // Calculate relative date posted
 calculateDatePosted = (dateInteger) => {
   const today = Date.now();
-  console.log(dateInteger);
   const daysSince = Math.round((today - dateInteger) / (1000 * 60 * 60 * 24));
-  console.log(`days since: ${daysSince}`);
   // If in years, record years
   if (daysSince >= 350) {
     return `${Math.round(daysSince / 365, 0)} years ago`;
@@ -58,6 +56,8 @@ class App extends React.Component {
         artist_name: '',
         upload_time: 0,
         tag: '',
+        background_light: '[0, 0, 0]',
+        background_dark: '(204, 119, 50)',
       },
       songQueueAudio: [],
       songQueueObjects: [],
@@ -65,6 +65,8 @@ class App extends React.Component {
       // Store ID of interval for timer
       timerIntervalID: null,
       playButtonState: 'play',
+      // Record ids of songs already played
+      songsPlayedIDs: new Set(),
     };
 
     // Bind functions to this
@@ -112,11 +114,6 @@ class App extends React.Component {
             currentSongAudio: firstSongAudio,
           },
           () => {
-            // Set listener to play first song when it's ready
-            this.state.currentSongAudio.addEventListener(
-              'canplay',
-              this.playSong
-            );
             // Create Audio object for remaining songs
             const remainingSongsAudio = [];
             for (let i = 0; i < songObjs.length; i++) {
@@ -146,17 +143,22 @@ class App extends React.Component {
         const songObjs = response.data;
         // Create Audio object for remaining songs
         const remainingSongsAudio = [];
+        const remainingSongsObjs = [];
         for (let i = 0; i < songObjs.length; i++) {
-          // Convert date posted to relative data posted
-          songObjs[i].date_posted = calculateDatePosted(
-            songObjs[i].upload_time
-          );
-          remainingSongsAudio.push(new Audio(songObjs[i].song_data_url));
+          // Only process, enqueue songs not yet played
+          if (!this.state.songsPlayedIDs.has(songObjs.song_id)) {
+            // Convert date posted to relative data posted
+            songObjs[i].date_posted = calculateDatePosted(
+              songObjs[i].upload_time
+            );
+            remainingSongsAudio.push(new Audio(songObjs[i].song_data_url));
+            remainingSongsObjs.push(songObjs[i]);
+          }
         }
         // Set state with new audio objects, song objects
         this.setState({
           songQueueAudio: remainingSongsAudio,
-          songQueueObjects: songObjs,
+          songQueueObjects: remainingSongsObjs,
         });
       })
       .catch((err) => {
@@ -236,15 +238,25 @@ class App extends React.Component {
   // Start song playback if a song is selected
   playSong() {
     if (this.state.currentSongAudio) {
-      // Console the actual song playing
-      console.log(
-        `Actual song playing: ${this.state.currentSongObj.song_data_url}`
-      );
       // Change play button to pause button
-      this.setState({playButtonState: 'pause'});
-      this.state.currentSongAudio.play();
-      // Start song timer
-      this.startTimer();
+      this.setState({playButtonState: 'pause'}, () => {
+        this.state.currentSongAudio.play();
+        // Listen for song to finish
+        this.state.currentSongAudio.addEventListener('ended', () => {
+          // Start next song
+          this.playNextFromQueue();
+        });
+        // Start song timer
+        this.startTimer();
+        // Record song as having been played
+        this.setState((state) => {
+          return {
+            songsPlayedIDs: state.songsPlayedIDs.add(
+              state.currentSongObj.song_id
+            ),
+          };
+        });
+      });
     }
   }
 
@@ -294,13 +306,13 @@ class App extends React.Component {
   render() {
     const {songObjs, playButtonState} = this.state;
     const {
-      name,
       currentTime,
       lengthString,
       artist_name,
       song_name,
       date_posted,
       tag,
+      song_art_url,
     } = this.state.currentSongObj;
     return (
       <div>
@@ -309,7 +321,15 @@ class App extends React.Component {
           Next Song
         </button>
         <div id='playbackCenter' className='outer-player-panel'>
-          <div className='inner-player-panel'>
+          <div
+            className='inner-player-panel'
+            style={{
+              background: `linear-gradient(
+                135deg,
+                rgb${this.state.currentSongObj.background_light} 0%,
+                rgb${this.state.currentSongObj.background_dark} 100%`,
+            }}
+          >
             <div className='player-head'>
               {/* <a className='play-button' onClick={this.playSong}> */}
               <div
@@ -342,11 +362,7 @@ class App extends React.Component {
               </div>
             </div>
             <div className='album-art'>
-              <img
-                src='https://i.scdn.co/image/387b19d3bc6178b7429493f9fdf4f7c8c33aabc5'
-                alt=''
-                className='album-art'
-              />
+              <img src={song_art_url} alt='' className='album-art' />
             </div>
           </div>
         </div>

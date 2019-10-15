@@ -22,5 +22,9 @@ CREATE TABLE songs
     song_art_url VARCHAR
     (255),
     song_data_url VARCHAR
+    (255),
+    background_light VARCHAR
+    (255),
+    background_dark VARCHAR
     (255)
 );

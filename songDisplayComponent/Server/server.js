@@ -21,7 +21,7 @@ app.get('/all-songs', (req, res) => db.getAllSongs(res));
 app.get('/ten-songs', (req, res) => db.getTenSongs(res));
 
 // Return only three songs
-app.get('/three-songs', (req, res) => db.getThreeSongs(res));
+app.get('/three-songs', (req, res) => db.getThreeRandomSongs(res));
 
 // Return only one song
 app.get('/one-song', (req, res) => db.getOneSong(res));
