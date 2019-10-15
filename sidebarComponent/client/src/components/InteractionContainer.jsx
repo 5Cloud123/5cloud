@@ -5,7 +5,7 @@ let InteractionContainer = props => {
   if (props.type === 'likes') {
     return (
       <div>
-        <span>{props.song.like_count}</span>
+        <span>{props.song.like_count} </span>
         <span>Likes</span>
         <div>
           {props.users.map(user => {

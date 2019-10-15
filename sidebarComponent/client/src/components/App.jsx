@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemContainer from './ItemContainer.jsx';
 import InteractionContainer from './InteractionContainer.jsx';
+import ItemsContainer from './ItemsContainer.jsx';
 import axios from 'axios';
 
 class App extends React.Component {
@@ -80,15 +80,15 @@ class App extends React.Component {
     return (
       <div>
         <span>React is working!</span>
-        <ItemContainer
-          type="related"
-          relatedTracks={this.state.relatedTracks}
+        <ItemsContainer
+          type="relatedTracks"
+          tracks={this.state.relatedTracks}
         />
-        <ItemContainer
+        <ItemsContainer
           type="playlists"
           playlists={this.state.playlistsInclud}
         />
-        <ItemContainer type="albums" albums={this.state.albumsInclud} />
+        <ItemsContainer type="albums" albums={this.state.albumsInclud} />
 
         <InteractionContainer
           type="likes"
