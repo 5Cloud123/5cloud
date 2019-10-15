@@ -22,7 +22,7 @@ class App extends React.Component {
       .get(`http://localhost:5000/currentSong/${this.state.currentSongId}`)
       .then(song => {
         console.log(song, 'this is the current song');
-        this.setState({ currentSong: song.data });
+        this.setState({ currentSong: song.data[0] });
       });
     axios
       .get(`http://localhost:5000/relatedtracks/${this.state.currentSongId}`)
@@ -94,8 +94,14 @@ class App extends React.Component {
           type="likes"
           users={this.state.userLikes}
           song={this.state.currentSong}
+          className="interaction-container"
         />
-        {/* <InteractionContainer type="reposts" users={this.state.userReposts} /> */}
+        <InteractionContainer
+          type="reposts"
+          users={this.state.userReposts}
+          song={this.state.currentSong}
+          className="interaction-container"
+        />
       </div>
     );
   }
