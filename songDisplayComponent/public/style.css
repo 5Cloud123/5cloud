@@ -33,7 +33,7 @@ body {
   width: 100%;
   display: inline-grid;
   grid-template-columns: [col1] 30px [col2] auto [col3] 340px [col4] 20px;
-  grid-template-rows: [row1] 30px [row2] 70px [row3] 280px [row4] 100px [row5] 20px;
+  grid-template-rows: [row1] 30px [row2] 70px [row3] 200px [row4] 80px;
 }
 
 .player-head {
@@ -56,7 +56,11 @@ body {
   margin-top: -4px !important;
 }
 
-.player-song {
+.song-graph {
+  grid-column-start: col2;
+  grid-column-end: col4;
+  grid-row-start: row3;
+  grid-row-end: row5;
 }
 
 .play-button-wrapper {

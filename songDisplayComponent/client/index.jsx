@@ -5,14 +5,23 @@ calculateDatePosted = (dateInteger) => {
   const today = Date.now();
   const daysSince = Math.round((today - dateInteger) / (1000 * 60 * 60 * 24));
   // If in years, record years
+  if (548 > daysSince >= 350) {
+    return `${Math.round(daysSince / 365, 0)} year ago`;
+  }
   if (daysSince >= 350) {
     return `${Math.round(daysSince / 365, 0)} years ago`;
   }
   // If in months, record months
+  if (45 > daysSince >= 27) {
+    return `${Math.round(daysSince / 30, 0)} month ago`;
+  }
   if (daysSince >= 27) {
     return `${Math.round(daysSince / 30, 0)} months ago`;
   }
   // If in weeks, record weeks
+  if (daysSince === 7) {
+    return `${Math.round(daysSince / 7, 0)} week ago`;
+  }
   if (daysSince >= 6) {
     return `${Math.round(daysSince / 7, 0)} weeks ago`;
   }
@@ -80,6 +89,7 @@ class App extends React.Component {
     this.playNextFromQueue = this.playNextFromQueue.bind(this);
     this.initialGetThreeSongs = this.initialGetThreeSongs.bind(this);
     this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
+    this.handleSliderChange = this.handleSliderChange.bind(this);
   }
 
   // On mount, get some songs from S3; set interval to get more songs
@@ -302,9 +312,40 @@ class App extends React.Component {
     clearInterval(ID);
   }
 
+  // Toggle current place in song using the slider
+  handleSliderChange(event) {
+    // Save currentTime in object
+    const newSongObj = this.state.currentSongObj;
+    newSongObj.currentTime = event.target.value;
+    // Save currentTime in audio object as well
+    const newSongAudio = this.state.currentSongAudio;
+    newSongAudio.currentTime = event.target.value;
+    // Persis in state
+    this.setState({
+      test: event.target.value,
+      currentSongObj: newSongObj,
+      currentSongAudio: newSongAudio,
+    });
+    // this.setState(
+    //   (state) => {
+    //     state.currentSongAudio.currentTime = event.target.value;
+    //     return {
+    //       currentTime: event.target.value,
+    //       // currentSongAudio: state.currentSongAudio,
+    //     };
+    //   },
+    //   () => {
+    //     console.log(
+    //       `New currentTime: ${this.state.currentSongObj.currentTime}`
+    //     );
+    //   }
+    // );
+    console.log(event.target.value);
+  }
+
   // Render App component
   render() {
-    const {songObjs, playButtonState} = this.state;
+    const {playButtonState} = this.state;
     const {
       currentTime,
       lengthString,
@@ -314,6 +355,8 @@ class App extends React.Component {
       tag,
       song_art_url,
     } = this.state.currentSongObj;
+    const currentSongAudio = this.state.currentSongAudio || 60;
+    const length = currentSongAudio.duration || 60;
     return (
       <div>
         <div className='nav-bar'></div>
@@ -363,6 +406,20 @@ class App extends React.Component {
             </div>
             <div className='album-art'>
               <img src={song_art_url} alt='' className='album-art' />
+            </div>
+            <div className='song-graph'>
+              <div className='slidecontainer'>
+                <input
+                  type='range'
+                  min='0'
+                  max={length}
+                  value={currentTime}
+                  onChange={this.handleSliderChange}
+                  className='slider'
+                  id='myRange'
+                />
+                <p>Current time: {this.state.currentSongObj.currentTime}</p>
+              </div>
             </div>
           </div>
         </div>
