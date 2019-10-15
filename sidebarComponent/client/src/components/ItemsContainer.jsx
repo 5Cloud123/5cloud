@@ -2,6 +2,7 @@ import React from 'react';
 import Song from './Song.jsx';
 import Album from './Album.jsx';
 import Playlist from './Playlist.jsx';
+import style from './styles/ItemsContainer.css';
 
 let ItemsContainer = props => {
   if (props.type === 'relatedTracks') {
@@ -13,8 +14,8 @@ let ItemsContainer = props => {
       }
 
       return (
-        <div>
-          <div className="top-bar">
+        <div className={style.container}>
+          <div className={style.topbar}>
             <i className="tracks-icon top-bar-icon"></i>
             <span>Related tracks</span>
             <span>View all</span>
@@ -22,7 +23,7 @@ let ItemsContainer = props => {
 
           <div>
             {threeTracks.map(track => {
-              return <Song track={track} />;
+              return <Song track={track} key={track.id} />;
             })}
           </div>
         </div>
@@ -40,8 +41,8 @@ let ItemsContainer = props => {
       }
 
       return (
-        <div>
-          <div className="top-bar">
+        <div className={style.container}>
+          <div className={style.topbar}>
             <i className="playlists-icon top-bar-icon"></i>
             <span>In Playlists</span>
             <span>View all</span>
@@ -49,7 +50,7 @@ let ItemsContainer = props => {
 
           <div>
             {threePlaylists.map(playlist => {
-              return <Playlist playlist={playlist} />;
+              return <Playlist playlist={playlist} key={playlist.id} />;
             })}
           </div>
         </div>
@@ -67,8 +68,8 @@ let ItemsContainer = props => {
       }
 
       return (
-        <div>
-          <div className="top-bar">
+        <div className={style.container}>
+          <div className={style.topbar}>
             <i className="albums-icon top-bar-icon"></i>
             <span>In Albums</span>
             <span>View all</span>
@@ -76,7 +77,7 @@ let ItemsContainer = props => {
 
           <div>
             {threeAlbums.map(album => {
-              return <Album album={album} />;
+              return <Album album={album} key={album.id} />;
             })}
           </div>
         </div>
