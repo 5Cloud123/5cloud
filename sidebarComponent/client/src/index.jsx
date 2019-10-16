@@ -1,2 +1,8 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
+import App from './components/App.jsx';
+
+ReactDOM.render(
+  <App currentSong="Song_00001" />,
+  document.getElementById('app')
+);

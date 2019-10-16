@@ -1,0 +1,6 @@
+.container {
+  display: grid;
+  grid-template-columns: 400px;
+  grid-template-rows: auto, auto, auto, auto, auto;
+  justify-items: center;
+}
