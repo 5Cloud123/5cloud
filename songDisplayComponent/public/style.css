@@ -32,7 +32,7 @@ body {
   height: 100%;
   width: 100%;
   display: inline-grid;
-  grid-template-columns: [col1] 30px [col2] auto [col3] 340px [col4] 20px;
+  grid-template-columns: [inner-col1] 30px [inner-col2] auto [inner-col3] 30px [inner-col4] 30px [inner-col5] 340px [inner-col6] 20px;
   grid-template-rows: [row1] 30px [row2] 70px [row3] 200px [row4] 80px;
 }
 
@@ -40,8 +40,8 @@ body {
   display: inline-grid;
   grid-template-columns: [col1] 70px [col2] auto [col3] 220px;
   grid-template-rows: [row1] 40% [row2] 60%;
-  grid-column-start: col2;
-  grid-column-end: col3;
+  grid-column-start: inner-col2;
+  grid-column-end: inner-col4;
   grid-row-start: row2;
   grid-row-end: row3;
 }
@@ -49,16 +49,17 @@ body {
 .album-art {
   height: 340px;
   width: 340px;
-  grid-column-start: col3;
-  grid-column-end: col4;
+  grid-column-start: inner-col5;
+  grid-column-end: inner-col6;
   grid-row-start: row2;
   grid-row-end: row5;
   margin-top: -4px !important;
 }
 
 .song-graph {
-  grid-column-start: col2;
-  grid-column-end: col3;
+  grid-template-columns: [col1] auto [col2] 20px;
+  grid-column-start: inner-col2;
+  grid-column-end: inner-col4;
   grid-row-start: row4;
   grid-row-end: row5;
 }
@@ -140,7 +141,6 @@ body {
   grid-row-start: row2;
   height: 35px;
   margin: 5px 0;
-  padding-right: 30px !important;
   margin-top: 10px;
 }
 
@@ -154,18 +154,18 @@ body {
 .date-posted-container {
   grid-column-start: col3;
   grid-row-start: row1;
-  padding-right: 30px !important;
   height: 22px;
 }
 
 .playback-slider-container {
   width: 100%;
+  margin-top: 10px;
 }
 
 .playback-slider {
   -webkit-appearance: none; /* Override default CSS styles */
   appearance: none;
-  width: 95%;
+  width: 100%;
   height: 1px;
   border-bottom: 1px solid #000000;
   min-width: 450px;
@@ -186,21 +186,42 @@ body {
 }
 
 .current-playback-timer-container {
-  /* Same location as playback slider */
-  grid-column-start: col2;
-  grid-column-end: col3;
+  /* Same location as playback slider - left */
+  grid-column-start: inner-col2;
+  grid-column-end: inner-col4;
   grid-row-start: row4;
   grid-row-end: row5;
   align-content: center;
-  height: 10px;
+  height: 15px;
+  margin-left: 2px;
 }
 
 .current-playback-timer {
-  line-height: 10px;
   color: #f50;
   background: #000000;
   text-align: center;
   margin-bottom: 20px;
+  /* Keep on top */
+  z-index: 2;
+}
+
+.total-song-length-container {
+  /* Same location as playback slider - right */
+  grid-column-start: inner-col3;
+  grid-column-end: inner-col4;
+  grid-row-start: row4;
+  grid-row-end: row5;
+  align-content: center;
+  height: 15px;
+}
+
+.total-song-length {
+  color: #666666;
+  background: #000000;
+  text-align: center;
+  margin-bottom: 20px;
+  /* Keep on top */
+  z-index: 2;
 }
 
 .user-image {

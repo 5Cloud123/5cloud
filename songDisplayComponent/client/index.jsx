@@ -361,7 +361,6 @@ class App extends React.Component {
     } = this.state.currentSongObj;
     const currentSongAudio = this.state.currentSongAudio || 60;
     const length = currentSongAudio.duration || 60;
-    console.log(currentTimeMMSS);
     return (
       <div>
         <div className='nav-bar'></div>
@@ -416,6 +415,11 @@ class App extends React.Component {
                 {currentTimeMMSS}
               </div>
             </div>
+            <div className='total-song-length-container'>
+              <div className='total-song-length'>
+                {Math.round(this.state.currentSongAudio.duration)}
+              </div>
+            </div>
             <div className='song-graph'>
               <div className='playback-slider-container'>
                 <input
@@ -426,7 +430,6 @@ class App extends React.Component {
                   onChange={this.handleSliderChange}
                   className='playback-slider'
                 />
-                <p>Current time: {currentTime}</p>
               </div>
             </div>
           </div>
