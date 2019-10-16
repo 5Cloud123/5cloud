@@ -353,7 +353,6 @@ class App extends React.Component {
       currentTime,
       currentTimeMMSS,
       durationMMSS,
-      lengthString,
       artist_name,
       song_name,
       date_posted,
@@ -411,15 +410,18 @@ class App extends React.Component {
             <div className='album-art'>
               <img src={song_art_url} alt='' className='album-art' />
             </div>
-            <div className='current-playback-timer-container'>
-              <div className='current-playback-timer fit-width-to-contents'>
-                {currentTimeMMSS}
+            <div className='song-player'>
+              <div className='current-playback-timer-container'>
+                <div className='current-playback-timer fit-width-to-contents'>
+                  {currentTimeMMSS}
+                </div>
               </div>
-            </div>
-            <div className='total-song-length-container'>
-              <div className='total-song-length'>{durationMMSS}</div>
-            </div>
-            <div className='song-graph'>
+              <div className='total-song-length-container'>
+                <div className='total-song-length'>{durationMMSS}</div>
+              </div>
+              <div className='waveform-container'>
+                <img className='waveform' src='./ChartJpg.jpg' alt='' />
+              </div>
               <div className='playback-slider-container'>
                 <input
                   type='range'
@@ -447,13 +449,3 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.querySelector('#app'));
-
-/*
-
-<div id='current-playback-time'>
-  Current Playback Time: {currentTime}
-</div>
-<div id='song-length'>Song Length: {lengthString}</div>
-  <div id='song-length'>Song Length: {lengthString}</div>
-
-*/

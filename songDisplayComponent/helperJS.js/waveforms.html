@@ -7,11 +7,19 @@
     <title>Document</title>
     <script src="https://unpkg.com/wavesurfer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+      integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <div id="waveform"></div>
     <canvas id="myChart"></canvas>
 
+    <!-- <a id="save-btn">Save Chart Image</a> -->
+
+    <a id="link2" download="ChartJpg.jpg">Save as jpg</a>
     <script>
       const original_data = [
         0.6157,
@@ -132,10 +140,10 @@
       for (let i = 0; i < original_data.length - 2; i++) {
         if (original_data[i] >= 0) {
           positiveValues.push(original_data[i]);
-          negativeValues.push(-(original_data[i] + original_data[i + 2]) / 2);
+          negativeValues.push(-(original_data[i] + original_data[i + 2]) / 10);
         } else {
           positiveValues.push(-(original_data[i] + original_data[i + 2]) / 2);
-          negativeValues.push(original_data[i]);
+          negativeValues.push(original_data[i] / 5);
         }
       }
 
@@ -143,10 +151,20 @@
 
       var positiveData = {
         data: positiveValues,
+        // backgroundColor: 'rgb(255, 99, 132)',
       };
 
       var negativeData = {
         data: negativeValues,
+        // backgroundColor: 'rgb(255, 99, 132)',
+      };
+
+      saveImage = () => {
+        console.log('jafjbgjbeg');
+        var url_base64jp = document
+          .getElementById('myChart')
+          .toDataURL('image/jpg');
+        document.querySelector('#link2').href = url_base64jp;
       };
 
       var ctx = document.getElementById('myChart').getContext('2d');
@@ -157,6 +175,11 @@
           datasets: [positiveData, negativeData],
         },
         options: {
+          animation: {
+            duration: 0,
+            onProgress: () => {},
+            onComplete: saveImage,
+          },
           scales: {
             xAxes: [
               {
@@ -188,6 +211,10 @@
           },
         },
       });
+
+      // Save chart
+      //   const uri = myBarChart.toBase64Image();
+      //   document.querySelector('#save-btn').href = uri;
     </script>
   </body>
 </html>
