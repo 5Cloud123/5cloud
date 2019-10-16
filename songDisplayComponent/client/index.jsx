@@ -79,6 +79,7 @@ class App extends React.Component {
         background_dark: '(68, 76, 60)',
         currentTime: 0,
         currentTimeMMSS: '00',
+        durationMMSS: '00:00',
       },
       songQueueAudio: [],
       songQueueObjects: [],
@@ -197,9 +198,8 @@ class App extends React.Component {
       const songObj = songQueueObjects.pop();
       // Set current playback time to 0
       songObj.currentTime = 0;
-      songObj.currentTimeMMSS = calculateMMSS(
-        songObj.currentSongObj.currentTime
-      );
+      songObj.currentTimeMMSS = calculateMMSS(songObj.currentTime);
+      songObj.durationMMSS = calculateMMSS(songAudio.duration);
       // Stop current song's playback
       this.pauseSong();
       this.setState(
@@ -212,7 +212,7 @@ class App extends React.Component {
         },
         // Then, update song length on page
         () => {
-          this.recordNextSongsLength(songAudio);
+          // this.recordNextSongsLength(songAudio);
           // Start current song's playback
           this.playSong();
         }
@@ -352,6 +352,7 @@ class App extends React.Component {
     const {
       currentTime,
       currentTimeMMSS,
+      durationMMSS,
       lengthString,
       artist_name,
       song_name,
@@ -416,9 +417,7 @@ class App extends React.Component {
               </div>
             </div>
             <div className='total-song-length-container'>
-              <div className='total-song-length'>
-                {Math.round(this.state.currentSongAudio.duration)}
-              </div>
+              <div className='total-song-length'>{durationMMSS}</div>
             </div>
             <div className='song-graph'>
               <div className='playback-slider-container'>
