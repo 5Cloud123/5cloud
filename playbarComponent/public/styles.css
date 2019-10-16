@@ -1,0 +1,96 @@
+img {
+  border: 0;
+}
+
+button {
+  border: 0;
+  outline: none;
+}
+
+button img:hover {
+  cursor: pointer;
+}
+
+.navbar {
+  border-top: 1px solid #cecece;
+  background-color: 'white';
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 5px 5px;
+  /* margin-left: 10px;
+  margin-right: 10px; */
+}
+
+#playlist-button {
+  padding: 0;
+  margin: 0;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+#progress-bar {
+  background: linear-gradient(
+    to right,
+    #ffa500 0%,
+    #ffa500 0%,
+    #fff 0%,
+    #fff 100%
+  );
+  border: solid 1px #ffa500;
+  border-radius: 8px;
+  height: 1px;
+  width: 40%;
+  margin-bottom: 20px;
+  outline: none;
+  transition: background 450ms ease-in;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 0;
+  height: 0;
+}
+
+#progress-bar:hover::-webkit-slider-thumb {
+  width: 10px;
+  height: 10px;
+  border: 1px solid orange;
+  border-radius: 50%;
+  background: orange;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+#current-time {
+  color: #f50;
+  margin-left: 10px;
+}
+
+#song-duration {
+  color: #333;
+  cursor: pointer;
+}
+
+#song-title {
+  color: #999;
+  cursor: pointer;
+}
+
+#song-title:hover {
+  color: black;
+}
+
+#artist-name {
+  color: #999;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+#artist-name:hover {
+  color: black;
+}

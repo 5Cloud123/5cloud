@@ -7,7 +7,7 @@ module.exports = {
     path: path.resolve(__dirname, 'public')
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx', '.css']
   },
   module: {
     rules: [
