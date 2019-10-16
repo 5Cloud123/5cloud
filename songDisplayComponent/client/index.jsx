@@ -365,9 +365,9 @@ class App extends React.Component {
     return (
       <div>
         <div className='nav-bar'></div>
-        <button id='next-song-btn' onClick={this.playNextFromQueue}>
+        {/* <button id='next-song-btn' onClick={this.playNextFromQueue}>
           Next Song
-        </button>
+        </button> */}
         <div id='playbackCenter' className='outer-player-panel'>
           <div
             className='inner-player-panel'
@@ -428,6 +428,14 @@ class App extends React.Component {
                   value={currentTime}
                   onChange={this.handleSliderChange}
                   className='playback-slider'
+                  style={{
+                    background: `linear-gradient(
+                      90deg, 
+                      #f50 ${(this.state.currentSongAudio.currentTime /
+                        this.state.currentSongAudio.duration) *
+                        100}%, 
+                      #666666 0%)`,
+                  }}
                 />
               </div>
             </div>
