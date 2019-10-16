@@ -36,6 +36,8 @@ CREATE TABLE playlists (
   playlist_name VARCHAR(25),
   like_count INT,
   repost_count INT,
+  username VARCHAR(50),
+  playlist_art VARCHAR(250),
 
   PRIMARY KEY(id)
 );
@@ -45,6 +47,7 @@ CREATE TABLE albums (
   user VARCHAR(25),
   album_name VARCHAR(25),
   year_posted INT,
+  album_art VARCHAR(250),
 
   PRIMARY KEY(id)
 );

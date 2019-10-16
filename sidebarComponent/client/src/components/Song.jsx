@@ -8,22 +8,10 @@ let Song = props => {
       <div className={style.username}>{props.track.artist_name}</div>
       <div className={style.title}>{props.track.song_name}</div>
       <div className={style['icon-bar']}>
-        <span>
-          <i />
-          {props.track.play_count}
-        </span>
-        <span>
-          <i />
-          {props.track.like_count}
-        </span>
-        <span>
-          <i />
-          {props.track.repost_count}
-        </span>
-        <span>
-          <i />
-          {props.track.comment_count}
-        </span>
+        <span>{props.track.play_count}</span>
+        <span>{props.track.like_count}</span>
+        <span>{props.track.repost_count}</span>
+        <span>{props.track.comment_count}</span>
       </div>
     </div>
   );

@@ -64,7 +64,6 @@ let seedUsers = function() {
         if (err) {
           console.log(err, 'there was an error parsing');
         } else {
-          console.log(output);
           for (let i = 1; i < output.length; i++) {
             let queryString = `insert into users (user_id, username, pro_unlimited, follower_count, phys_location) VALUES ("${
               output[i][0]
@@ -96,9 +95,11 @@ let seedPlaylists = function() {
           console.log(err);
         } else {
           for (let i = 1; i < output.length; i++) {
-            let queryString = `insert into playlists (playlist_name, like_count, repost_count) VALUES ("${
+            let queryString = `insert into playlists (playlist_name, like_count, repost_count, username, playlist_art) VALUES ("${
               output[i][0]
-            }", "${parseInt(output[i][1])}", "${parseInt(output[i][2])}")`;
+            }", "${parseInt(output[i][1])}", "${parseInt(output[i][2])}", "${
+              output[i][3]
+            }", "${output[i][4]}")`;
             db.query(queryString, (err, entries) => {
               if (err) {
                 console.log(
@@ -126,9 +127,11 @@ let seedAlbums = function() {
           console.log(err);
         } else {
           for (let i = 1; i < output.length; i++) {
-            let queryString = `insert into albums (user, album_name, year_posted) VALUES ("${
+            let queryString = `insert into albums (user, album_name, year_posted, album_art) VALUES ("${
               output[i][0]
-            }", "${output[i][1]}", "${parseInt(output[i][2])}")`;
+            }", "${output[i][1]}", "${parseInt(output[i][2])}", "${
+              output[i][3]
+            }")`;
             db.query(queryString, (err, entries) => {
               if (err) {
                 console.log(err, 'there was an error saving alubms to the DB');

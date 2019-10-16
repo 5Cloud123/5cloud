@@ -21,7 +21,7 @@
   align-self: start;
 }
 
-.icon-bar {
+.year {
   color: rgb(182, 174, 174);
   justify-self: start;
   grid-column: 2;
