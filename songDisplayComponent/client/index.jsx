@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 
 // Calculate relative date posted
-calculateDatePosted = (dateInteger) => {
+const calculateDatePosted = (dateInteger) => {
   const today = Date.now();
   const daysSince = Math.round((today - dateInteger) / (1000 * 60 * 60 * 24));
   // If in years, record years
@@ -46,6 +46,17 @@ calculateDatePosted = (dateInteger) => {
   }
 };
 
+// Calculate the playback time in mm:ss
+const calculateMMSS = (seconds) => {
+  var secondsInt = parseInt(seconds, 10);
+  var minutes = Math.floor(secondsInt / 60) % 60;
+  var seconds = secondsInt % 60;
+
+  seconds = seconds < 10 ? '0' + seconds : seconds;
+
+  return [minutes, seconds].filter((v, i) => v !== '00' || i > 0).join(':');
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -53,20 +64,21 @@ class App extends React.Component {
     // Set state - mostly revolves around current song playing
     this.state = {
       // Song Audio is a JS Audio object
-      currentSongAudio: null,
+      currentSongAudio: new Audio(),
       // Store current song's metadata
       currentSongObj: {
-        lengthString: 'Please choose a song first!',
-        currentTime: 0,
-        song_url: '',
         Id: 0,
-        song_id: '',
+        song_id: 'Song_00000',
         song_name: '',
         artist_name: '',
-        upload_time: 0,
+        upload_time: '',
         tag: '',
-        background_light: '[0, 0, 0]',
-        background_dark: '(204, 119, 50)',
+        song_art_url: '',
+        song_data_url: '',
+        background_light: '(168, 12, 20)',
+        background_dark: '(68, 76, 60)',
+        currentTime: 0,
+        currentTimeMMSS: '00',
       },
       songQueueAudio: [],
       songQueueObjects: [],
@@ -183,17 +195,20 @@ class App extends React.Component {
       const {songQueueAudio, songQueueObjects} = this.state;
       const songAudio = songQueueAudio.pop();
       const songObj = songQueueObjects.pop();
+      // Set current playback time to 0
+      songObj.currentTime = 0;
+      songObj.currentTimeMMSS = calculateMMSS(
+        songObj.currentSongObj.currentTime
+      );
       // Stop current song's playback
       this.pauseSong();
       this.setState(
-        (state) => {
-          return {
-            currentSongAudio: songAudio,
-            songQueueAudio: songQueueAudio,
-            songQueueObjects: songQueueObjects,
-            timerIntervalID: null,
-            currentSongObj: songObj,
-          };
+        {
+          currentSongAudio: songAudio,
+          songQueueAudio: songQueueAudio,
+          songQueueObjects: songQueueObjects,
+          timerIntervalID: null,
+          currentSongObj: songObj,
         },
         // Then, update song length on page
         () => {
@@ -288,6 +303,9 @@ class App extends React.Component {
       const {currentSongObj} = this.state;
       // Save timer as integer in state
       currentSongObj.currentTime = Math.floor(currentTime + 1);
+      currentSongObj.currentTimeMMSS = calculateMMSS(
+        currentSongObj.currentTime
+      );
       return {
         currentSongObj,
       };
@@ -326,21 +344,6 @@ class App extends React.Component {
       currentSongObj: newSongObj,
       currentSongAudio: newSongAudio,
     });
-    // this.setState(
-    //   (state) => {
-    //     state.currentSongAudio.currentTime = event.target.value;
-    //     return {
-    //       currentTime: event.target.value,
-    //       // currentSongAudio: state.currentSongAudio,
-    //     };
-    //   },
-    //   () => {
-    //     console.log(
-    //       `New currentTime: ${this.state.currentSongObj.currentTime}`
-    //     );
-    //   }
-    // );
-    console.log(event.target.value);
   }
 
   // Render App component
@@ -348,6 +351,7 @@ class App extends React.Component {
     const {playButtonState} = this.state;
     const {
       currentTime,
+      currentTimeMMSS,
       lengthString,
       artist_name,
       song_name,
@@ -357,6 +361,7 @@ class App extends React.Component {
     } = this.state.currentSongObj;
     const currentSongAudio = this.state.currentSongAudio || 60;
     const length = currentSongAudio.duration || 60;
+    console.log(currentTimeMMSS);
     return (
       <div>
         <div className='nav-bar'></div>
@@ -374,7 +379,6 @@ class App extends React.Component {
             }}
           >
             <div className='player-head'>
-              {/* <a className='play-button' onClick={this.playSong}> */}
               <div
                 className='play-button-wrapper'
                 onClick={() => {
@@ -407,18 +411,22 @@ class App extends React.Component {
             <div className='album-art'>
               <img src={song_art_url} alt='' className='album-art' />
             </div>
+            <div className='current-playback-timer-container'>
+              <div className='current-playback-timer fit-width-to-contents'>
+                {currentTimeMMSS}
+              </div>
+            </div>
             <div className='song-graph'>
-              <div className='slidecontainer'>
+              <div className='playback-slider-container'>
                 <input
                   type='range'
                   min='0'
                   max={length}
                   value={currentTime}
                   onChange={this.handleSliderChange}
-                  className='slider'
-                  id='myRange'
+                  className='playback-slider'
                 />
-                <p>Current time: {this.state.currentSongObj.currentTime}</p>
+                <p>Current time: {currentTime}</p>
               </div>
             </div>
           </div>
