@@ -31,7 +31,8 @@
 
 .container {
   display: grid;
-  grid-template-columns: 1, 4;
+  grid-gap: 5px;
+  grid-template-columns: 40px, 160px;
   grid-template-rows: 1, 1, 1;
   width: 200px;
   margin: 20px;

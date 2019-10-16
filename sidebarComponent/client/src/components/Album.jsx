@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './styles/Album.css';
+
 let Album = props => {
   return (
     <div className={style.container}>

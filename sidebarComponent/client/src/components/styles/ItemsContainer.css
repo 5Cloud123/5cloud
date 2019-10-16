@@ -17,14 +17,10 @@
   justify-self: end;
 }
 
-.inner-container {
-  justify-self: center;
-}
-
 .master-container {
   display: grid;
   grid-template-columns: 200px;
-  grid-template-rows: 25px, auto, auto, auto, auto;
+  grid-template-rows: 25px, auto, auto, auto;
   grid-template-areas:
     'topbar'
     'item'
