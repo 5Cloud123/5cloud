@@ -434,7 +434,7 @@ class App extends React.Component {
                       #f50 ${(this.state.currentSongAudio.currentTime /
                         this.state.currentSongAudio.duration) *
                         100}%, 
-                      #666666 0%)`,
+                      #999999 0%)`,
                   }}
                 />
               </div>

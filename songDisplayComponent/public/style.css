@@ -29,6 +29,8 @@ body {
 }
 
 .inner-player-panel {
+  font-family: 'Varela Round', 'Lucida Sans Unicode', 'Lucida Sans', Garuda,
+    Verdana, Tahoma, sans-serif;
   height: 100%;
   width: 100%;
   display: inline-grid;
@@ -146,8 +148,8 @@ body {
 
 .date-posted {
   line-height: 22px;
-  color: #cccccc;
-  font-size: 1.3em;
+  color: #ffffff;
+  font-size: 1.35em;
   float: right;
 }
 
@@ -247,15 +249,3 @@ input:focus {
 #playback-center {
   height: 380px;
 }
-
-/* background: linear-gradient(
-    135deg,
-    rgb(149, 91, 78) 0%,
-    rgb(72, 55, 59) 100%
-  ); */
-/* background: linear-gradient(
-      135deg,
-      rgb(188, 113, 57) 0%,
-      rgb(57, 53, 89) 100%
-    )
-    repeat scroll 0% 0%; */
