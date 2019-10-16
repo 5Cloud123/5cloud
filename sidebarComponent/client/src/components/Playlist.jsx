@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './styles/Playlist.css';
+import style from './Playlist.css';
 
 let Playlist = props => {
   return (

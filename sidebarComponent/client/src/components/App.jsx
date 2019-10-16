@@ -2,7 +2,7 @@ import React from 'react';
 import InteractionContainer from './InteractionContainer.jsx';
 import ItemsContainer from './ItemsContainer.jsx';
 import axios from 'axios';
-import style from './styles/App.css';
+import style from './App.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -82,22 +82,30 @@ class App extends React.Component {
       <div className={style.container}>
         <span>React is working!</span>
         <ItemsContainer
+          id="related-tracks"
           type="relatedTracks"
           tracks={this.state.relatedTracks}
         />
         <ItemsContainer
+          id="inclusive-playlists"
           type="playlists"
           playlists={this.state.playlistsInclud}
         />
-        <ItemsContainer type="albums" albums={this.state.albumsInclud} />
+        <ItemsContainer
+          id="inclusive-albums"
+          type="albums"
+          albums={this.state.albumsInclud}
+        />
 
         <InteractionContainer
+          id="user-likes"
           type="likes"
           users={this.state.userLikes}
           song={this.state.currentSong}
           className="interaction-container"
         />
         <InteractionContainer
+          id="user-reposts"
           type="reposts"
           users={this.state.userReposts}
           song={this.state.currentSong}

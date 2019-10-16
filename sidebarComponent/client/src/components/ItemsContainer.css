@@ -1,7 +1,10 @@
 .topbar {
+  display: grid;
   grid-area: topbar;
   justify-self: center;
   color: rgb(182, 174, 174);
+  grid-template-columns: 100px, 200px;
+  width: 300px;
 }
 
 .item {
@@ -10,21 +13,23 @@
 }
 
 .descriptor {
+  grid-column: 1;
   justify-self: start;
 }
 
 .view {
+  grid-column: 2;
   justify-self: end;
 }
 
 .master-container {
   display: grid;
-  grid-template-columns: 200px;
+  grid-template-columns: 300px;
   grid-template-rows: 25px, auto, auto, auto;
   grid-template-areas:
     'topbar'
     'item'
     'item'
     'item';
-  justify-items: center;
+  justify-items: start;
 }

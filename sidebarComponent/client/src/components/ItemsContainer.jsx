@@ -2,7 +2,7 @@ import React from 'react';
 import Song from './Song.jsx';
 import Album from './Album.jsx';
 import Playlist from './Playlist.jsx';
-import style from './styles/ItemsContainer.css';
+import style from './ItemsContainer.css';
 
 let ItemsContainer = props => {
   if (props.type === 'relatedTracks') {
@@ -17,8 +17,8 @@ let ItemsContainer = props => {
         <div className={style['master-container']}>
           <div className={style.topbar}>
             <i className="tracks-icon top-bar-icon"></i>
-            <span>Related tracks</span>
-            <span>View all</span>
+            <span className={style.descriptor}>Related tracks</span>
+            <span className={style.view}>View all</span>
           </div>
 
           <div>
@@ -44,8 +44,8 @@ let ItemsContainer = props => {
         <div className={style['master-container']}>
           <div className={style.topbar}>
             <i className="playlists-icon top-bar-icon"></i>
-            <span>In Playlists</span>
-            <span>View all</span>
+            <span className={style.descriptor}>In Playlists</span>
+            <span className={style.view}>View all</span>
           </div>
 
           <div>
