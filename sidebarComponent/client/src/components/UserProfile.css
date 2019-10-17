@@ -1,12 +1,14 @@
 .container {
-  background: blanchedalmond;
   position: absolute;
-  bottom: 50px;
-  right: -1px;
+  bottom: 40px;
+  left: -60px;
 
-  border: solid, black;
-  height: 150px;
-  width: 100px;
+  background: white;
+  border: 0.5px solid grey;
+  height: 175px;
+  width: 150px;
+  border-radius: 5px;
+  box-shadow: 0 2px 2px 2px rgba(224, 221, 221, 0.795);
 
   display: grid;
   justify-items: center;
@@ -14,8 +16,8 @@
 }
 
 .art {
-  height: 75px;
-  width: 75px;
+  height: 85px;
+  width: 85px;
   border-radius: 50%;
 }
 

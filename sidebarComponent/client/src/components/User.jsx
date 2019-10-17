@@ -1,5 +1,7 @@
 import React from 'react';
 import UserProfile from './UserProfile.jsx';
+import Triangle from './Triangle.jsx';
+import TriangleBorder from './TriangleBorder.jsx';
 import style from './User.css';
 
 class User extends React.Component {
@@ -17,14 +19,15 @@ class User extends React.Component {
 
   render() {
     return (
-      <div className={style.container}>
+      <div
+        onMouseEnter={this.toggleHover}
+        onMouseLeave={this.toggleHover}
+        className={style.container}
+      >
+        {this.state.hoverState && <TriangleBorder />}
+        {this.state.hoverState && <Triangle />}
         {this.state.hoverState && <UserProfile user={this.props.user} />}
-        <img
-          onMouseEnter={this.toggleHover}
-          onMouseLeave={this.toggleHover}
-          className={style.avatar}
-          src="./assets/pictures/sample.jpg"
-        />
+        <img className={style.avatar} src="./assets/pictures/sample.jpg" />
       </div>
     );
   }
