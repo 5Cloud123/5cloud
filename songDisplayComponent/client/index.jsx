@@ -103,12 +103,15 @@ class App extends React.Component {
     this.initialGetThreeSongs = this.initialGetThreeSongs.bind(this);
     this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
     this.handleSliderChange = this.handleSliderChange.bind(this);
+    this.drawWaveform = this.drawWaveform.bind(this);
   }
 
   // On mount, get some songs from S3; set interval to get more songs
   componentDidMount() {
     // GET songs from db
     this.initialGetThreeSongs();
+    // Draw waveform playback chart
+    this.drawWaveform();
     // Set listener to get more songs if user has fewer than two songs enqueued
     setInterval(() => {
       if (this.state.songQueueAudio.length < 2) {
@@ -343,6 +346,206 @@ class App extends React.Component {
       test: event.target.value,
       currentSongObj: newSongObj,
       currentSongAudio: newSongAudio,
+    });
+  }
+
+  // Draw playback waveform bar chart
+  drawWaveform() {
+    const original_data = [
+      0.6157,
+      -0.4084,
+      0.4852,
+      -0.5296,
+      0.7393,
+      -0.6626,
+      0.3654,
+      -0.2828,
+      0.3764,
+      -0.4759,
+      0.4668,
+      -0.7951,
+      0.3452,
+      -0.8178,
+      0.6591,
+      -0.4974,
+      0.5071,
+      -0.5872,
+      0.3315,
+      -0.5569,
+      0.5396,
+      -0.4845,
+      0.2549,
+      -0.3358,
+      0.32,
+      -0.6181,
+      0.6609,
+      -0.4872,
+      0.4861,
+      -0.5082,
+      0.3799,
+      -0.3697,
+      0.4358,
+      -0.4776,
+      0.5776,
+      -0.607,
+      0.6248,
+      -0.6032,
+      0.5256,
+      -0.4408,
+      0.4318,
+      -0.4871,
+      0.6427,
+      -0.2752,
+      0.4952,
+      -0.4972,
+      0.7562,
+      -0.5539,
+      0.4705,
+      -0.2678,
+      0.2164,
+      -0.1623,
+      0.0475,
+      -0.0148,
+      0.9491,
+      -0.9433,
+      0.9479,
+      -0.355,
+      0.4487,
+      -0.6436,
+      0.471,
+      -0.2907,
+      0.5526,
+      -0.6676,
+      0.8398,
+      -0.7252,
+      0.8033,
+      -0.3457,
+      0.8944,
+      -0.497,
+      0.4224,
+      -0.29,
+      0.3149,
+      -0.3456,
+      0.3944,
+      -0.3731,
+      0.2089,
+      -0.1773,
+      0.1341,
+      -0.1305,
+      0.0437,
+      -0.0411,
+      0.0375,
+      -0.0187,
+      0.0116,
+      -0.0263,
+      0.0042,
+      -0.0063,
+      0.0012,
+      -0.0015,
+      0.001,
+      -0.001,
+      0.0004,
+      -0.0006,
+      0.0001,
+      -0.0001,
+      0.0001,
+      -0.0002,
+      0,
+      -0.0001,
+      0,
+      -0.0001,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ];
+    const positiveValues = [];
+    const negativeValues = [];
+
+    // Calculate all positive, negative values
+    for (let i = 0; i < original_data.length - 2; i++) {
+      // Add full-size bars to positive values
+      // Add 1/5-size bars to negative values
+      if (original_data[i] >= 0) {
+        positiveValues.push(original_data[i]);
+        negativeValues.push(-(original_data[i] + original_data[i + 2]) / 10);
+      } else {
+        positiveValues.push(-(original_data[i] + original_data[i + 2]) / 2);
+        negativeValues.push(original_data[i] / 5);
+      }
+    }
+
+    // Get empty labels (this allows us to have multiple bars in chart)
+    const xValues = original_data.map((value) => '');
+
+    // Get chart element
+    const ctx = document.getElementById('playback-chart').getContext('2d');
+
+    // Create color gradient
+    const gradientStroke = ctx.createLinearGradient(50, 0, 60, 0);
+    gradientStroke.addColorStop(0, '#f50');
+    gradientStroke.addColorStop(1, '#999999');
+
+    // Create data objects
+    var positiveData = {
+      data: positiveValues,
+      backgroundColor: gradientStroke,
+      // backgroundColor: 'rgb(255, 99, 132)',
+    };
+
+    var negativeData = {
+      data: negativeValues,
+      backgroundColor: gradientStroke,
+      // backgroundColor: 'rgb(255, 99, 132)',
+    };
+
+    // Create bar chart
+    const myBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: xValues,
+        datasets: [positiveData, negativeData],
+      },
+      options: {
+        animation: {
+          duration: 0,
+          onProgress: () => {},
+          onComplete: () => {},
+        },
+        scales: {
+          xAxes: [
+            {
+              stacked: true,
+              gridLines: {
+                color: 'rgba(0, 0, 0, 0)',
+                drawBorder: false,
+              },
+              ticks: {
+                display: false, //this will remove only the label
+              },
+            },
+          ],
+          yAxes: [
+            {
+              stacked: false,
+              gridLines: {
+                color: 'rgba(0, 0, 0, 0)',
+                drawBorder: false,
+              },
+              ticks: {
+                display: false,
+              },
+            },
+          ],
+        },
+        legend: {
+          display: false,
+        },
+      },
     });
   }
 
