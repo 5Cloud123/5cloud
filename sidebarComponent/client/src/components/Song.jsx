@@ -9,7 +9,10 @@ let Song = props => {
       <div className={style.title}>{props.track.song_name}</div>
       <div className={style['icon-bar']}>
         <span>{props.track.play_count}</span>
-        <span>{props.track.like_count}</span>
+        <span className={style.likes}>
+          <img className={style['like-icon']} />
+          {props.track.like_count}
+        </span>
         <span>{props.track.repost_count}</span>
         <span>{props.track.comment_count}</span>
       </div>

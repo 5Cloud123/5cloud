@@ -17,7 +17,7 @@ let ItemsContainer = props => {
         <div className={style['master-container']}>
           <div className={style.topbar}>
             <i className="tracks-icon top-bar-icon"></i>
-            <span className={style.descriptor}>Related tracks</span>
+            <span className={style.descriptor}>Related Tracks</span>
             <span className={style.view}>View all</span>
           </div>
 
