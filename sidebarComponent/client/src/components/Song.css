@@ -3,22 +3,16 @@
   width: 50px;
   grid-column: 1;
   grid-row: 1 / span 3;
+  margin: 0 10px 0 0;
 }
 
 .username {
   color: rgb(182, 174, 174);
-  justify-self: start;
-  grid-column: 2;
-  grid-row: 1;
-  align-self: start;
 }
 
 .title {
   color: rgb(182, 174, 174);
-  justify-self: start;
-  grid-column: 2;
-  grid-row: 2;
-  align-self: start;
+  margin-bottom: 3px;
 }
 .plays {
   margin: 7px;
@@ -40,13 +34,9 @@
   display: flexbox;
   flex-flow: row;
   flex-grow: 1;
-  justify-content: space-around;
+  justify-content: flex-start;
 
   color: rgb(182, 174, 174);
-  justify-self: start;
-  grid-column: 2;
-  grid-row: 3;
-  align-self: start;
 }
 
 .like-icon {
@@ -55,9 +45,19 @@
   height: 16px;
 }
 
+.info {
+  display: flex-box;
+  flex-flow: column;
+  justify-content: space-evenly;
+  grid-column: 2;
+  justify-self: end;
+  align-content: center;
+  width: 220px;
+}
+
 .container {
   display: grid;
-  grid-gap: 5px;
+  grid-gap: 10px;
   grid-template-columns: 40px, 160px;
   grid-template-rows: 1, 1, 1;
   width: 200px;

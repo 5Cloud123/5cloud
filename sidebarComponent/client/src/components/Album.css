@@ -3,33 +3,34 @@
   width: 50px;
   grid-column: 1;
   grid-row: 1 / span 3;
+  margin: 0 10px 0 0;
 }
 
 .username {
   color: rgb(182, 174, 174);
-  justify-self: start;
-  grid-column: 2 / span 5;
-  grid-row: 1;
 }
 
 .title {
   color: rgb(182, 174, 174);
-  justify-self: start;
-  grid-column: 2 / span 5;
-  grid-row: 2;
 }
 
 .year {
   color: rgb(182, 174, 174);
-  justify-self: start;
-  grid-column: 2 / span 5;
-  grid-row: 3;
 }
 
+.info {
+  display: flex-box;
+  flex-flow: column;
+  justify-content: space-evenly;
+  grid-column: 2;
+  justify-self: end;
+  align-content: center;
+  width: 220px;
+}
 .container {
   display: grid;
-  grid-gap: 5px;
-  grid-template-columns: 40px, 40px, 40px, 40px, 40px;
+  grid-gap: 10px;
+  grid-template-columns: 40px, 160px;
   grid-template-rows: 1, 1, 1;
   width: 200px;
   margin: 20px;

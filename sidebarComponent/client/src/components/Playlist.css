@@ -1,8 +1,9 @@
 .art {
   height: 50px;
   width: 50px;
-  grid-column: 1 / span 1;
+  grid-column: 1;
   grid-row: 1 / span 3;
+  margin: 0 10px 0 0;
 }
 
 .username {
@@ -20,20 +21,28 @@
   margin: 7px;
 }
 
+.info {
+  display: flex-box;
+  flex-flow: column;
+  justify-content: space-evenly;
+  grid-column: 2;
+  justify-self: end;
+  align-content: center;
+  width: 220px;
+}
 .icon-bar {
   display: flexbox;
   flex-flow: row;
   flex-grow: 1;
-  justify-content: space-around;
+  justify-content: flex-start;
+
   color: rgb(182, 174, 174);
-  justify-self: start;
-  grid-row: 3;
 }
 .container {
   display: grid;
-  grid-template-columns: 40px, 40px, 40px, 40px, 40px;
-  grid-gap: 5px;
+  grid-template-columns: 40px, 160px;
   grid-template-rows: 1, 1, 1;
+  grid-gap: 10px;
   width: 200px;
   margin: 20px;
 }
