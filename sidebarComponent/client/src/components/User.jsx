@@ -22,6 +22,9 @@ class User extends React.Component {
   render() {
     return (
       <div
+        style={{
+          zIndex: this.props.z
+        }}
         onMouseEnter={this.toggleHover}
         onMouseLeave={this.toggleHover}
         className={style.container}

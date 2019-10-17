@@ -13,8 +13,8 @@ let InteractionContainer = props => {
           <span className={style.view}>View All</span>
         </div>
         <div>
-          {props.users.map(user => {
-            return <User key={user.id} user={user} />;
+          {props.users.map((user, index) => {
+            return <User key={user.id} user={user} z={index} />;
           })}
         </div>
       </div>

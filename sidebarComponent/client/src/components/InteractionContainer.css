@@ -23,6 +23,6 @@
   grid-template-areas:
     'topbar'
     'item';
-  justify-items: start;
+  justify-items: center;
   width: 300px;
 }
