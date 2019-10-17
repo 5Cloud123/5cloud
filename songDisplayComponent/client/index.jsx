@@ -88,7 +88,7 @@ class App extends React.Component {
       timerIntervalID: null,
       playButtonState: 'play',
       // Record ids of songs already played
-      songsPlayedIDs: new Set(),
+      songsPlayedIDs: new Set()
     };
 
     // Bind functions to this
@@ -193,7 +193,7 @@ class App extends React.Component {
   playNextFromQueue() {
     // If queue has songs, get the next one
     if (this.state.songQueueAudio.length) {
-      const {songQueueAudio, songQueueObjects} = this.state;
+      const { songQueueAudio, songQueueObjects } = this.state;
       const songAudio = songQueueAudio.pop();
       const songObj = songQueueObjects.pop();
       // Set current playback time to 0
@@ -251,11 +251,11 @@ class App extends React.Component {
       }
     }
     // Save to state
-    this.setState((state) => {
-      const {currentSongObj} = state;
+    this.setState(state => {
+      const { currentSongObj } = state;
       currentSongObj.lengthString = length;
       return {
-        currentSongObj,
+        currentSongObj
       };
     });
   }
@@ -289,7 +289,7 @@ class App extends React.Component {
   pauseSong() {
     if (this.state.currentSongAudio) {
       // Change play button to pause button
-      this.setState({playButtonState: 'play'});
+      this.setState({ playButtonState: 'play' });
       this.state.currentSongAudio.pause();
       // Stop song timer
       this.stopTimer();
@@ -299,15 +299,15 @@ class App extends React.Component {
   // Increment the current song's timer every second
   incrementTimer() {
     const currentTime = this.state.currentSongAudio.currentTime;
-    this.setState((state) => {
-      const {currentSongObj} = this.state;
+    this.setState(state => {
+      const { currentSongObj } = this.state;
       // Save timer as integer in state
       currentSongObj.currentTime = Math.floor(currentTime + 1);
       currentSongObj.currentTimeMMSS = calculateMMSS(
         currentSongObj.currentTime
       );
       return {
-        currentSongObj,
+        currentSongObj
       };
     });
   }
@@ -318,7 +318,7 @@ class App extends React.Component {
     const timerIntervalID = setInterval(this.incrementTimer, 1000);
     // Record id of interval
     this.setState({
-      timerIntervalID,
+      timerIntervalID
     });
   }
 
@@ -379,7 +379,7 @@ class App extends React.Component {
           >
             <div className='player-head'>
               <div
-                className='play-button-wrapper'
+                className="play-button-wrapper"
                 onClick={() => {
                   if (playButtonState === 'play') {
                     this.playSong();

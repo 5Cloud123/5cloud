@@ -1,0 +1,5 @@
+node_modules
+
+# .mp3 files, images
+Public/Assets/
+Public/bundle.js
