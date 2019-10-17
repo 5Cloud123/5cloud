@@ -61,7 +61,7 @@ body {
 .song-player {
   display: inline-grid;
   grid-template-columns: [player-col1] auto [player-col2] 25px;
-  grid-template-rows: [player-row1] 80% [player-row2] 20%;
+  grid-template-rows: [player-row1] 80% [player-row2] 20% [player-row3] 1px;
   grid-column-start: inner-col2;
   grid-column-end: inner-col4;
   grid-row-start: inner-row3;
@@ -172,22 +172,27 @@ body {
   -webkit-appearance: none; /* Override default CSS styles */
   appearance: none;
   width: 100%;
-  height: 5px;
+  height: 0px;
   border-bottom: 1px solid #000000;
   min-width: 450px;
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
 }
 
-.playback-slider::-webkit-slider-thumb {
-  /* TODO UNCOMMENT */
+/* Hide the slider */
+input[type='range']::-moz-range-thumb {
   -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 0;
+  height: 0;
+  color: transparent;
+  background-color: transparent;
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+input[type='range']::-ms-thumb {
   appearance: none;
-  width: 10px;
-  height: 10px;
-  border-radius: 3px;
-  background: transparent;
-  cursor: pointer;
 }
 
 /* Remove focus highlighting */
@@ -212,6 +217,7 @@ input:focus {
   /* Keep on top */
   z-index: 2;
   font-size: 0.85em;
+  z-index: 999;
 }
 
 .total-song-length-container {
@@ -230,19 +236,18 @@ input:focus {
   /* Keep on top */
   z-index: 2;
   font-size: 0.85em;
+  z-index: 999;
 }
 
 .waveform-container {
-  height: 200px;
   grid-column-start: player-col1;
   grid-row-start: player-row1;
   grid-row-end: player-row3;
 }
 
 .waveform {
-  height: 200px;
+  max-height: 100%;
   width: 100%;
-  background-color: #f50;
 }
 
 .user-image {

@@ -523,6 +523,8 @@ class App extends React.Component {
         datasets: [positiveData, negativeData],
       },
       options: {
+        tooltips: {enabled: false},
+        hover: {mode: null},
         animation: {
           duration: 0,
           onProgress: () => {},
@@ -531,6 +533,7 @@ class App extends React.Component {
         scales: {
           xAxes: [
             {
+              display: false,
               stacked: true,
               gridLines: {
                 color: 'rgba(0, 0, 0, 0)',
@@ -668,9 +671,14 @@ class App extends React.Component {
                 className='waveform-container'
                 ref={(divElement) => (this.divElement = divElement)}
               >
-                <canvas id='playback-chart' ref='canvas'></canvas>
+                <canvas
+                  id='playback-chart'
+                  ref='canvas'
+                  className='waveform'
+                ></canvas>
               </div>
-              <div className='playback-slider-container'>
+              {/* TODO REMOVE SLIDER */}
+              {/* <div className='playback-slider-container'>
                 <input
                   type='range'
                   min='0'
@@ -687,7 +695,7 @@ class App extends React.Component {
                       #999999 0%)`,
                   }}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
