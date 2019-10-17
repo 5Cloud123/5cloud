@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-import * as React from 'react';
+import React from 'react';
 const axios = require('axios');
 
 // Calculate relative date posted
