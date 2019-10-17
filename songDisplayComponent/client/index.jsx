@@ -1,3 +1,62 @@
+/* eslint-disable camelcase */
+
+// Calculate relative date posted
+const calculateDatePosted = (dateInteger) => {
+  const today = Date.now();
+  const daysSince = Math.round((today - dateInteger) / (1000 * 60 * 60 * 24));
+  // If in years, record years
+  if (548 > daysSince >= 350) {
+    return `${Math.round(daysSince / 365, 0)} year ago`;
+  }
+  if (daysSince >= 350) {
+    return `${Math.round(daysSince / 365, 0)} years ago`;
+  }
+  // If in months, record months
+  if (45 > daysSince >= 27) {
+    return `${Math.round(daysSince / 30, 0)} month ago`;
+  }
+  if (daysSince >= 27) {
+    return `${Math.round(daysSince / 30, 0)} months ago`;
+  }
+  // If in weeks, record weeks
+  if (daysSince === 7) {
+    return `${Math.round(daysSince / 7, 0)} week ago`;
+  }
+  if (daysSince >= 6) {
+    return `${Math.round(daysSince / 7, 0)} weeks ago`;
+  }
+  // If in days, record days
+  if (daysSince === 1) {
+    return `${Math.round(daysSince, 0)} day ago`;
+  }
+  if (daysSince > 1) {
+    return `${Math.round(daysSince, 0)} days ago`;
+  }
+  // If in hours, record hours
+  if (daysSince >= 1 / 24) {
+    return `${Math.round(daysSince / 24, 1)} hours ago`;
+  }
+  // If in minutes, record minutes
+  if (daysSince >= 1 / 1440) {
+    return `${Math.round(daysSince / 1440, 0)} minutes ago`;
+  }
+  // If in seconds, record < 1 minute
+  if (daysSince <= 1 / 1440) {
+    return 'Less than a minute ago';
+  }
+};
+
+// Calculate the playback time in mm:ss
+const calculateMMSS = (seconds) => {
+  var secondsInt = parseInt(seconds, 10);
+  var minutes = Math.floor(secondsInt / 60) % 60;
+  var seconds = secondsInt % 60;
+
+  seconds = seconds < 10 ? '0' + seconds : seconds;
+
+  return [minutes, seconds].filter((v, i) => v !== '00' || i > 0).join(':');
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -5,48 +64,35 @@ class App extends React.Component {
     // Set state - mostly revolves around current song playing
     this.state = {
       // Song Audio is a JS Audio object
-      currentSongAudio: null,
+      currentSongAudio: new Audio(),
       // Store current song's metadata
       currentSongObj: {
-        lengthString: 'Please choose a song first!',
+        Id: 0,
+        song_id: 'Song_00000',
+        song_name: '',
+        artist_name: '',
+        upload_time: '',
+        tag: '',
+        song_art_url: '',
+        song_data_url: '',
+        background_light: '(168, 12, 20)',
+        background_dark: '(68, 76, 60)',
         currentTime: 0,
-        name: 'Flicker',
-        URL: './Assets/flicker.mp3',
-        artist: 'Porter Robinson'
+        currentTimeMMSS: '00',
+        durationMMSS: '00:00',
       },
       songQueueAudio: [],
       songQueueObjects: [],
-      // TODO Song objects hard-coded for now; will be replaced with MySQL data
-      songObjs: [
-        {
-          lengthString: 'Please choose a song first!',
-          currentTime: 0,
-          name: 'Flicker',
-          URL: './Assets/flicker.mp3',
-          artist: 'Porter Robinson'
-        },
-        {
-          lengthString: 'Please choose a song first!',
-          currentTime: 0,
-          name: 'All I Got',
-          URL: './Assets/All_I_got.mp3',
-          artist: 'Said The Sky'
-        },
-        {
-          lengthString: 'Please choose a song first!',
-          currentTime: 0,
-          name: 'Say My Name',
-          URL: './Assets/Say_My_Name.mp3',
-          artist: 'Odesza'
-        }
-      ],
+      songObjs: [],
       // Store ID of interval for timer
       timerIntervalID: null,
-      playButtonState: 'play'
+      playButtonState: 'play',
+      // Record ids of songs already played
+      songsPlayedIDs: new Set(),
     };
 
     // Bind functions to this
-    this.handleSongChoice = this.handleSongChoice.bind(this);
+    this.setState = this.setState.bind(this);
     this.recordNextSongsLength = this.recordNextSongsLength.bind(this);
     this.playSong = this.playSong.bind(this);
     this.pauseSong = this.pauseSong.bind(this);
@@ -54,75 +100,126 @@ class App extends React.Component {
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
     this.playNextFromQueue = this.playNextFromQueue.bind(this);
-    this.enqueueSong = this.enqueueSong.bind(this);
+    this.initialGetThreeSongs = this.initialGetThreeSongs.bind(this);
+    this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
+    this.handleSliderChange = this.handleSliderChange.bind(this);
   }
 
-  // On mount, enqueue all current songs
-  // TODO - replace hard-coded songs with songs from MySQL
+  // On mount, get some songs from S3; set interval to get more songs
   componentDidMount() {
-    // Enqueue all songs
-    for (let i = 0; i < this.state.songObjs.length; i++) {
-      const songObj = this.state.songObjs[i];
-      this.enqueueSong(songObj);
-    }
+    // GET songs from db
+    this.initialGetThreeSongs();
+    // Set listener to get more songs if user has fewer than two songs enqueued
+    setInterval(() => {
+      if (this.state.songQueueAudio.length < 2) {
+        console.log('loading more songs!');
+        this.backgroundGetThreeSongs();
+      }
+    }, 10000);
   }
 
-  // Add Audio objects of songs to queue; this preloads the songs for playback
-  enqueueSong(songObj) {
-    const song = new Audio(songObj.URL);
-    const { songQueueAudio, songQueueObjects } = this.state;
-    songQueueAudio.push(song);
-    songQueueObjects.push(songObj);
-    this.setState({
-      songQueueAudio,
-      songQueueObjects
-    });
+  // Get three songs loaded from AWS
+  initialGetThreeSongs() {
+    axios
+      .get('http://localhost:5001/three-songs')
+      .then((response) => {
+        const songObjs = response.data;
+        // Create first song's audio file
+        const firstSongObj = songObjs.pop();
+        firstSongObj.date_posted = calculateDatePosted(
+          firstSongObj.upload_time
+        );
+        const firstSongAudio = new Audio(firstSongObj.song_data_url);
+        // Set to state then do the same for the rest of the songs
+        this.setState(
+          {
+            currentSongObj: firstSongObj,
+            currentSongAudio: firstSongAudio,
+          },
+          () => {
+            // Create Audio object for remaining songs
+            const remainingSongsAudio = [];
+            for (let i = 0; i < songObjs.length; i++) {
+              songObjs[i].date_posted = calculateDatePosted(
+                songObjs[i].upload_time
+              );
+              remainingSongsAudio.push(new Audio(songObjs[i].song_data_url));
+            }
+            // Set state with new audio objects, song objects
+            this.setState({
+              songQueueAudio: remainingSongsAudio,
+              songQueueObjects: songObjs,
+            });
+          }
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  // Get one song loaded from AWS
+  backgroundGetThreeSongs() {
+    axios
+      .get('http://localhost:5001/three-songs')
+      .then((response) => {
+        const songObjs = response.data;
+        // Create Audio object for remaining songs
+        const remainingSongsAudio = [];
+        const remainingSongsObjs = [];
+        for (let i = 0; i < songObjs.length; i++) {
+          // Only process, enqueue songs not yet played
+          if (!this.state.songsPlayedIDs.has(songObjs.song_id)) {
+            // Convert date posted to relative data posted
+            songObjs[i].date_posted = calculateDatePosted(
+              songObjs[i].upload_time
+            );
+            remainingSongsAudio.push(new Audio(songObjs[i].song_data_url));
+            remainingSongsObjs.push(songObjs[i]);
+          }
+        }
+        // Set state with new audio objects, song objects
+        this.setState({
+          songQueueAudio: remainingSongsAudio,
+          songQueueObjects: remainingSongsObjs,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   // Remove song from Audio and Obj queues; set to current song in state
   playNextFromQueue() {
     // If queue has songs, get the next one
     if (this.state.songQueueAudio.length) {
-      const { songQueueAudio, songQueueObjects } = this.state;
+      const {songQueueAudio, songQueueObjects} = this.state;
       const songAudio = songQueueAudio.pop();
       const songObj = songQueueObjects.pop();
+      // Set current playback time to 0
+      songObj.currentTime = 0;
+      songObj.currentTimeMMSS = calculateMMSS(songObj.currentTime);
+      songObj.durationMMSS = calculateMMSS(songAudio.duration);
       // Stop current song's playback
       this.pauseSong();
       this.setState(
-        state => {
-          return {
-            currentSongAudio: songAudio,
-            songQueueAudio: songQueueAudio,
-            songQueueObjects: songQueueObjects,
-            timerIntervalID: null,
-            currentSongObj: songObj
-          };
+        {
+          currentSongAudio: songAudio,
+          songQueueAudio: songQueueAudio,
+          songQueueObjects: songQueueObjects,
+          timerIntervalID: null,
+          currentSongObj: songObj,
         },
         // Then, update song length on page
         () => {
-          this.recordNextSongsLength(songAudio);
+          // this.recordNextSongsLength(songAudio);
           // Start current song's playback
           this.playSong();
         }
       );
     } else {
-      alert('No songs in queue. Please enqueue some songs!');
+      this.initialGetThreeSongs();
     }
-  }
-
-  // Handle user's selecting song from dropdown box
-  handleSongChoice(event) {
-    const songAudio = new Audio(event.target.value);
-    // Store song in state when it is buffered (ready to play)
-    songAudio.addEventListener('canplay', () => {
-      // Pause current song's playback
-      this.pauseSong();
-      this.recordNextSongsLength(songAudio);
-      this.setState({ currentSongAudio: songAudio }, () => {
-        // Start new song's playback
-        this.playSong();
-      });
-    });
   }
 
   // Calculate a song's length in format MM:SS; save in state
@@ -154,11 +251,11 @@ class App extends React.Component {
       }
     }
     // Save to state
-    this.setState(state => {
-      const { currentSongObj } = state;
+    this.setState((state) => {
+      const {currentSongObj} = state;
       currentSongObj.lengthString = length;
       return {
-        currentSongObj
+        currentSongObj,
       };
     });
   }
@@ -167,10 +264,24 @@ class App extends React.Component {
   playSong() {
     if (this.state.currentSongAudio) {
       // Change play button to pause button
-      this.setState({ playButtonState: 'pause' });
-      this.state.currentSongAudio.play();
-      // Start song timer
-      this.startTimer();
+      this.setState({playButtonState: 'pause'}, () => {
+        this.state.currentSongAudio.play();
+        // Listen for song to finish
+        this.state.currentSongAudio.addEventListener('ended', () => {
+          // Start next song
+          this.playNextFromQueue();
+        });
+        // Start song timer
+        this.startTimer();
+        // Record song as having been played
+        this.setState((state) => {
+          return {
+            songsPlayedIDs: state.songsPlayedIDs.add(
+              state.currentSongObj.song_id
+            ),
+          };
+        });
+      });
     }
   }
 
@@ -178,7 +289,7 @@ class App extends React.Component {
   pauseSong() {
     if (this.state.currentSongAudio) {
       // Change play button to pause button
-      this.setState({ playButtonState: 'play' });
+      this.setState({playButtonState: 'play'});
       this.state.currentSongAudio.pause();
       // Stop song timer
       this.stopTimer();
@@ -188,12 +299,15 @@ class App extends React.Component {
   // Increment the current song's timer every second
   incrementTimer() {
     const currentTime = this.state.currentSongAudio.currentTime;
-    this.setState(state => {
-      const { currentSongObj } = this.state;
+    this.setState((state) => {
+      const {currentSongObj} = this.state;
       // Save timer as integer in state
       currentSongObj.currentTime = Math.floor(currentTime + 1);
+      currentSongObj.currentTimeMMSS = calculateMMSS(
+        currentSongObj.currentTime
+      );
       return {
-        currentSongObj
+        currentSongObj,
       };
     });
   }
@@ -204,7 +318,7 @@ class App extends React.Component {
     const timerIntervalID = setInterval(this.incrementTimer, 1000);
     // Record id of interval
     this.setState({
-      timerIntervalID
+      timerIntervalID,
     });
   }
 
@@ -216,38 +330,56 @@ class App extends React.Component {
     clearInterval(ID);
   }
 
+  // Toggle current place in song using the slider
+  handleSliderChange(event) {
+    // Save currentTime in object
+    const newSongObj = this.state.currentSongObj;
+    newSongObj.currentTime = event.target.value;
+    // Save currentTime in audio object as well
+    const newSongAudio = this.state.currentSongAudio;
+    newSongAudio.currentTime = event.target.value;
+    // Persis in state
+    this.setState({
+      test: event.target.value,
+      currentSongObj: newSongObj,
+      currentSongAudio: newSongAudio,
+    });
+  }
+
   // Render App component
   render() {
-    const { songObjs, playButtonState } = this.state;
+    const {playButtonState} = this.state;
     const {
-      name,
       currentTime,
-      lengthString,
-      artist
+      currentTimeMMSS,
+      durationMMSS,
+      artist_name,
+      song_name,
+      date_posted,
+      tag,
+      song_art_url,
     } = this.state.currentSongObj;
+    const currentSongAudio = this.state.currentSongAudio || 60;
+    const length = currentSongAudio.duration || 60;
     return (
       <div>
-        <div className="nav-bar">
-          {/* KEEP SELECTOR HERE FOR NOW - REMOVE WHEN WE CAN CHOOSE SONGS*/}
-          <select
-            name="song-select"
-            id="song-select"
-            onChange={this.handleSongChoice}
+        <div className='nav-bar'></div>
+        {/* <button id='next-song-btn' onClick={this.playNextFromQueue}>
+          Next Song
+        </button> */}
+        <div id='playbackCenter' className='outer-player-panel'>
+          <div
+            className='inner-player-panel'
+            style={{
+              background: `linear-gradient(
+                135deg,
+                rgb${this.state.currentSongObj.background_light} 0%,
+                rgb${this.state.currentSongObj.background_dark} 100%`,
+            }}
           >
-            <option></option>
-            // TODO - dynamically-render song options
-            <option value={songObjs[0].URL}>{songObjs[0].name}</option>
-            <option value={songObjs[1].URL}>{songObjs[1].name}</option>
-            <option value={songObjs[2].URL}>{songObjs[2].name}</option>
-          </select>
-        </div>
-
-        <div id="playbackCenter" className="outer-player-panel">
-          <div className="inner-player-panel">
-            <div className="player-head">
-              {/* <a className='play-button' onClick={this.playSong}> */}
+            <div className='player-head'>
               <div
-                className="play-button-wrapper"
+                className='play-button-wrapper'
                 onClick={() => {
                   if (playButtonState === 'play') {
                     this.playSong();
@@ -258,27 +390,56 @@ class App extends React.Component {
               >
                 <div className={playButtonState + '-button'}></div>
               </div>
-              <div className="artist-name-container">
-                <span className="artist-name fit-width-to-contents">
-                  {artist}
+              <div className='artist-name-container'>
+                <span className='artist-name fit-width-to-contents'>
+                  {artist_name}
                 </span>
               </div>
-              <div className="song-name-container">
-                <span className="song-name fit-width-to-contents">{name}</span>
+              <div className='song-name-container'>
+                <span className='song-name fit-width-to-contents'>
+                  {song_name}
+                </span>
               </div>
-              <div className="date-posted-container">
-                <div className="date-posted">5 years ago</div>
+              <div className='date-posted-container'>
+                <div className='date-posted'>{date_posted}</div>
               </div>
-              <div className="tags-container">
-                <div className="tags fit-width-to-contents"># Electronic</div>
+              <div className='tags-container'>
+                <div className='tags fit-width-to-contents'>{tag}</div>
               </div>
             </div>
-            <div className="album-art">
-              <img
-                src="https://i.scdn.co/image/387b19d3bc6178b7429493f9fdf4f7c8c33aabc5"
-                alt=""
-                className="album-art"
-              />
+            <div className='album-art'>
+              <img src={song_art_url} alt='' className='album-art' />
+            </div>
+            <div className='song-player'>
+              <div className='current-playback-timer-container'>
+                <div className='current-playback-timer fit-width-to-contents'>
+                  {currentTimeMMSS}
+                </div>
+              </div>
+              <div className='total-song-length-container'>
+                <div className='total-song-length'>{durationMMSS}</div>
+              </div>
+              <div className='waveform-container'>
+                <img className='waveform' src='./ChartJpg.jpg' alt='' />
+              </div>
+              <div className='playback-slider-container'>
+                <input
+                  type='range'
+                  min='0'
+                  max={length}
+                  value={currentTime}
+                  onChange={this.handleSliderChange}
+                  className='playback-slider'
+                  style={{
+                    background: `linear-gradient(
+                      90deg, 
+                      #f50 ${(this.state.currentSongAudio.currentTime /
+                        this.state.currentSongAudio.duration) *
+                        100}%, 
+                      #999999 0%)`,
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -288,24 +449,3 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.querySelector('#app'));
-
-/*
-
-        <button id='play' onClick={this.playSong}>
-          Play
-        </button>
-        <button id='pause' onClick={this.pauseSong}>
-          Pause
-        </button>
-        <button id='next-song-btn' onClick={this.playNextFromQueue}>
-          Next Song
-        </button>
-        <div id='currnet-song-name'>Current Song: {name}</div>
-        <div id='current-playback-time'>
-          Current Playback Time: {currentTime}
-        </div>
-        <div id='song-length'>Song Length: {lengthString}</div>
-          <div id='song-length'>Song Length: {lengthString}</div>
-
-
-*/

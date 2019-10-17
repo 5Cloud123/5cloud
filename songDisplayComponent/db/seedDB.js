@@ -47,7 +47,7 @@ fs.readFile(
             // Convert string time to integer time
             const intTime = Date.parse(songs[i].date_posted);
             // Create query to insert each entry's information
-            const query = `INSERT INTO songs (song_id, song_name, artist_name, upload_time, tag) VALUES ("${songs[i].song_id}", "${songs[i].song_name}", "${songs[i].artist_name}", "${intTime}", "${songs[i].tag}");`;
+            const query = `INSERT INTO songs (song_id, song_name, artist_name, upload_time, tag, song_art_url, song_data_url, background_light, background_dark) VALUES ("${songs[i].song_id}", "${songs[i].song_name}", "${songs[i].artist_name}", "${intTime}", "${songs[i].tag}", "${songs[i].song_art_url}", "${songs[i].song_data_url}", "${songs[i].background_light}", "${songs[i].background_dark}");`;
             // Insert information
             connection.query(query, (err, results, fields) => {
               if (err) {
