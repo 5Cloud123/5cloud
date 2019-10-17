@@ -6,9 +6,44 @@ import App from '../client/App';
 
 configure({adapter: new Adapter()});
 
-describe('App Test 1', () => {
+describe('Initial Load Tests', () => {
+  // Create shallow of App
+  let wrap;
   it('Renders without crashing', () => {
-    shallow(<App />);
+    wrap = shallow(<App />);
+  });
+  it('Has a play button', () => {
+    expect(wrap.containsMatchingElement(<div className='play-button'></div>));
+  });
+  it('Has a container for the song name', () => {
+    expect(
+      wrap.containsMatchingElement(<div className='song-name-container'></div>)
+    );
+  });
+  it('Has a container for the artist name', () => {
+    expect(
+      wrap.containsMatchingElement(
+        <div className='artist-name-container'></div>
+      )
+    );
+  });
+  it('Has a container for the date posted', () => {
+    expect(
+      wrap.containsMatchingElement(
+        <div className='date-posted-container'></div>
+      )
+    );
+  });
+  it('Has a container for the song tag', () => {
+    expect(
+      wrap.containsMatchingElement(<div className='tags-container'></div>)
+    );
+  });
+  it('Has a container for song art', () => {
+    expect(wrap.containsMatchingElement(<div className='album-art'></div>));
+  });
+  it('Has a container for the song playback graph/slider', () => {
+    expect(wrap.containsMatchingElement(<div className='song-player'></div>));
   });
 });
 
@@ -23,3 +58,5 @@ To do a full-rendering test that takes into account the entire component tree
 and lifecycle methods, we can test with mount()
 
 */
+
+// describe('App Test 2', () => {});
