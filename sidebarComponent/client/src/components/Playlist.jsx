@@ -9,8 +9,14 @@ let Playlist = props => {
         <div className={style.username}>{props.playlist.username}</div>
         <div className={style.title}>{props.playlist.playlist_name}</div>
         <div className={style['icon-bar']}>
-          <span className={style.likes}>{props.playlist.like_count}</span>
-          <span className={style.reposts}>{props.playlist.repost_count}</span>
+          <span className={style.likes}>
+            <img className={style['like-icon']} />
+            {props.playlist.like_count}
+          </span>
+          <span className={style.reposts}>
+            <img className={style['repost-icon']} />
+            {props.playlist.repost_count}
+          </span>
         </div>
       </div>
     </div>

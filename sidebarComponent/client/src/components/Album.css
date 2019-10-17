@@ -3,7 +3,6 @@
   width: 50px;
   grid-column: 1;
   grid-row: 1 / span 3;
-  margin: 0 10px 0 0;
 }
 
 .username {
@@ -29,7 +28,7 @@
 }
 .container {
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 15px;
   grid-template-columns: 40px, 160px;
   grid-template-rows: 1, 1, 1;
   width: 200px;

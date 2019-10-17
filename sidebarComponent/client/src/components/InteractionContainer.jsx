@@ -7,9 +7,12 @@ let InteractionContainer = props => {
     return (
       <div className={style['master-container']}>
         <div className={style.topbar}>
-          <span className={style.descriptor}>
-            {props.song.like_count} Likes
-          </span>
+          <div className={style.descriptor}>
+            <img className={style['likes-icon']} />
+            <span className={style['descriptor-text']}>
+              {props.song.like_count} Likes
+            </span>
+          </div>
           <span className={style.view}>View All</span>
         </div>
         <div>
@@ -24,9 +27,12 @@ let InteractionContainer = props => {
     return (
       <div className={style['master-container']}>
         <div className={style.topbar}>
-          <span className={style.descriptor}>
-            {props.song.repost_count} Reposts
-          </span>
+          <div className={style.descriptor}>
+            <img className={style['reposts-icon']} />
+            <span className={style['descriptor-text']}>
+              {props.song.repost_count} Reposts
+            </span>
+          </div>
           <span className={style.view}>View All</span>
         </div>
         <div>
