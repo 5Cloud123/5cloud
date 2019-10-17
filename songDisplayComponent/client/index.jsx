@@ -105,6 +105,7 @@ class App extends React.Component {
     this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
     this.handleSliderChange = this.handleSliderChange.bind(this);
     this.drawWaveform = this.drawWaveform.bind(this);
+    this.updateWaveformColor = this.updateWaveformColor.bind(this);
   }
 
   // On mount, get some songs from S3; set interval to get more songs
@@ -310,17 +311,10 @@ class App extends React.Component {
   // Increment the current song's timer every second
   incrementTimer() {
     const currentTime = this.state.currentSongAudio.currentTime;
-    this.setState((state) => {
-      const {currentSongObj} = this.state;
-      // Save timer as integer in state
-      currentSongObj.currentTime = Math.floor(currentTime + 1);
-      currentSongObj.currentTimeMMSS = calculateMMSS(
-        currentSongObj.currentTime
-      );
-      return {
-        currentSongObj,
-      };
-    });
+    const currentSongObj = this.state.currentSongObj;
+    currentSongObj.currentTime = Math.floor(currentTime + 1);
+    currentSongObj.currentTimeMMSS = calculateMMSS(currentSongObj.currentTime);
+    this.setState({currentSongObj}, this.drawWaveform);
   }
 
   // Start playback timer for current song; save interval's ID in state
@@ -567,6 +561,36 @@ class App extends React.Component {
     });
   }
 
+  // Update colors on playback waveform bar chart
+  updateWaveformColor() {
+    console.log('update waveform color called');
+    const ctx = this.refs.canvas.getContext('2d');
+    ctx.fillRect(
+      this.state.songPlayerPixelWidth *
+        (this.state.currentSongAudio.currentTime /
+          this.state.currentSongAudio.duration),
+      0,
+      this.state.songPlayerPixelWidth *
+        (this.state.currentSongAudio.currentTime /
+          this.state.currentSongAudio.duration) +
+        10,
+      0
+    );
+    const gradientStroke = ctx.createLinearGradient(
+      this.state.songPlayerPixelWidth *
+        (this.state.currentSongAudio.currentTime /
+          this.state.currentSongAudio.duration),
+      0,
+      this.state.songPlayerPixelWidth *
+        (this.state.currentSongAudio.currentTime /
+          this.state.currentSongAudio.duration) +
+        10,
+      0
+    );
+    gradientStroke.addColorStop(0, '#f50');
+    gradientStroke.addColorStop(1, '#999999');
+  }
+
   // Render App component
   render() {
     const {playButtonState} = this.state;
@@ -644,7 +668,7 @@ class App extends React.Component {
                 className='waveform-container'
                 ref={(divElement) => (this.divElement = divElement)}
               >
-                <canvas id='playback-chart'></canvas>
+                <canvas id='playback-chart' ref='canvas'></canvas>
               </div>
               <div className='playback-slider-container'>
                 <input
