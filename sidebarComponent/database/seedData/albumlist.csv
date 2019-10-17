@@ -1,6 +1,6 @@
-username,album_name,year_posted
-@helloworld,Learn2Code,2019
-@getoffmylawn,H4T3R,2018
-@heyofoyayo,AndreComeBack,2016
-@smokepurpp,Up in 'ere,2019
-@hellacool,Chic,2019
+username,album_name,year_posted,album_art
+@helloworld,Learn2Code,2019,https://i1.sndcdn.com/artworks-000606649873-5jmevx-t500x500.jpg
+@getoffmylawn,H4T3R,2018,https://i1.sndcdn.com/artworks-000599077979-erc134-t500x500.jpg
+@heyofoyayo,AndreComeBack,2016,https://i1.sndcdn.com/artworks-000562756428-o87yp5-t500x500.jpg
+@smokepurpp,Up in 'ere,2019,https://i1.sndcdn.com/artworks-000562663080-8n7i05-t500x500.jpg
+@hellacool,Chic,2019,https://i1.sndcdn.com/artworks-000492702633-fr6qlh-t500x500.jpg
