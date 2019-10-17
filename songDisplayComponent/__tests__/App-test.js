@@ -1,15 +1,11 @@
-jest.autoMockOff();
+// jest.disableAutomock();
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-const TestUtils = require('react-dom/test-utils');
+import App from '../client/App';
+import renderer from 'react-test-renderer';
 
-const App = require('../client/App');
-
-describe('App', () => {
-  it('renders the page', () => {
-    const rendered = TestUtils.renderIntoDocument(<App />);
-    const images = TestUtils.scryRenderedDOMCompnentsWithTag(rendered, 'img');
-    expect(images.length).toEqual(1);
-  });
+test('Component is rendered', () => {
+  let component = renderer.create(<App />);
+  let tree = component.toJSON();
+  expect(tree).toMatchSnapshot();
 });

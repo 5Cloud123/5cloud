@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 
-const React = require('react');
-const ReactDOM = require('react-dom');
+import * as React from 'react';
 const axios = require('axios');
 
 // Calculate relative date posted
@@ -60,8 +59,8 @@ const calculateMMSS = (seconds) => {
 
   return [minutes, seconds].filter((v, i) => v !== '00' || i > 0).join(':');
 };
-
-class App extends React.Component {
+// test
+export default class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -111,15 +110,15 @@ class App extends React.Component {
 
   // On mount, get some songs from S3; set interval to get more songs
   componentDidMount() {
-    // GET songs from db
-    this.initialGetThreeSongs();
-    // Set listener to get more songs if user has fewer than two songs enqueued
-    setInterval(() => {
-      if (this.state.songQueueAudio.length < 2) {
-        console.log('loading more songs!');
-        this.backgroundGetThreeSongs();
-      }
-    }, 10000);
+    // // GET songs from db
+    // this.initialGetThreeSongs();
+    // // Set listener to get more songs if user has fewer than two songs enqueued
+    // setInterval(() => {
+    //   if (this.state.songQueueAudio.length < 2) {
+    //     console.log('loading more songs!');
+    //     this.backgroundGetThreeSongs();
+    //   }
+    // }, 10000);
   }
 
   // Get three songs loaded from AWS
@@ -451,5 +450,3 @@ class App extends React.Component {
     );
   }
 }
-
-module.exports = App;
