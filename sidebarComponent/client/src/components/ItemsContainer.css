@@ -5,6 +5,7 @@
   color: rgb(182, 174, 174);
   grid-template-columns: 100px, 200px;
   width: 300px;
+  border-bottom: 1px solid gainsboro;
 }
 
 .item {
@@ -15,6 +16,7 @@
 .descriptor {
   grid-column: 1;
   justify-self: start;
+  margin-bottom: 7px;
 }
 
 .view {

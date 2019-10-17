@@ -4,11 +4,14 @@
   color: rgb(182, 174, 174);
   grid-template-columns: 20px, 25px, auto;
   width: 300px;
+  border-bottom: 1px solid gainsboro;
+  margin: 10px;
 }
 
 .descriptor {
   grid-column: 1;
   justify-self: start;
+  margin-bottom: 3px;
 }
 
 .view {
