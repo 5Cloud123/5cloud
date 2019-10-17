@@ -9,8 +9,16 @@
   color: rgb(182, 174, 174);
 }
 
+.username:hover {
+  color: rgb(65, 61, 61);
+}
+
 .title {
-  color: rgb(182, 174, 174);
+  color: rgb(107, 104, 104);
+}
+
+.title:hover {
+  color: rgb(82, 78, 78);
 }
 
 .year {

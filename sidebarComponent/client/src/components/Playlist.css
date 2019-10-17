@@ -8,12 +8,24 @@
 .username {
   color: rgb(182, 174, 174);
 }
+
+.username:hover {
+  color: rgb(82, 78, 78);
+}
 .title {
-  color: rgb(182, 174, 174);
+  color: rgb(107, 104, 104);
+}
+
+.title:hover {
+  color: rgb(82, 78, 78);
 }
 
 .likes {
   margin: 7px;
+}
+
+.likes:hover {
+  color: rgb(82, 78, 78);
 }
 
 .like-icon {
@@ -24,6 +36,10 @@
 
 .reposts {
   margin: 7px;
+}
+
+.reposts:hover {
+  color: rgb(82, 78, 78);
 }
 
 .repost-icon {
