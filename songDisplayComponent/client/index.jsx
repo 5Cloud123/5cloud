@@ -420,7 +420,7 @@ class App extends React.Component {
                 <div className='total-song-length'>{durationMMSS}</div>
               </div>
               <div className='waveform-container'>
-                <img className='waveform' src='./ChartJpg.jpg' alt='' />
+                <canvas id='playback-chart'></canvas>
               </div>
               <div className='playback-slider-container'>
                 <input

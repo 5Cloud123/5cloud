@@ -5,9 +5,9 @@ var wavesurfer = WaveSurfer.create({
   barGap: null, // the optional spacing between bars of the wave, if not provided will be calculated in legacy format
 });
 
-wavesurfer.load('./Working_For_It.mp3');
+wavesurfer.load('./songs_for_soundcloud/01 Inside Out (feat. Charlee).m4a');
 
 wavesurfer.on('ready', function() {
-  // wavesurfer.exportPCM();
-  console.log(wavesurfer.exportImage());
+  console.log(wavesurfer.exportPCM());
+  // console.log(wavesurfer.exportImage());
 });

@@ -15,11 +15,10 @@
   </head>
   <body>
     <div id="waveform"></div>
-    <canvas id="myChart"></canvas>
+    <canvas id="playback-chart"></canvas>
 
-    <!-- <a id="save-btn">Save Chart Image</a> -->
+    <!-- <script src="./waveforms.js"></script> -->
 
-    <a id="link2" download="ChartJpg.jpg">Save as jpg</a>
     <script>
       const original_data = [
         0.6157,
@@ -138,6 +137,8 @@
 
       // Get all values
       for (let i = 0; i < original_data.length - 2; i++) {
+        // Add full-size bars to positive values
+        // Add 1/5-size bars to negative values
         if (original_data[i] >= 0) {
           positiveValues.push(original_data[i]);
           negativeValues.push(-(original_data[i] + original_data[i + 2]) / 10);
@@ -147,28 +148,32 @@
         }
       }
 
+      // Get empty labels
       const xValues = original_data.map((value) => '');
 
+      // Get chart element
+      const ctx = document.getElementById('playback-chart').getContext('2d');
+
+      // Create color gradient
+      const gradientStroke = ctx.createLinearGradient(100, 0, 110, 0);
+      gradientStroke.addColorStop(0, '#f50');
+      gradientStroke.addColorStop(1, '#999999');
+
+      // Create data objects
       var positiveData = {
         data: positiveValues,
+        backgroundColor: gradientStroke,
         // backgroundColor: 'rgb(255, 99, 132)',
       };
 
       var negativeData = {
         data: negativeValues,
+        backgroundColor: gradientStroke,
         // backgroundColor: 'rgb(255, 99, 132)',
       };
 
-      saveImage = () => {
-        console.log('jafjbgjbeg');
-        var url_base64jp = document
-          .getElementById('myChart')
-          .toDataURL('image/jpg');
-        document.querySelector('#link2').href = url_base64jp;
-      };
-
-      var ctx = document.getElementById('myChart').getContext('2d');
-      var myBarChart = new Chart(ctx, {
+      // Create bar chart
+      const myBarChart = new Chart(ctx, {
         type: 'bar',
         data: {
           labels: xValues,
@@ -178,7 +183,7 @@
           animation: {
             duration: 0,
             onProgress: () => {},
-            onComplete: saveImage,
+            onComplete: () => {},
           },
           scales: {
             xAxes: [
@@ -211,10 +216,6 @@
           },
         },
       });
-
-      // Save chart
-      //   const uri = myBarChart.toBase64Image();
-      //   document.querySelector('#save-btn').href = uri;
     </script>
   </body>
 </html>
