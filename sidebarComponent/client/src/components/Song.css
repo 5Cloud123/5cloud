@@ -20,8 +20,28 @@
   grid-row: 2;
   align-self: start;
 }
+.plays {
+  margin: 7px;
+}
+
+.likes {
+  margin: 7px;
+}
+
+.reposts {
+  margin: 7px;
+}
+
+.comments {
+  margin: 7px;
+}
 
 .icon-bar {
+  display: flexbox;
+  flex-flow: row;
+  flex-grow: 1;
+  justify-content: space-around;
+
   color: rgb(182, 174, 174);
   justify-self: start;
   grid-column: 2;

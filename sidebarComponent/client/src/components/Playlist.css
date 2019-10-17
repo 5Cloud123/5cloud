@@ -7,37 +7,27 @@
 
 .username {
   color: rgb(182, 174, 174);
-  justify-self: start;
-  grid-column: 2 / span 5;
-  grid-row: 1;
 }
 .title {
   color: rgb(182, 174, 174);
-  justify-self: start;
-  grid-column: 2 / span 5;
-  grid-row: 2;
-}
-
-.icon-bar {
-  display: grid;
-  grid-template-columns: 80px, 80px;
-  color: rgb(182, 174, 174);
-  justify-self: start;
-  grid-row: 3;
 }
 
 .likes {
-  display: inline-block;
-  margin: 0, 6px, 0, 6px;
-  grid-column: 1;
-  justify-self: start;
+  margin: 7px;
 }
 
 .reposts {
-  display: inline-block;
-  margin: 0, 6px, 0, 6px;
-  grid-column: 2;
+  margin: 7px;
+}
+
+.icon-bar {
+  display: flexbox;
+  flex-flow: row;
+  flex-grow: 1;
+  justify-content: space-around;
+  color: rgb(182, 174, 174);
   justify-self: start;
+  grid-row: 3;
 }
 .container {
   display: grid;
