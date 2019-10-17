@@ -1,0 +1,28 @@
+.topbar {
+  display: grid;
+  grid-area: topbar;
+  color: rgb(182, 174, 174);
+  grid-template-columns: 20px, 25px, auto;
+  width: 300px;
+}
+
+.descriptor {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.view {
+  grid-column: 3;
+  justify-self: end;
+}
+
+.master-container {
+  display: grid;
+  grid-template-rows: 25px, 30px;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'topbar'
+    'item';
+  justify-items: start;
+  width: 300px;
+}
