@@ -89,6 +89,7 @@ class App extends React.Component {
       playButtonState: 'play',
       // Record ids of songs already played
       songsPlayedIDs: new Set(),
+      songPlayerPixelWidth: 0,
     };
 
     // Bind functions to this
@@ -110,8 +111,9 @@ class App extends React.Component {
   componentDidMount() {
     // GET songs from db
     this.initialGetThreeSongs();
-    // Draw waveform playback chart
-    this.drawWaveform();
+    // Save component's width
+    const songPlayerPixelWidth = this.divElement.clientWidth;
+    this.setState({songPlayerPixelWidth});
     // Set listener to get more songs if user has fewer than two songs enqueued
     setInterval(() => {
       if (this.state.songQueueAudio.length < 2) {
@@ -140,6 +142,11 @@ class App extends React.Component {
             currentSongAudio: firstSongAudio,
           },
           () => {
+            // Draw waveform playback chart when sonds metadata is loaded
+            this.state.currentSongAudio.addEventListener(
+              'loadedmetadata',
+              this.drawWaveform
+            );
             // Create Audio object for remaining songs
             const remainingSongsAudio = [];
             for (let i = 0; i < songObjs.length; i++) {
@@ -213,9 +220,9 @@ class App extends React.Component {
           timerIntervalID: null,
           currentSongObj: songObj,
         },
-        // Then, update song length on page
         () => {
-          // this.recordNextSongsLength(songAudio);
+          // Draw waveform playback chart
+          this.drawWaveform();
           // Start current song's playback
           this.playSong();
         }
@@ -266,6 +273,7 @@ class App extends React.Component {
   // Start song playback if a song is selected
   playSong() {
     if (this.state.currentSongAudio) {
+      console.log('playing song: ', this.state.currentSongAudio);
       // Change play button to pause button
       this.setState({playButtonState: 'pause'}, () => {
         this.state.currentSongAudio.play();
@@ -486,7 +494,17 @@ class App extends React.Component {
     const ctx = document.getElementById('playback-chart').getContext('2d');
 
     // Create color gradient
-    const gradientStroke = ctx.createLinearGradient(50, 0, 60, 0);
+    const gradientStroke = ctx.createLinearGradient(
+      this.state.songPlayerPixelWidth *
+        (this.state.currentSongAudio.currentTime /
+          this.state.currentSongAudio.duration),
+      0,
+      this.state.songPlayerPixelWidth *
+        (this.state.currentSongAudio.currentTime /
+          this.state.currentSongAudio.duration) +
+        10,
+      0
+    );
     gradientStroke.addColorStop(0, '#f50');
     gradientStroke.addColorStop(1, '#999999');
 
@@ -622,7 +640,10 @@ class App extends React.Component {
               <div className='total-song-length-container'>
                 <div className='total-song-length'>{durationMMSS}</div>
               </div>
-              <div className='waveform-container'>
+              <div
+                className='waveform-container'
+                ref={(divElement) => (this.divElement = divElement)}
+              >
                 <canvas id='playback-chart'></canvas>
               </div>
               <div className='playback-slider-container'>
