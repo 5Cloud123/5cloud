@@ -7,4 +7,4 @@ Public/bundle.js
 helperJS/songs_for_soundcloud/
 
 # Test Files
-test/
+__tests__/__snapshots__/
