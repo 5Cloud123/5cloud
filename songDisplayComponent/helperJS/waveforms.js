@@ -5,7 +5,7 @@ var wavesurfer = WaveSurfer.create({
   barGap: null, // the optional spacing between bars of the wave, if not provided will be calculated in legacy format
 });
 
-wavesurfer.load('./songs_for_soundcloud/01 Inside Out (feat. Charlee).m4a');
+wavesurfer.load('./songs_for_soundcloud/01 Closer (feat. Halsey).m4a');
 
 wavesurfer.on('ready', function() {
   console.log(wavesurfer.exportPCM());
