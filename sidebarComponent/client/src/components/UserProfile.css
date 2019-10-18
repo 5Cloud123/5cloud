@@ -1,0 +1,47 @@
+.container {
+  position: absolute;
+  bottom: 55px;
+  left: -55px;
+
+  background: white;
+  border: 0.5px solid grey;
+  height: 175px;
+  width: 150px;
+  border-radius: 5px;
+  box-shadow: 0 2px 2px 2px rgba(224, 221, 221, 0.795);
+
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.art {
+  height: 85px;
+  width: 85px;
+  border-radius: 50%;
+}
+
+.username {
+  color: rgb(182, 174, 174);
+}
+
+.followers-icon {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCI+PHBhdGggZmlsbD0icmdiYSgxNTMsIDE1MywgMTUzLCAwLjcpIiBkPSJNMTguNCAxOC41bDIuNSA1IC4yLjVIMjhsLTIuMS00LjMtNC4xLTEuNXYtMi41YzEuMi0xLjEgMS44LTMuMiAxLjgtNS4xIDAtMi4xLTItMy42LTMuNS0zLjZzLTMuNSAxLjYtMy41IDMuNmMwIDEuOS41IDQgMS44IDUuMXYyLjVoLS4xbC4xLjN6Ii8+PHBhdGggZmlsbD0iIzk5OSIgZD0iTTE3LjUgMTlsLTUtMS44di0zYzEuNC0xLjIgMi0zLjggMi01LjkgMC0yLjQtMi4zLTQuMy00LTQuMy0xLjcgMC00IDEuOC00IDQuMyAwIDIuMi42IDQuNyAyIDUuOXYzbC01IDEuOEwxIDI0aDE5bC0yLjUtNXoiLz48L3N2Zz4=');
+  width: 16px;
+  height: 16px;
+}
+
+.follower-count {
+  color: rgb(182, 174, 174);
+}
+
+.follow-button {
+  border-radius: 3px;
+  background-color: white;
+  height: 22px;
+}
+
+.follow-button:focus {
+  outline: 0;
+}
