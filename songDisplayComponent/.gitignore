@@ -6,4 +6,4 @@ Public/Assets/
 Public/bundle.js
 
 # Test Files
-test/
+__tests__/__snapshots__/
