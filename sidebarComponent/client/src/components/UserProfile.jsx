@@ -5,9 +5,11 @@ let UserProfile = function(props) {
     <div className={style.container}>
       <img className={style.art} src="./assets/pictures/sample.jpg" />
       <div className={style.username}>{props.user.username}</div>
-      <div className={style['follower-count']}>
+      <div className={style.followers}>
         <img className={style['followers-icon']} />
-        {props.user.follower_count}
+        <span className={style['follower-count']}>
+          {props.user.follower_count}
+        </span>
       </div>
       <button className={style['follow-button']}>Follow</button>
     </div>

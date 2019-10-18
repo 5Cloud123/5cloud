@@ -38,8 +38,11 @@
 
 .tracks-icon {
   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCI+PHBhdGggZmlsbD0iIzk5OSIgZD0iTTUgMTJoMnY0SDV6TTIxIDEyaDJ2NGgtMnpNMTcgMTBoMnY4aC0yek05IDhoMnYxMkg5ek0xMyA1aDJ2MThoLTJ6Ii8+PC9zdmc+');
-  width: 20px;
-  height: 20px;
+  background-size: 28px;
+  background-position-x: 0px;
+  background-position-y: 0px;
+  width: 28px;
+  height: 28px;
   grid-column: 1;
   justify-self: start;
   margin-right: 10px;
