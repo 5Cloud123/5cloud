@@ -8,6 +8,7 @@ body {
   margin: 0;
   grid-template-rows: [row1] 30px [row2] auto;
   height: 1500px;
+  max-width: 1240px;
 }
 
 .container {
@@ -16,7 +17,7 @@ body {
 }
 
 .nav-bar {
-  background-image: url('../public/Assets/navbar.png');
+  background-image: url('./Assets/navbar.png');
   height: 46px;
 }
 
@@ -28,36 +29,43 @@ body {
 }
 
 .inner-player-panel {
+  font-family: 'Varela Round', 'Lucida Sans Unicode', 'Lucida Sans', Garuda,
+    Verdana, Tahoma, sans-serif;
   height: 100%;
   width: 100%;
   display: inline-grid;
-  grid-template-columns: [col1] 30px [col2] auto [col3] 340px [col4] 20px;
-  grid-template-rows: [row1] 30px [row2] 70px [row3] 280px [row4] 100px [row5] 20px;
-  background: linear-gradient(135deg, rgb(149, 91, 78) 0%, rgb(72, 55, 59) 100%)
-    repeat scroll 0% 0%;
+  grid-template-columns: [inner-col1] 30px [inner-col2] auto [inner-col3] 30px [inner-col4] 30px [inner-col5] 340px [inner-col6] 20px;
+  grid-template-rows: [inner-row1] 30px [inner-row2] 70px [inner-row3] 240px [inner-row4] auto;
 }
 
 .player-head {
   display: inline-grid;
-  grid-template-columns: [col1] 70px [col2] auto [col3] 140px;
-  grid-template-rows: [row1] 40% [row2] 60%;
-  grid-column-start: col2;
-  grid-column-end: col3;
-  grid-row-start: row2;
-  grid-row-end: row3;
+  grid-template-columns: [head-col1] 70px [head-col2] auto [head-col3] 220px;
+  grid-template-rows: [head-row1] 40% [head-row2] 60%;
+  grid-column-start: inner-col2;
+  grid-column-end: inner-col4;
+  grid-row-start: inner-row2;
+  grid-row-end: inner-row3;
 }
 
 .album-art {
   height: 340px;
   width: 340px;
-  grid-column-start: col3;
-  grid-column-end: col4;
-  grid-row-start: row2;
-  grid-row-end: row5;
-  margin-top: -4px !important;
+  grid-column-start: inner-col5;
+  grid-column-end: inner-col6;
+  grid-row-start: inner-row2;
+  grid-row-end: inner-row4;
+  margin-top: -5px !important;
 }
 
-.player-song {
+.song-player {
+  display: inline-grid;
+  grid-template-columns: [player-col1] auto [player-col2] 25px;
+  grid-template-rows: [player-row1] 80% [player-row2] 20%;
+  grid-column-start: inner-col2;
+  grid-column-end: inner-col4;
+  grid-row-start: inner-row3;
+  grid-row-end: inner-row4;
 }
 
 .play-button-wrapper {
@@ -66,7 +74,7 @@ body {
   border-radius: 50%;
   border-color: #f50;
   background-color: #f50;
-  grid-column-start: col1;
+  grid-column-start: head-col1;
   margin-top: 3px;
   text-align: center;
   display: flex;
@@ -94,8 +102,8 @@ body {
 }
 
 .artist-name-container {
-  grid-column-start: col2;
-  grid-row-start: row1;
+  grid-column-start: head-col2;
+  grid-row-start: head-row1;
   height: 22px;
 }
 
@@ -109,8 +117,8 @@ body {
 }
 
 .song-name-container {
-  grid-column-start: col2;
-  grid-row-start: row2;
+  grid-column-start: head-col2;
+  grid-row-start: head-row2;
   height: 35px;
 }
 
@@ -133,26 +141,108 @@ body {
 }
 
 .tags-container {
-  grid-column-start: col3;
-  grid-row-start: row2;
+  grid-column-start: head-col3;
+  grid-row-start: head-row2;
   height: 35px;
   margin: 5px 0;
-  padding-right: 30px !important;
   margin-top: 10px;
 }
 
 .date-posted {
   line-height: 22px;
-  color: #cccccc;
-  font-size: 1.3em;
+  color: #ffffff;
+  font-size: 1.35em;
   float: right;
 }
 
 .date-posted-container {
-  grid-column-start: col3;
-  grid-row-start: row1;
-  padding-right: 30px !important;
+  grid-column-start: head-col3;
+  grid-row-start: head-row1;
   height: 22px;
+}
+
+.playback-slider-container {
+  width: 100%;
+  /* margin-top: 10px; */
+  grid-row-start: player-row2;
+  grid-column-start: player-col1;
+}
+
+.playback-slider {
+  -webkit-appearance: none; /* Override default CSS styles */
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  border-bottom: 1px solid #000000;
+  min-width: 450px;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.playback-slider::-webkit-slider-thumb {
+  /* TODO UNCOMMENT */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Remove focus highlighting */
+input:focus {
+  outline: none;
+}
+
+.current-playback-timer-container {
+  /* Same location as playback slider - left */
+  grid-row-start: player-row2;
+  grid-column-start: player-col1;
+  align-content: center;
+  height: 15px;
+  margin-left: 2px;
+}
+
+.current-playback-timer {
+  color: #f50;
+  background: #000000;
+  text-align: center;
+  margin-bottom: 20px;
+  /* Keep on top */
+  z-index: 2;
+  font-size: 0.85em;
+}
+
+.total-song-length-container {
+  /* Same location as playback slider - right */
+  grid-column-start: player-col2;
+  grid-row-start: player-row2;
+  align-content: center;
+  height: 15px;
+}
+
+.total-song-length {
+  color: #999999;
+  background: #000000;
+  text-align: center;
+  margin-bottom: 20px;
+  /* Keep on top */
+  z-index: 2;
+  font-size: 0.85em;
+}
+
+.waveform-container {
+  height: 200px;
+  grid-column-start: player-col1;
+  grid-row-start: player-row1;
+  grid-row-end: player-row3;
+}
+
+.waveform {
+  height: 200px;
+  width: 100%;
+  background-color: #f50;
 }
 
 .user-image {

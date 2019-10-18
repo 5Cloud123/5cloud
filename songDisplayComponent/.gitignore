@@ -4,3 +4,6 @@ config.js
 # .mp3 files, images
 Public/Assets/
 Public/bundle.js
+
+# Test Files
+__tests__/__snapshots__/
