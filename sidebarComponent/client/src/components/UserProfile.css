@@ -37,5 +37,11 @@
 }
 
 .follow-button {
-  border-radius: 10px;
+  border-radius: 3px;
+  background-color: white;
+  height: 22px;
+}
+
+.follow-button:focus {
+  outline: 0;
 }

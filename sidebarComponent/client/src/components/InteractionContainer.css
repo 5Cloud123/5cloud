@@ -1,13 +1,23 @@
+* {
+  font: 12px, Arial;
+}
+
 .topbar {
   display: grid;
   grid-template-columns: auto, auto;
   grid-area: topbar;
   justify-self: center;
+  align-content: center;
   color: rgb(182, 174, 174);
 
   width: 300px;
+  height: 30px;
   border-bottom: 1px solid gainsboro;
   margin: 10px;
+}
+
+.topbar:hover .view {
+  color: rgb(82, 78, 78);
 }
 
 .likes-icon {
@@ -52,4 +62,5 @@
     'item';
   justify-items: center;
   width: 300px;
+  margin-bottom: 12px;
 }
