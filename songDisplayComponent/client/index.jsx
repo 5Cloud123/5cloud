@@ -477,7 +477,7 @@ class App extends React.Component {
         negativeValues.push(-(original_data[i] + original_data[i + 2]) / 10);
       } else {
         positiveValues.push(-(original_data[i] + original_data[i + 2]) / 2);
-        negativeValues.push(original_data[i] / 5);
+        negativeValues.push(original_data[i] / 2.5);
       }
     }
 
@@ -677,8 +677,7 @@ class App extends React.Component {
                   className='waveform'
                 ></canvas>
               </div>
-              {/* TODO REMOVE SLIDER */}
-              {/* <div className='playback-slider-container'>
+              <div className='playback-slider-container'>
                 <input
                   type='range'
                   min='0'
@@ -695,7 +694,7 @@ class App extends React.Component {
                       #999999 0%)`,
                   }}
                 />
-              </div> */}
+              </div>
             </div>
           </div>
         </div>
