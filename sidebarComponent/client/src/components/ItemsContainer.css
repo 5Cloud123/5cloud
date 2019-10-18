@@ -20,45 +20,48 @@
 }
 
 .descriptor {
+  position: absolute;
   display: flexbox;
   flex-flow: row;
-  align-content: center;
+  align-content: flex-start;
   grid-column: 1;
   justify-self: start;
+  height: 25px;
 }
 
 .descriptor-text {
+  position: relative;
+  bottom: 15px;
   display: inline-block;
-  margin-bottom: 3px;
 }
+
 .view {
   grid-column: 2;
   justify-self: end;
 }
 
 .tracks-icon {
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCI+PHBhdGggZmlsbD0iIzk5OSIgZD0iTTUgMTJoMnY0SDV6TTIxIDEyaDJ2NGgtMnpNMTcgMTBoMnY4aC0yek05IDhoMnYxMkg5ek0xMyA1aDJ2MThoLTJ6Ii8+PC9zdmc+');
-  background-size: 28px;
-  background-position-x: 0px;
-  background-position-y: 0px;
+  position: relative;
+  bottom: 8px;
   width: 28px;
   height: 28px;
   grid-column: 1;
   justify-self: start;
-  margin-right: 10px;
+  margin-right: 3px;
 }
 
 .playlists-icon {
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+aWNfcGxheWxpc3RfMTg8L3RpdGxlPjxnIGZpbGw9IiM5OTkiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTIgNmgxMHYxMEgyeiIvPjxwYXRoIGZpbGwtb3BhY2l0eT0iLjciIGQ9Ik01IDJoMTF2MTBoLTJWNEg1eiIvPjwvZz48L3N2Zz4=');
+  position: relative;
+  bottom: 12px;
   width: 18px;
   height: 18px;
   grid-column: 1;
   justify-self: start;
-  margin-right: 10px;
+  margin-right: 5px;
+  margin-top: 10px;
 }
 
 .albums-icon {
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+aWNfcGxheWxpc3RfMTg8L3RpdGxlPjxnIGZpbGw9IiM5OTkiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTIgNmgxMHYxMEgyeiIvPjxwYXRoIGZpbGwtb3BhY2l0eT0iLjciIGQ9Ik01IDJoMTF2MTBoLTJWNEg1eiIvPjwvZz48L3N2Zz4=');
   width: 18px;
   height: 18px;
   grid-column: 1;

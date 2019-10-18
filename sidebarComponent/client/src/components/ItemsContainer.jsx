@@ -21,7 +21,7 @@ let ItemsContainer = props => {
                 className={style['tracks-icon']}
                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCI+PHBhdGggZmlsbD0iIzk5OSIgZD0iTTUgMTJoMnY0SDV6TTIxIDEyaDJ2NGgtMnpNMTcgMTBoMnY4aC0yek05IDhoMnYxMkg5ek0xMyA1aDJ2MThoLTJ6Ii8+PC9zdmc+"
               />
-              Related Tracks
+              <span className={style['descriptor-text']}>Related Tracks</span>
             </div>
             <span className={style.view}>View all</span>
           </div>

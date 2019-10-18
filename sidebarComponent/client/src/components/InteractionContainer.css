@@ -21,6 +21,8 @@
 }
 
 .likes-icon {
+  position: relative;
+  bottom: -5px;
   width: 20px;
   height: 20px;
   grid-column: 1;
@@ -29,6 +31,8 @@
 }
 
 .reposts-icon {
+  position: relative;
+  bottom: -5px;
   width: 20px;
   height: 20px;
   grid-column: 1;
@@ -37,6 +41,7 @@
 }
 
 .descriptor {
+  position: absolute;
   grid-column: 1;
   justify-self: start;
   align-self: center;
@@ -44,6 +49,7 @@
 }
 
 .descriptor-text {
+  position: relative;
   display: inline-block;
 }
 

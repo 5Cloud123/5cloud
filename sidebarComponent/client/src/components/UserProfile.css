@@ -5,7 +5,7 @@
 
   background: white;
   border: 0.5px solid grey;
-  height: 175px;
+  height: 200px;
   width: 150px;
   border-radius: 5px;
   box-shadow: 0 2px 2px 2px rgba(224, 221, 221, 0.795);
@@ -20,6 +20,7 @@
   height: 85px;
   width: 85px;
   border-radius: 50%;
+  margin-top: 10px;
 }
 
 .username {
@@ -27,8 +28,18 @@
 }
 
 .followers-icon {
+  position: relative;
+  left: -5px;
+  bottom: 3px;
   width: 16px;
   height: 16px;
+  grid-column: 1;
+}
+
+.follower-count {
+  margin-bottom: 5px;
+  grid-column: 2;
+  font-size: 12px;
 }
 
 .followers {
@@ -36,19 +47,21 @@
 
   display: grid;
   grid-template-columns: 1fr, 1fr;
-  grid-template-rows: auto;
+  grid-template-rows: 1fr;
   justify-content: center;
   align-items: center;
+  width: 100px;
 }
 
-.follower-count {
-  margin-bottom: 5px;
+.location {
+  color: rgb(182, 174, 174);
 }
 
 .follow-button {
   border-radius: 3px;
   background-color: white;
   height: 22px;
+  margin-bottom: 8px;
 }
 
 .follow-button:focus {

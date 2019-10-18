@@ -14,6 +14,7 @@ let UserProfile = function(props) {
           {props.user.follower_count}
         </span>
       </div>
+      <div className={style.location}>{props.user.phys_location}</div>
       <button className={style['follow-button']}>Follow</button>
     </div>
   );
