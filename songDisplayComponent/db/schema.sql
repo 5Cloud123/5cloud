@@ -26,5 +26,6 @@ CREATE TABLE songs
     background_light VARCHAR
     (255),
     background_dark VARCHAR
-    (255)
+    (255),
+    waveform_data MEDIUMTEXT
 );

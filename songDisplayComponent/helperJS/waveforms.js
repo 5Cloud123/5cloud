@@ -3,6 +3,8 @@
 const fs = require('fs');
 const Promise = require('bluebird');
 
+// 1 - GET WAVEFORMS
+
 // var wavesurfer = WaveSurfer.create({
 //   container: document.querySelector('#waveform'),
 //   barWidth: 2,
@@ -22,6 +24,8 @@ const Promise = require('bluebird');
 // };
 
 // getWaveformData(filename);
+
+// 1 - CLEAN DATA, WRITE TO FILE
 
 // Create function to clean individual song data
 const reduceData = (songObj) => {
