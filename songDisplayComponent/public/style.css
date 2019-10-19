@@ -209,6 +209,7 @@ input:focus {
   align-content: center;
   height: 15px;
   margin-left: 2px;
+  position: relative;
 }
 
 .current-playback-timer {
@@ -220,6 +221,7 @@ input:focus {
   z-index: 2;
   font-size: 0.85em;
   z-index: 999;
+  position: absolute;
 }
 
 .total-song-length-container {
@@ -228,6 +230,7 @@ input:focus {
   grid-row-start: player-row3;
   align-content: center;
   height: 15px;
+  position: relative;
 }
 
 .total-song-length {
@@ -239,6 +242,7 @@ input:focus {
   z-index: 2;
   font-size: 0.85em;
   z-index: 999;
+  position: absolute;
 }
 
 .waveform-container {

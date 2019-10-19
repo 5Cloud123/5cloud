@@ -135,6 +135,7 @@ export default class App extends React.Component {
           firstSongObj.upload_time
         );
         const firstSongAudio = new Audio(firstSongObj.song_data_url);
+        // firstSongObj.durationMMSS = calculateMMSS(firstSongAudio)
         // Set to state then do the same for the rest of the songs
         this.setState(
           {
@@ -145,7 +146,13 @@ export default class App extends React.Component {
             // Draw waveform playback chart when sonds metadata is loaded
             this.state.currentSongAudio.addEventListener(
               'loadedmetadata',
-              this.drawWaveform
+              () => {
+                // Calculate total length as string MM:SS
+                const currentSongObj = this.state.currentSongObj;
+                currentSongObj.durationMMSS = calculateMMSS(this.state.currentSongAudio.duration);
+                this.setState({currentSongObj});
+                this.drawWaveform();
+              }
             );
             // Create Audio object for remaining songs
             const remainingSongsAudio = [];
