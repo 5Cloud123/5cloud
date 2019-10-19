@@ -133,7 +133,7 @@ export default class App extends React.Component {
         const songObjs = response.data;
         // Create first song's audio file
         const firstSongObj = songObjs.pop();
-        console.log(firstSongObj.waveform_data);
+        // Parse waveform data, calculate relative date posted
         firstSongObj.waveform_data = JSON.parse(firstSongObj.waveform_data);
         firstSongObj.date_posted = calculateDatePosted(
           firstSongObj.upload_time
@@ -163,6 +163,8 @@ export default class App extends React.Component {
             // Create Audio object for remaining songs
             const remainingSongsAudio = [];
             for (let i = 0; i < songObjs.length; i++) {
+              // Parse waveform data, calculate relative date posted
+              songObjs[i].waveform_data = JSON.parse(songObjs[i].waveform_data);
               songObjs[i].date_posted = calculateDatePosted(
                 songObjs[i].upload_time
               );
@@ -193,7 +195,8 @@ export default class App extends React.Component {
         for (let i = 0; i < songObjs.length; i++) {
           // Only process, enqueue songs not yet played
           if (!this.state.songsPlayedIDs.has(songObjs.song_id)) {
-            // Convert date posted to relative data posted
+            // Parse waveform data, calculate relative date posted
+            songObjs[i].waveform_data = JSON.parse(songObjs[i].waveform_data);
             songObjs[i].date_posted = calculateDatePosted(
               songObjs[i].upload_time
             );

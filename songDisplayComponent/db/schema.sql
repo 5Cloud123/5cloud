@@ -27,5 +27,5 @@ CREATE TABLE songs
     (255),
     background_dark VARCHAR
     (255),
-    waveform_data MEDIUMTEXT
+    waveform_data JSON
 );
