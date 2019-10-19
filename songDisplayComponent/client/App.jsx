@@ -337,7 +337,7 @@ export default class App extends React.Component {
   // Start playback timer for current song; save interval's ID in state
   startTimer() {
     // Update timer every second
-    const timerIntervalID = setInterval(this.incrementTimer, 1000);
+    const timerIntervalID = setInterval(this.incrementTimer, 250);
     // Record id of interval
     this.setState({
       timerIntervalID,
@@ -480,6 +480,8 @@ export default class App extends React.Component {
     );
     gradientStroke.addColorStop(0, '#f50');
     gradientStroke.addColorStop(1, '#999999');
+
+    ctx.stroke();
   }
 
   // Render App component
@@ -515,7 +517,7 @@ export default class App extends React.Component {
           >
             <div className='player-head'>
               <div
-                className='play-button-wrapper'
+                className='play-button-wrapper button'
                 onClick={() => {
                   if (playButtonState === 'play') {
                     this.playSong();
@@ -524,7 +526,7 @@ export default class App extends React.Component {
                   }
                 }}
               >
-                <div className={playButtonState + '-button'}></div>
+                <div className={playButtonState + '-button button'}></div>
               </div>
               <div className='artist-name-container'>
                 <span className='artist-name fit-width-to-contents'>
