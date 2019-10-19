@@ -61,7 +61,7 @@ body {
 .song-player {
   display: inline-grid;
   grid-template-columns: [player-col1] auto [player-col2] 25px;
-  grid-template-rows: [player-row1] 54% [player-row2] 20% [player-row3] 15% [player-row4] 11%;
+  grid-template-rows: [player-row1] 145px [player-row2] 67px [player-row3] 20px [player-row4] 24px [player-row5] 14px;
   grid-column-start: inner-col2;
   grid-column-end: inner-col4;
   grid-row-start: inner-row3;
@@ -214,6 +214,7 @@ input:focus {
 .current-playback-timer-container {
   /* Same location as playback slider - left */
   grid-row-start: player-row3;
+  grid-row-end: player-row4;
   grid-column-start: player-col1;
   align-content: center;
   height: 15px;
@@ -237,6 +238,7 @@ input:focus {
   /* Same location as playback slider - right */
   grid-column-start: player-col2;
   grid-row-start: player-row3;
+  grid-row-end: player-row4;
   align-content: center;
   height: 15px;
   position: relative;
@@ -257,7 +259,7 @@ input:focus {
 .waveform-container {
   grid-column-start: player-col1;
   grid-row-start: player-row2;
-  grid-row-end: player-row4;
+  grid-row-end: player-row5;
 }
 
 .waveform {
