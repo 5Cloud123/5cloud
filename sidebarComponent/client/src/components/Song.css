@@ -13,12 +13,29 @@
 }
 
 .title {
+  display: grid;
+  grid-template-columns: auto, auto;
   color: rgb(107, 104, 104);
   margin-bottom: 3px;
 }
 
 .title:hover {
   color: rgb(82, 78, 78);
+}
+
+.song-options {
+  grid-column: 2;
+  justify-self: end;
+  z-index: 50;
+}
+
+.icon-bar {
+  display: flexbox;
+  flex-flow: row;
+  flex-grow: 1;
+  justify-content: flex-start;
+
+  color: rgb(182, 174, 174);
 }
 .plays {
   margin: 7px;
@@ -46,15 +63,6 @@
 
 .comments:hover {
   color: rgb(82, 78, 78);
-}
-
-.icon-bar {
-  display: flexbox;
-  flex-flow: row;
-  flex-grow: 1;
-  justify-content: flex-start;
-
-  color: rgb(182, 174, 174);
 }
 
 .like-icon {
@@ -94,8 +102,30 @@
 .container {
   display: grid;
   grid-gap: 15px;
-  grid-template-columns: 40px, 160px;
-  grid-template-rows: 1, 1, 1;
+  grid-template-columns: 40px, 100px, 60px;
+  grid-template-rows: 1;
   width: 200px;
   margin: 20px;
+}
+
+.play-icon-art {
+  position: relative;
+  height: 28px;
+  width: 28px;
+  left: 10px;
+  top: 10px;
+  border-radius: 50%;
+  background-color: #f50;
+}
+
+.play-icon-art:hover {
+  background-color: rgb(218, 73, 0);
+}
+
+.play-button-container {
+  position: absolute;
+  height: 28px;
+  width: 28px;
+
+  z-index: 50;
 }

@@ -1,4 +1,6 @@
 .container {
+  font: 12px/1.4 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Garuda,
+    Verdana, Tahoma, sans-serif;
   display: grid;
   grid-template-columns: 400px;
   grid-template-rows: auto, auto, auto, auto, auto;
