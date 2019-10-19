@@ -106,7 +106,6 @@ export default class App extends React.Component {
     this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
     this.handleSliderChange = this.handleSliderChange.bind(this);
     this.drawWaveform = this.drawWaveform.bind(this);
-    this.updateWaveformColor = this.updateWaveformColor.bind(this);
   }
 
   // On mount, get some songs from S3; set interval to get more songs
@@ -450,38 +449,6 @@ export default class App extends React.Component {
         },
       },
     });
-  }
-
-  // Update colors on playback waveform bar chart
-  updateWaveformColor() {
-    console.log('update waveform color called');
-    const ctx = this.refs.canvas.getContext('2d');
-    ctx.fillRect(
-      this.state.songPlayerPixelWidth *
-        (this.state.currentSongAudio.currentTime /
-          this.state.currentSongAudio.duration),
-      0,
-      this.state.songPlayerPixelWidth *
-        (this.state.currentSongAudio.currentTime /
-          this.state.currentSongAudio.duration) +
-        10,
-      0
-    );
-    const gradientStroke = ctx.createLinearGradient(
-      this.state.songPlayerPixelWidth *
-        (this.state.currentSongAudio.currentTime /
-          this.state.currentSongAudio.duration),
-      0,
-      this.state.songPlayerPixelWidth *
-        (this.state.currentSongAudio.currentTime /
-          this.state.currentSongAudio.duration) +
-        10,
-      0
-    );
-    gradientStroke.addColorStop(0, '#f50');
-    gradientStroke.addColorStop(1, '#999999');
-
-    ctx.stroke();
   }
 
   // Render App component
