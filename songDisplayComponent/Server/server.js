@@ -12,7 +12,7 @@ const port = 5001;
 app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
 
 // Get specific song
-app.get('/query/:song_id', (req, res) => {
+app.get('/query/getSong/:song_id', (req, res) => {
   const song_id = req.params.song_id;
   db.getSong(song_id, res);
 });

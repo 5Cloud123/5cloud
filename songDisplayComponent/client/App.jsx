@@ -112,18 +112,16 @@ export default class App extends React.Component {
   componentDidMount() {
     // Get song id from url
     this.getSong();
-    // GET songs from db
-    // this.initialGetThreeSongs();
     // Save component's width
     const songPlayerPixelWidth = this.divElement.clientWidth;
     this.setState({songPlayerPixelWidth});
     // Set listener to get more songs if user has fewer than two songs enqueued
-    // setInterval(() => {
-    //   if (this.state.songQueueAudio.length < 2) {
-    //     console.log('loading more songs!');
-    //     this.backgroundGetThreeSongs();
-    //   }
-    // }, 10000);
+    setInterval(() => {
+      if (this.state.songQueueAudio.length < 2) {
+        console.log('loading more songs!');
+        this.backgroundGetThreeSongs();
+      }
+    }, 10000);
   }
 
   // Get specific song for loaded page
@@ -132,7 +130,7 @@ export default class App extends React.Component {
     const splits = document.URL.split('/');
     const song_id = splits[splits.length - 2];
     axios
-      .get(`http://localhost:5001/query/${song_id}`)
+      .get(`http://localhost:5001/query/getSong/${song_id}`)
       .then((response) => {
         const songObj = response.data[0];
         // Parse waveform data, calculate relative date posted
@@ -228,7 +226,7 @@ export default class App extends React.Component {
   // Get one song loaded from AWS
   backgroundGetThreeSongs() {
     axios
-      .get('http://localhost:5001/three-songs')
+      .get('http://localhost:5001/query/three-songs')
       .then((response) => {
         const songObjs = response.data;
         // Create Audio object for remaining songs
