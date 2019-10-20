@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const fs = require('fs');
 const csvParser = require('csv-parse');
+const generateComments = require('./commentsCreator');
 
 // Create connection
 let connection = mysql.createConnection({
@@ -22,6 +23,7 @@ const filePath = '/Users/jonathanolson/Downloads/5cloud Song List - Sheet1.csv';
 
 let songs;
 
+// Store song information
 fs.readFile(
   filePath,
   {
@@ -51,7 +53,7 @@ fs.readFile(
               .replace('"{""', '\'{""}')
               .replace(']}"', ']}\'');
             // Create query to insert each entry's information
-            const query = `INSERT INTO songs (song_id, song_name, artist_name, upload_time, tag, song_art_url, song_data_url, background_light, background_dark, waveform_data) VALUES ("${songs[i].song_id}", "${songs[i].song_name}", "${songs[i].artist_name}", "${intTime}", "${songs[i].tag}", "${songs[i].song_art_url}", "${songs[i].song_data_url}", "${songs[i].background_light}", "${songs[i].background_dark}", '${formattedWaveform}');`;
+            const query = `INSERT INTO songs (song_id, song_name, artist_name, upload_time, tag, song_art_url, song_data_url, background_light, background_dark, waveform_data, song_duration) VALUES ("${songs[i].song_id}", "${songs[i].song_name}", "${songs[i].artist_name}", "${intTime}", "${songs[i].tag}", "${songs[i].song_art_url}", "${songs[i].song_data_url}", "${songs[i].background_light}", "${songs[i].background_dark}", '${formattedWaveform}', "${songs[i].song_duration}");`;
             // Insert information
             connection.query(query, (err, results, fields) => {
               if (err) {
