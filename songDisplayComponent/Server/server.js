@@ -8,22 +8,23 @@ const app = express();
 const port = 5001;
 
 // Serve the static index file from the React app
-app.use(express.static(path.join(__dirname, '../public/')));
+app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
 
-app.get('/', (req, res) => {
-  res.end('Get / WORKS');
-});
+// app.get('/', (req, res, next) => {
+//   res.end('Get / WORKS');
+//   next();
+// });
 
 // Return stringified JSON of all 100 song information objects from mysql
-app.get('/all-songs', (req, res) => db.getAllSongs(res));
+app.get('/query/all-songs', (req, res) => db.getAllSongs(res));
 
 // Return only ten songs
-app.get('/ten-songs', (req, res) => db.getTenSongs(res));
+app.get('/query/ten-songs', (req, res) => db.getTenSongs(res));
 
 // Return only three songs
-app.get('/three-songs', (req, res) => db.getThreeRandomSongs(res));
+app.get('/query/three-songs', (req, res) => db.getThreeRandomSongs(res));
 
 // Return only one song
-app.get('/one-song', (req, res) => db.getOneSong(res));
+app.get('/query/one-song', (req, res) => db.getOneSong(res));
 
 app.listen(port, () => console.log(`Express App running on port ${port}`));

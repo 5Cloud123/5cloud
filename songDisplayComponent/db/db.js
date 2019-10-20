@@ -15,8 +15,8 @@ connection.connect(function(err) {
   console.log('\nConnected to the MySQL server.\n');
 });
 
-const getOneSong = (res) => {
-  const query = 'SELECT * FROM songs LIMIT 1;';
+const getOneSong = (req, res) => {
+  const query = `SELECT * FROM songs WHERE song_id = ${req.params.song_id} LIMIT 1;`;
   // Insert information
   connection.query(query, (err, results, fields) => {
     if (err) {
@@ -28,7 +28,8 @@ const getOneSong = (res) => {
 };
 
 const getThreeRandomSongs = (res) => {
-  const query = 'SELECT * FROM songs ORDER BY RAND() LIMIT 3;';
+  const query =
+    'SELECT * FROM songs INNER JOIN comments ON songs.song_id = comments.song_id ORDER BY RAND() LIMIT 3;';
   // const query = 'SELECT * FROM songs ORDER BY song_name DESC LIMIT 3;';
   // Insert information
   connection.query(query, (err, results, fields) => {

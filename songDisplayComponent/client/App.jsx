@@ -116,19 +116,20 @@ export default class App extends React.Component {
     const songPlayerPixelWidth = this.divElement.clientWidth;
     this.setState({songPlayerPixelWidth});
     // Set listener to get more songs if user has fewer than two songs enqueued
-    setInterval(() => {
-      if (this.state.songQueueAudio.length < 2) {
-        console.log('loading more songs!');
-        this.backgroundGetThreeSongs();
-      }
-    }, 10000);
+    // setInterval(() => {
+    //   if (this.state.songQueueAudio.length < 2) {
+    //     console.log('loading more songs!');
+    //     this.backgroundGetThreeSongs();
+    //   }
+    // }, 10000);
   }
 
   // Get three songs loaded from AWS
   initialGetThreeSongs() {
     axios
-      .get('http://localhost:5001/three-songs')
+      .get('http://localhost:5001/query/three-songs')
       .then((response) => {
+        console.log(response.data);
         const songObjs = response.data;
         // Create first song's audio file
         const firstSongObj = songObjs.pop();
