@@ -110,8 +110,10 @@ export default class App extends React.Component {
 
   // On mount, get some songs from S3; set interval to get more songs
   componentDidMount() {
+    // Get song id from url
+    this.getSong();
     // GET songs from db
-    this.initialGetThreeSongs();
+    // this.initialGetThreeSongs();
     // Save component's width
     const songPlayerPixelWidth = this.divElement.clientWidth;
     this.setState({songPlayerPixelWidth});
@@ -124,12 +126,52 @@ export default class App extends React.Component {
     // }, 10000);
   }
 
+  // Get specific song for loaded page
+  getSong() {
+    // Get song id from url
+    const splits = document.URL.split('/');
+    const song_id = splits[splits.length - 2];
+    axios
+      .get(`http://localhost:5001/query/${song_id}`)
+      .then((response) => {
+        const songObj = response.data[0];
+        // Parse waveform data, calculate relative date posted
+        songObj.waveform_data = JSON.parse(songObj.waveform_data);
+        songObj.date_posted = calculateDatePosted(songObj.upload_time);
+        const songAudio = new Audio(songObj.song_data_url);
+        // Set to state then do the same for the rest of the songs
+        this.setState(
+          {
+            currentSongObj: songObj,
+            currentSongAudio: songAudio,
+          },
+          () => {
+            // Draw waveform playback chart when sonds metadata is loaded
+            this.state.currentSongAudio.addEventListener(
+              'loadedmetadata',
+              () => {
+                // Calculate total length as string MM:SS
+                const currentSongObj = this.state.currentSongObj;
+                currentSongObj.durationMMSS = calculateMMSS(
+                  this.state.currentSongAudio.duration
+                );
+                this.setState({currentSongObj});
+                this.drawWaveform();
+              }
+            );
+          }
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   // Get three songs loaded from AWS
   initialGetThreeSongs() {
     axios
       .get('http://localhost:5001/query/three-songs')
       .then((response) => {
-        console.log(response.data);
         const songObjs = response.data;
         // Create first song's audio file
         const firstSongObj = songObjs.pop();

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const mysql = require('mysql');
 
 // Create connection
@@ -15,8 +16,21 @@ connection.connect(function(err) {
   console.log('\nConnected to the MySQL server.\n');
 });
 
+// Get specific song
+const getSong = (song_id, res) => {
+  const query = `SELECT * FROM songs WHERE song_id = '${song_id}' LIMIT 1;`;
+  // Insert information
+  connection.query(query, (err, results, fields) => {
+    if (err) {
+      res.end(err);
+    } else {
+      res.end(JSON.stringify(results));
+    }
+  });
+};
+
 const getOneSong = (req, res) => {
-  const query = `SELECT * FROM songs WHERE song_id = ${req.params.song_id} LIMIT 1;`;
+  const query = 'SELECT * FROM songs LIMIT 1;';
   // Insert information
   connection.query(query, (err, results, fields) => {
     if (err) {
@@ -81,3 +95,4 @@ module.exports.getOneSong = getOneSong;
 module.exports.getAllSongs = getAllSongs;
 module.exports.getThreeRandomSongs = getThreeRandomSongs;
 module.exports.insertComments = insertComments;
+module.exports.getSong = getSong;

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const express = require('express');
 const path = require('path');
 const db = require('../db/db');
@@ -10,10 +11,11 @@ const port = 5001;
 // Serve the static index file from the React app
 app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
 
-// app.get('/', (req, res, next) => {
-//   res.end('Get / WORKS');
-//   next();
-// });
+// Get specific song
+app.get('/query/:song_id', (req, res) => {
+  const song_id = req.params.song_id;
+  db.getSong(song_id, res);
+});
 
 // Return stringified JSON of all 100 song information objects from mysql
 app.get('/query/all-songs', (req, res) => db.getAllSongs(res));
