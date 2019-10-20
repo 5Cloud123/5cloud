@@ -51,6 +51,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
+    "faker": "^4.1.0",
     "jest-cli": "^24.9.0",
     "jest-resolve": "^24.9.0",
     "node-vibrant": "^3.1.4",
