@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-const SongPlayer = require('./SongPlayer');
+import SongPlayer from './SongPlayer';
 
 // Calculate relative date posted
 const calculateDatePosted = (dateInteger) => {
@@ -92,7 +92,6 @@ export default class App extends React.Component {
       playButtonState: 'play',
       // Record ids of songs already played
       songsPlayedIDs: new Set(),
-      songPlayerPixelWidth: 0,
     };
 
     // Bind functions to this
@@ -125,9 +124,6 @@ export default class App extends React.Component {
   componentDidMount() {
     // Get song id from url
     this.getSong();
-    // Save component's width
-    const songPlayerPixelWidth = this.divElement.clientWidth;
-    this.setState({songPlayerPixelWidth});
     // Set listener to get more songs if user has fewer than two songs enqueued
     setInterval(() => {
       if (this.state.songQueueAudio.length < 2) {
@@ -509,7 +505,7 @@ export default class App extends React.Component {
 
   // Render App component
   render() {
-    const {playButtonState} = this.state;
+    const {playButtonState, songPlayerPixelWidth} = this.state;
     const {
       currentTime,
       currentTimeMMSS,
@@ -574,7 +570,18 @@ export default class App extends React.Component {
             <div className='album-art'>
               <img src={song_art_url} alt='' className='album-art' />
             </div>
-            <div className='song-player'>
+            <SongPlayer
+              currentTime={currentTime}
+              currentTimeMMSS={currentTimeMMSS}
+              durationMMSS={durationMMSS}
+              songPlayerPixelWidth={songPlayerPixelWidth}
+              currentSongAudio={currentSongAudio}
+              userImages={this.userImages}
+              comments={comments}
+              handleSliderChange={this.handleSliderChange}
+              divElement={this.divElement}
+            />
+            {/* <div className='song-player'>
               <div className='current-playback-timer-container'>
                 <div className='current-playback-timer fit-width-to-contents'>
                   {currentTimeMMSS}
@@ -632,12 +639,10 @@ export default class App extends React.Component {
               <div className='expanded-comments-container'>
                 <div className='expanded-comment'></div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
     );
   }
 }
-
-// ReactDOM.render(<App />, document.querySelector('#app'));
