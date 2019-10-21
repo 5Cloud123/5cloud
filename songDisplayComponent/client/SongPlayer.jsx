@@ -1,3 +1,5 @@
+import UserComment from './UserComment';
+
 export default class SongPlayer extends React.Component {
   constructor(props) {
     super(props);
@@ -5,6 +7,17 @@ export default class SongPlayer extends React.Component {
     this.state = {
       songPlayerPixelWidth: 0,
     };
+
+    // Save some example images for user comments
+    this.userImages = [
+      'url(https://i1.sndcdn.com/avatars-000695845801-jyfa5g-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000274853469-3mk2s7-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000469956462-p8hr59-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000228186996-vcp1u4-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000286698547-9rrb5v-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000310841632-oqxf4c-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000271547302-69b2fg-t50x50.jpg)',
+    ];
   }
 
   componentDidMount() {
@@ -51,7 +64,6 @@ export default class SongPlayer extends React.Component {
     var positiveData = {
       data: data.positiveValues,
       backgroundColor: gradientStroke,
-      // backgroundColor: 'rgb(255, 99, 132)',
     };
 
     var negativeData = {
@@ -109,16 +121,26 @@ export default class SongPlayer extends React.Component {
   }
 
   render() {
-    console.log(this.state.songPlayerPixelWidth);
+    // Destructure state, props
+    const {
+      currentTimeMMSS,
+      durationMMSS,
+      comments,
+      currentSongAudio,
+      handleSliderChange,
+      currentTime,
+    } = this.props;
+    const {songPlayerPixelWidth} = this.state;
+
     return (
       <div className='song-player'>
         <div className='current-playback-timer-container'>
           <div className='current-playback-timer fit-width-to-contents'>
-            {this.props.currentTimeMMSS}
+            {currentTimeMMSS}
           </div>
         </div>
         <div className='total-song-length-container'>
-          <div className='total-song-length'>{this.props.durationMMSS}</div>
+          <div className='total-song-length'>{durationMMSS}</div>
         </div>
         <div
           className='waveform-container'
@@ -130,20 +152,15 @@ export default class SongPlayer extends React.Component {
             className='waveform'
           ></canvas>
           <div className='user-comment-container'>
-            {this.props.comments.map((comment) => {
+            {comments.map((comment) => {
               return (
-                <div
-                  className='user-image'
-                  style={{
-                    left:
-                      this.state.songPlayerPixelWidth *
-                      (comment.time_stamp /
-                        this.props.currentSongAudio.duration),
-                    backgroundImage: this.props.userImages[
-                      comment.time_stamp % this.props.userImages.length
-                    ],
-                  }}
-                ></div>
+                <UserComment
+                  comment={comment}
+                  currentSongAudio={currentSongAudio}
+                  userImages={this.userImages}
+                  songPlayerPixelWidth={songPlayerPixelWidth}
+                  key={comment.time_stamp + comment.user_name}
+                />
               );
             })}
           </div>
@@ -153,14 +170,14 @@ export default class SongPlayer extends React.Component {
             type='range'
             min='0'
             max={length}
-            value={this.props.currentTime}
-            onChange={this.props.handleSliderChange}
+            value={currentTime}
+            onChange={handleSliderChange}
             className='playback-slider'
             style={{
               background: `linear-gradient(
                       90deg, 
-                      #f50 ${(this.props.currentSongAudio.currentTime /
-                        this.props.currentSongAudio.duration) *
+                      #f50 ${(currentSongAudio.currentTime /
+                        currentSongAudio.duration) *
                         100}%, 
                       #999999 0%)`,
             }}

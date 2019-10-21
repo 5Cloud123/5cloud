@@ -107,17 +107,6 @@ export default class App extends React.Component {
     this.playNextFromQueue = this.playNextFromQueue.bind(this);
     this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
     this.handleSliderChange = this.handleSliderChange.bind(this);
-
-    // Save some example images for user comments
-    this.userImages = [
-      'url(https://i1.sndcdn.com/avatars-000695845801-jyfa5g-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000274853469-3mk2s7-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000469956462-p8hr59-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000228186996-vcp1u4-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000286698547-9rrb5v-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000310841632-oqxf4c-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000271547302-69b2fg-t50x50.jpg)',
-    ];
   }
 
   // On mount, get some songs from S3; set interval to get more songs
@@ -348,9 +337,8 @@ export default class App extends React.Component {
     // Save currentTime in audio object as well
     const newSongAudio = this.state.currentSongAudio;
     newSongAudio.currentTime = event.target.value;
-    // Persis in state
+    // Persist in state
     this.setState({
-      test: event.target.value,
       currentSongObj: newSongObj,
       currentSongAudio: newSongAudio,
     });
@@ -358,6 +346,7 @@ export default class App extends React.Component {
 
   // Render App component
   render() {
+    // Destructure state
     const {playButtonState, songPlayerPixelWidth} = this.state;
     const {
       currentTime,
@@ -374,13 +363,10 @@ export default class App extends React.Component {
       : [];
     const currentSongAudio = this.state.currentSongAudio || 60;
     const currentSongObj = this.state.currentSongObj || {};
-    const length = currentSongAudio.duration || 60;
+
     return (
       <div>
         <div className='nav-bar'></div>
-        {/* <button id='next-song-btn' onClick={this.playNextFromQueue}>
-          Next Song
-        </button> */}
         <div id='playbackCenter' className='outer-player-panel'>
           <div
             className='inner-player-panel'
@@ -425,76 +411,17 @@ export default class App extends React.Component {
               <img src={song_art_url} alt='' className='album-art' />
             </div>
             <SongPlayer
+              currentSongAudio={currentSongAudio}
+              currentSongObj={currentSongObj}
               currentTime={currentTime}
               currentTimeMMSS={currentTimeMMSS}
               durationMMSS={durationMMSS}
               songPlayerPixelWidth={songPlayerPixelWidth}
-              currentSongAudio={currentSongAudio}
-              currentSongObj={currentSongObj}
-              userImages={this.userImages}
               comments={comments}
+              userImages={this.userImages}
               handleSliderChange={this.handleSliderChange}
               divElement={this.divElement}
             />
-            {/* <div className='song-player'>
-              <div className='current-playback-timer-container'>
-                <div className='current-playback-timer fit-width-to-contents'>
-                  {currentTimeMMSS}
-                </div>
-              </div>
-              <div className='total-song-length-container'>
-                <div className='total-song-length'>{durationMMSS}</div>
-              </div>
-              <div
-                className='waveform-container'
-                ref={(divElement) => (this.divElement = divElement)}
-              >
-                <canvas
-                  id='playback-chart'
-                  ref='canvas'
-                  className='waveform'
-                ></canvas>
-                <div className='user-comment-container'>
-                  {comments.map((comment) => {
-                    return (
-                      <div
-                        className='user-image'
-                        style={{
-                          left:
-                            this.state.songPlayerPixelWidth *
-                            (comment.time_stamp /
-                              this.state.currentSongAudio.duration),
-                          backgroundImage: this.userImages[
-                            comment.time_stamp % this.userImages.length
-                          ],
-                        }}
-                      ></div>
-                    );
-                  })}
-                </div>
-              </div>
-              <div className='playback-slider-container'>
-                <input
-                  type='range'
-                  min='0'
-                  max={length}
-                  value={currentTime}
-                  onChange={this.handleSliderChange}
-                  className='playback-slider'
-                  style={{
-                    background: `linear-gradient(
-                      90deg, 
-                      #f50 ${(this.state.currentSongAudio.currentTime /
-                        this.state.currentSongAudio.duration) *
-                        100}%, 
-                      #999999 0%)`,
-                  }}
-                />
-              </div>
-              <div className='expanded-comments-container'>
-                <div className='expanded-comment'></div>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
