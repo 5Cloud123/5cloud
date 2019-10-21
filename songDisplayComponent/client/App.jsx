@@ -106,6 +106,17 @@ export default class App extends React.Component {
     this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
     this.handleSliderChange = this.handleSliderChange.bind(this);
     this.drawWaveform = this.drawWaveform.bind(this);
+
+    // Save some example images for user comments
+    this.userImages = [
+      'url(https://i1.sndcdn.com/avatars-000695845801-jyfa5g-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000274853469-3mk2s7-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000469956462-p8hr59-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000228186996-vcp1u4-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000286698547-9rrb5v-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000310841632-oqxf4c-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000271547302-69b2fg-t50x50.jpg)',
+    ];
   }
 
   // On mount, get some songs from S3; set interval to get more songs
@@ -589,6 +600,9 @@ export default class App extends React.Component {
                             this.state.songPlayerPixelWidth *
                             (comment.time_stamp /
                               this.state.currentSongAudio.duration),
+                          backgroundImage: this.userImages[
+                            comment.time_stamp % this.userImages.length
+                          ],
                         }}
                       ></div>
                     );
