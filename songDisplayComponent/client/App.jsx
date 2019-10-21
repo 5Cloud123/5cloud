@@ -392,7 +392,9 @@ export default class App extends React.Component {
               </div>
               <div className='artist-name-container'>
                 <span className='artist-name fit-width-to-contents'>
-                  {artist_name}
+                  <a href='#' className='artist-name'>
+                    {artist_name}
+                  </a>
                 </span>
               </div>
               <div className='song-name-container'>
