@@ -27,19 +27,10 @@ export default class SongPlayer extends React.Component {
 
   // Draw playback waveform bar chart
   drawWaveform() {
-    console.log('re drawing waveform');
     const data = this.props.currentSongObj.waveform_data;
 
     // Get chart element
     const ctx = document.getElementById('playback-chart').getContext('2d');
-
-    console.log(this.state.songPlayerPixelWidth);
-    console.log(this.props.currentSongAudio.duration);
-    console.log(
-      this.state.songPlayerPixelWidth *
-        (this.props.currentSongAudio.currentTime /
-          this.props.currentSongAudio.duration)
-    );
 
     // Create color gradient
     const gradientStroke = ctx.createLinearGradient(
@@ -118,6 +109,7 @@ export default class SongPlayer extends React.Component {
   }
 
   render() {
+    console.log(this.state.songPlayerPixelWidth);
     return (
       <div className='song-player'>
         <div className='current-playback-timer-container'>
@@ -144,7 +136,7 @@ export default class SongPlayer extends React.Component {
                   className='user-image'
                   style={{
                     left:
-                      this.props.songPlayerPixelWidth *
+                      this.state.songPlayerPixelWidth *
                       (comment.time_stamp /
                         this.props.currentSongAudio.duration),
                     backgroundImage: this.props.userImages[
