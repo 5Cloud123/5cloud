@@ -627,6 +627,9 @@ export default class App extends React.Component {
                   }}
                 />
               </div>
+              <div className='expanded-comments-container'>
+                <div className='expanded-comment'></div>
+              </div>
             </div>
           </div>
         </div>

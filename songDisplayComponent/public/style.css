@@ -283,6 +283,11 @@ input:focus {
   background-image: url(https://i1.sndcdn.com/avatars-000286087914-6ekm2n-t50x50.jpg);
 }
 
+.expanded-comments-container {
+  width: 20px;
+  height: 20px;
+}
+
 .user-name {
 }
 
