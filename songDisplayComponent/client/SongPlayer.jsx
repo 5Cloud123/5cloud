@@ -11,19 +11,23 @@ export default class SongPlayer extends React.Component {
     // Save component's width
     const songPlayerPixelWidth = this.divElement.clientWidth;
     this.setState({songPlayerPixelWidth});
-    // this.drawWaveform();
   }
 
   componentDidUpdate() {
-    // Add event listener to draw waveform when song is loaded
-    this.props.currentSongAudio.addEventListener('loadedmetadata', () => {
-      // Re-draw waveform
+    if (this.props.currentSongAudio.duration) {
       this.drawWaveform();
-    });
+    } else {
+      // Add event listener to draw waveform when song is loaded
+      this.props.currentSongAudio.addEventListener('loadedmetadata', () => {
+        // Re-draw waveform
+        this.drawWaveform();
+      });
+    }
   }
 
   // Draw playback waveform bar chart
   drawWaveform() {
+    console.log('re drawing waveform');
     const data = this.props.currentSongObj.waveform_data;
 
     // Get chart element

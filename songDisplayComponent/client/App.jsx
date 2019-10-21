@@ -154,8 +154,6 @@ export default class App extends React.Component {
             currentSongAudio: songAudio,
           },
           () => {
-            console.log(this.state.currentSongObj);
-            // Draw waveform playback chart when sonds metadata is loaded
             this.state.currentSongAudio.addEventListener(
               'loadedmetadata',
               () => {
