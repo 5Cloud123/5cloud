@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 
+const SongPlayer = require('./SongPlayer');
+
 // Calculate relative date posted
 const calculateDatePosted = (dateInteger) => {
   const today = Date.now();
