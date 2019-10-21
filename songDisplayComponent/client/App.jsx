@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 
 import SongPlayer from './SongPlayer';
+import PlayerHead from './PlayerHead';
 
 // Calculate relative date posted
 const calculateDatePosted = (dateInteger) => {
@@ -267,8 +268,6 @@ export default class App extends React.Component {
   // Start song playback if a song is selected
   playSong() {
     if (this.state.currentSongAudio) {
-      console.log(this.state.currentSongObj);
-      console.log('playing song: ', this.state.currentSongAudio);
       // Change play button to pause button
       this.setState({playButtonState: 'pause'}, () => {
         this.state.currentSongAudio.play();
@@ -352,10 +351,6 @@ export default class App extends React.Component {
       currentTime,
       currentTimeMMSS,
       durationMMSS,
-      artist_name,
-      song_name,
-      date_posted,
-      tag,
       song_art_url,
     } = this.state.currentSongObj;
     const comments = this.state.currentSongObj.comments
@@ -377,38 +372,10 @@ export default class App extends React.Component {
                 rgb${this.state.currentSongObj.background_dark} 100%`,
             }}
           >
-            <div className='player-head'>
-              <div
-                className='play-button-wrapper button'
-                onClick={() => {
-                  if (playButtonState === 'play') {
-                    this.playSong();
-                  } else {
-                    this.pauseSong();
-                  }
-                }}
-              >
-                <div className={playButtonState + '-button button'}></div>
-              </div>
-              <div className='artist-name-container'>
-                <span className='artist-name fit-width-to-contents'>
-                  <a href='#' className='artist-name'>
-                    {artist_name}
-                  </a>
-                </span>
-              </div>
-              <div className='song-name-container'>
-                <span className='song-name fit-width-to-contents'>
-                  {song_name}
-                </span>
-              </div>
-              <div className='date-posted-container'>
-                <div className='date-posted'>{date_posted}</div>
-              </div>
-              <div className='tags-container'>
-                <div className='tags fit-width-to-contents'>{tag}</div>
-              </div>
-            </div>
+            <PlayerHead
+              playButtonState={playButtonState}
+              currentSongObj={currentSongObj}
+            />
             <div className='album-art'>
               <img src={song_art_url} alt='' className='album-art' />
             </div>
