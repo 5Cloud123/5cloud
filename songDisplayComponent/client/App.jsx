@@ -133,6 +133,7 @@ export default class App extends React.Component {
       .get(`http://localhost:5001/query/getSong/${song_id}`)
       .then((response) => {
         const songObj = response.data[0];
+        songObj.comments = response.data[1];
         // Parse waveform data, calculate relative date posted
         songObj.waveform_data = JSON.parse(songObj.waveform_data);
         songObj.date_posted = calculateDatePosted(songObj.upload_time);
@@ -144,6 +145,7 @@ export default class App extends React.Component {
             currentSongAudio: songAudio,
           },
           () => {
+            console.log(this.state.currentSongObj);
             // Draw waveform playback chart when sonds metadata is loaded
             this.state.currentSongAudio.addEventListener(
               'loadedmetadata',
@@ -505,6 +507,9 @@ export default class App extends React.Component {
       tag,
       song_art_url,
     } = this.state.currentSongObj;
+    const comments = this.state.currentSongObj.comments
+      ? this.state.currentSongObj.comments
+      : [];
     const currentSongAudio = this.state.currentSongAudio || 60;
     const length = currentSongAudio.duration || 60;
     return (
@@ -574,6 +579,21 @@ export default class App extends React.Component {
                   ref='canvas'
                   className='waveform'
                 ></canvas>
+                <div className='user-comment-container'>
+                  {comments.map((comment) => {
+                    return (
+                      <div
+                        className='user-image'
+                        style={{
+                          left:
+                            this.state.songPlayerPixelWidth *
+                            (comment.time_stamp /
+                              this.state.currentSongAudio.duration),
+                        }}
+                      ></div>
+                    );
+                  })}
+                </div>
               </div>
               <div className='playback-slider-container'>
                 <input

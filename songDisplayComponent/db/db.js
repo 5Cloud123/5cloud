@@ -18,13 +18,17 @@ connection.connect(function(err) {
 
 // Get specific song
 const getSong = (song_id, res) => {
-  const query = `SELECT * FROM songs WHERE song_id = '${song_id}' LIMIT 1;`;
+  const query1 = `SELECT * FROM songs WHERE song_id = '${song_id}' LIMIT 1;`;
+  const query2 = `SELECT * FROM comments WHERE song_id = '${song_id}'`;
   // Insert information
-  connection.query(query, (err, results, fields) => {
-    if (err) {
-      res.end(err);
+  connection.query(query1, (err1, results1) => {
+    if (err1) {
+      res.end(err1);
     } else {
-      res.end(JSON.stringify(results));
+      connection.query(query2, (err2, results2) => {
+        results1.push(results2);
+        res.end(JSON.stringify(results1));
+      });
     }
   });
 };
