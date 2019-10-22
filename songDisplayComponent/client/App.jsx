@@ -1,8 +1,5 @@
 /* eslint-disable camelcase */
 
-import React from 'react';
-const axios = require('axios');
-
 // Calculate relative date posted
 const calculateDatePosted = (dateInteger) => {
   const today = Date.now();
@@ -23,7 +20,7 @@ const calculateDatePosted = (dateInteger) => {
   }
   // If in weeks, record weeks
   if (daysSince === 7) {
-    return `${Math.round(daysSince / 7, 0)} week ago`;
+    return `${Math.round(daysSince / 8, 0)} week ago`;
   }
   if (daysSince >= 6) {
     return `${Math.round(daysSince / 7, 0)} weeks ago`;
@@ -59,7 +56,7 @@ const calculateMMSS = (seconds) => {
 
   return [minutes, seconds].filter((v, i) => v !== '00' || i > 0).join(':');
 };
-// test
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -83,6 +80,7 @@ export default class App extends React.Component {
         currentTime: 0,
         currentTimeMMSS: '00',
         durationMMSS: '00:00',
+        waveform_data: '',
       },
       songQueueAudio: [],
       songQueueObjects: [],
@@ -92,6 +90,7 @@ export default class App extends React.Component {
       playButtonState: 'play',
       // Record ids of songs already played
       songsPlayedIDs: new Set(),
+      songPlayerPixelWidth: 0,
     };
 
     // Bind functions to this
@@ -106,19 +105,23 @@ export default class App extends React.Component {
     this.initialGetThreeSongs = this.initialGetThreeSongs.bind(this);
     this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
     this.handleSliderChange = this.handleSliderChange.bind(this);
+    this.drawWaveform = this.drawWaveform.bind(this);
   }
 
   // On mount, get some songs from S3; set interval to get more songs
   componentDidMount() {
-    // // GET songs from db
-    // this.initialGetThreeSongs();
-    // // Set listener to get more songs if user has fewer than two songs enqueued
-    // setInterval(() => {
-    //   if (this.state.songQueueAudio.length < 2) {
-    //     console.log('loading more songs!');
-    //     this.backgroundGetThreeSongs();
-    //   }
-    // }, 10000);
+    // GET songs from db
+    this.initialGetThreeSongs();
+    // Save component's width
+    const songPlayerPixelWidth = this.divElement.clientWidth;
+    this.setState({songPlayerPixelWidth});
+    // Set listener to get more songs if user has fewer than two songs enqueued
+    setInterval(() => {
+      if (this.state.songQueueAudio.length < 2) {
+        console.log('loading more songs!');
+        this.backgroundGetThreeSongs();
+      }
+    }, 10000);
   }
 
   // Get three songs loaded from AWS
@@ -129,10 +132,13 @@ export default class App extends React.Component {
         const songObjs = response.data;
         // Create first song's audio file
         const firstSongObj = songObjs.pop();
+        // Parse waveform data, calculate relative date posted
+        firstSongObj.waveform_data = JSON.parse(firstSongObj.waveform_data);
         firstSongObj.date_posted = calculateDatePosted(
           firstSongObj.upload_time
         );
         const firstSongAudio = new Audio(firstSongObj.song_data_url);
+        // firstSongObj.durationMMSS = calculateMMSS(firstSongAudio)
         // Set to state then do the same for the rest of the songs
         this.setState(
           {
@@ -140,9 +146,24 @@ export default class App extends React.Component {
             currentSongAudio: firstSongAudio,
           },
           () => {
+            // Draw waveform playback chart when sonds metadata is loaded
+            this.state.currentSongAudio.addEventListener(
+              'loadedmetadata',
+              () => {
+                // Calculate total length as string MM:SS
+                const currentSongObj = this.state.currentSongObj;
+                currentSongObj.durationMMSS = calculateMMSS(
+                  this.state.currentSongAudio.duration
+                );
+                this.setState({currentSongObj});
+                this.drawWaveform();
+              }
+            );
             // Create Audio object for remaining songs
             const remainingSongsAudio = [];
             for (let i = 0; i < songObjs.length; i++) {
+              // Parse waveform data, calculate relative date posted
+              songObjs[i].waveform_data = JSON.parse(songObjs[i].waveform_data);
               songObjs[i].date_posted = calculateDatePosted(
                 songObjs[i].upload_time
               );
@@ -173,7 +194,8 @@ export default class App extends React.Component {
         for (let i = 0; i < songObjs.length; i++) {
           // Only process, enqueue songs not yet played
           if (!this.state.songsPlayedIDs.has(songObjs.song_id)) {
-            // Convert date posted to relative data posted
+            // Parse waveform data, calculate relative date posted
+            songObjs[i].waveform_data = JSON.parse(songObjs[i].waveform_data);
             songObjs[i].date_posted = calculateDatePosted(
               songObjs[i].upload_time
             );
@@ -203,6 +225,7 @@ export default class App extends React.Component {
       songObj.currentTime = 0;
       songObj.currentTimeMMSS = calculateMMSS(songObj.currentTime);
       songObj.durationMMSS = calculateMMSS(songAudio.duration);
+      songObj.waveform_data = JSON.parse(songObj.waveform_data);
       // Stop current song's playback
       this.pauseSong();
       this.setState(
@@ -213,9 +236,9 @@ export default class App extends React.Component {
           timerIntervalID: null,
           currentSongObj: songObj,
         },
-        // Then, update song length on page
         () => {
-          // this.recordNextSongsLength(songAudio);
+          // Draw waveform playback chart
+          this.drawWaveform();
           // Start current song's playback
           this.playSong();
         }
@@ -266,6 +289,8 @@ export default class App extends React.Component {
   // Start song playback if a song is selected
   playSong() {
     if (this.state.currentSongAudio) {
+      console.log(this.state.currentSongObj);
+      console.log('playing song: ', this.state.currentSongAudio);
       // Change play button to pause button
       this.setState({playButtonState: 'pause'}, () => {
         this.state.currentSongAudio.play();
@@ -302,23 +327,16 @@ export default class App extends React.Component {
   // Increment the current song's timer every second
   incrementTimer() {
     const currentTime = this.state.currentSongAudio.currentTime;
-    this.setState((state) => {
-      const {currentSongObj} = this.state;
-      // Save timer as integer in state
-      currentSongObj.currentTime = Math.floor(currentTime + 1);
-      currentSongObj.currentTimeMMSS = calculateMMSS(
-        currentSongObj.currentTime
-      );
-      return {
-        currentSongObj,
-      };
-    });
+    const currentSongObj = this.state.currentSongObj;
+    currentSongObj.currentTime = Math.floor(currentTime + 1);
+    currentSongObj.currentTimeMMSS = calculateMMSS(currentSongObj.currentTime);
+    this.setState({currentSongObj}, this.drawWaveform);
   }
 
   // Start playback timer for current song; save interval's ID in state
   startTimer() {
     // Update timer every second
-    const timerIntervalID = setInterval(this.incrementTimer, 1000);
+    const timerIntervalID = setInterval(this.incrementTimer, 250);
     // Record id of interval
     this.setState({
       timerIntervalID,
@@ -346,6 +364,90 @@ export default class App extends React.Component {
       test: event.target.value,
       currentSongObj: newSongObj,
       currentSongAudio: newSongAudio,
+    });
+  }
+
+  // Draw playback waveform bar chart
+  drawWaveform() {
+    const data = this.state.currentSongObj.waveform_data;
+
+    // Get chart element
+    const ctx = document.getElementById('playback-chart').getContext('2d');
+
+    // Create color gradient
+    const gradientStroke = ctx.createLinearGradient(
+      this.state.songPlayerPixelWidth *
+        (this.state.currentSongAudio.currentTime /
+          this.state.currentSongAudio.duration),
+      0,
+      this.state.songPlayerPixelWidth *
+        (this.state.currentSongAudio.currentTime /
+          this.state.currentSongAudio.duration) +
+        10,
+      0
+    );
+    gradientStroke.addColorStop(0, '#f50');
+    gradientStroke.addColorStop(1, '#CCCCCC');
+
+    // Create data objects
+    var positiveData = {
+      data: data.positiveValues,
+      backgroundColor: gradientStroke,
+      // backgroundColor: 'rgb(255, 99, 132)',
+    };
+
+    var negativeData = {
+      data: data.negativeValues,
+      backgroundColor: gradientStroke,
+      // backgroundColor: 'rgb(255, 99, 132)',
+    };
+
+    // Create bar chart
+    const myBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.xValues,
+        datasets: [positiveData, negativeData],
+      },
+      options: {
+        tooltips: {enabled: false},
+        hover: {mode: null},
+        animation: {
+          duration: 0,
+          onProgress: () => {},
+          onComplete: () => {},
+        },
+        scales: {
+          xAxes: [
+            {
+              display: false,
+              stacked: true,
+              gridLines: {
+                color: 'rgba(0, 0, 0, 0)',
+                drawBorder: false,
+              },
+              ticks: {
+                display: false, //this will remove only the label
+              },
+            },
+          ],
+          yAxes: [
+            {
+              stacked: false,
+              gridLines: {
+                color: 'rgba(0, 0, 0, 0)',
+                drawBorder: false,
+              },
+              ticks: {
+                display: false,
+              },
+            },
+          ],
+        },
+        legend: {
+          display: false,
+        },
+      },
     });
   }
 
@@ -382,7 +484,7 @@ export default class App extends React.Component {
           >
             <div className='player-head'>
               <div
-                className='play-button-wrapper'
+                className='play-button-wrapper button'
                 onClick={() => {
                   if (playButtonState === 'play') {
                     this.playSong();
@@ -391,7 +493,7 @@ export default class App extends React.Component {
                   }
                 }}
               >
-                <div className={playButtonState + '-button'}></div>
+                <div className={playButtonState + '-button button'}></div>
               </div>
               <div className='artist-name-container'>
                 <span className='artist-name fit-width-to-contents'>
@@ -422,8 +524,15 @@ export default class App extends React.Component {
               <div className='total-song-length-container'>
                 <div className='total-song-length'>{durationMMSS}</div>
               </div>
-              <div className='waveform-container'>
-                <img className='waveform' src='./ChartJpg.jpg' alt='' />
+              <div
+                className='waveform-container'
+                ref={(divElement) => (this.divElement = divElement)}
+              >
+                <canvas
+                  id='playback-chart'
+                  ref='canvas'
+                  className='waveform'
+                ></canvas>
               </div>
               <div className='playback-slider-container'>
                 <input
@@ -450,3 +559,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+// ReactDOM.render(<App />, document.querySelector('#app'));
