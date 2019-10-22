@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 
 const PlayerHead = (props) => {
-  const {playButtonState, currentSongObj} = props;
+  const {playButtonState, currentSongObj, playSong, pauseSong} = props;
   const {artist_name, song_name, date_posted, tag} = currentSongObj;
 
   return (

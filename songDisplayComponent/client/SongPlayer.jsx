@@ -164,24 +164,19 @@ export default class SongPlayer extends React.Component {
               );
             })}
           </div>
-        </div>
-        <div className='playback-slider-container'>
-          <input
-            type='range'
-            min='0'
-            max={length}
-            value={currentTime}
-            onChange={handleSliderChange}
-            className='playback-slider'
-            style={{
-              background: `linear-gradient(
-                      90deg, 
-                      #f50 ${(currentSongAudio.currentTime /
-                        currentSongAudio.duration) *
-                        100}%, 
-                      #999999 0%)`,
-            }}
-          />
+          <div className='playback-slider-container'>
+            <input
+              type='range'
+              min='0'
+              max={length}
+              value={currentTime}
+              onChange={handleSliderChange}
+              className='playback-slider'
+            />
+          </div>
+          <div className='hr-container'>
+            <div className='hr'></div>
+          </div>
         </div>
         <div className='expanded-comments-container'>
           <div className='expanded-comment'></div>

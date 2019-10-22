@@ -115,12 +115,12 @@ export default class App extends React.Component {
     // Get song id from url
     this.getSong();
     // Set listener to get more songs if user has fewer than two songs enqueued
-    setInterval(() => {
-      if (this.state.songQueueAudio.length < 2) {
-        console.log('loading more songs!');
-        this.backgroundGetThreeSongs();
-      }
-    }, 10000);
+    // setInterval(() => {
+    //   if (this.state.songQueueAudio.length < 2) {
+    //     console.log('loading more songs!');
+    //     this.backgroundGetThreeSongs();
+    //   }
+    // }, 10000);
   }
 
   // Get specific song for loaded page
@@ -375,6 +375,8 @@ export default class App extends React.Component {
             <PlayerHead
               playButtonState={playButtonState}
               currentSongObj={currentSongObj}
+              playSong={this.playSong}
+              pauseSong={this.pauseSong}
             />
             <div className='album-art'>
               <img src={song_art_url} alt='' className='album-art' />
