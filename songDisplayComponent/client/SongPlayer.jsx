@@ -195,7 +195,7 @@ export default class SongPlayer extends React.Component {
               type='range'
               min='0'
               max={duration}
-              value={currentTime}
+              value={currentTime || 0}
               onChange={handleSliderChange}
               className={styles['playback-slider']}
             />
