@@ -37,7 +37,9 @@ const PlayerHead = (props) => {
       </div>
       <div className={styles['song-name-container']}>
         <span
-          className={`{styles['song-name']} ${styles['fit-width-to-contents']}`}
+          className={`${styles['song-name']} ${
+            styles['fit-width-to-contents']
+          }`}
         >
           {song_name}
         </span>
