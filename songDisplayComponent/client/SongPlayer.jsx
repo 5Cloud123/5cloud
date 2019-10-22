@@ -18,6 +18,8 @@ export default class SongPlayer extends React.Component {
       'url(https://i1.sndcdn.com/avatars-000310841632-oqxf4c-t50x50.jpg)',
       'url(https://i1.sndcdn.com/avatars-000271547302-69b2fg-t50x50.jpg)',
     ];
+
+    this.setState = this.setState.bind(this);
   }
 
   componentDidMount() {
@@ -123,13 +125,12 @@ export default class SongPlayer extends React.Component {
   render() {
     // Destructure state, props
     const {
-      currentTimeMMSS,
-      durationMMSS,
-      comments,
+      currentSongObj,
       currentSongAudio,
+      comments,
       handleSliderChange,
-      currentTime,
     } = this.props;
+    const {currentTimeMMSS, durationMMSS, currentTime} = currentSongObj;
     const {songPlayerPixelWidth} = this.state;
 
     return (
@@ -164,18 +165,18 @@ export default class SongPlayer extends React.Component {
               );
             })}
           </div>
+          <div className='hr-container'>
+            <div className='hr'></div>
+          </div>
           <div className='playback-slider-container'>
             <input
               type='range'
               min='0'
-              max={length}
+              max={currentSongAudio.duration}
               value={currentTime}
               onChange={handleSliderChange}
               className='playback-slider'
             />
-          </div>
-          <div className='hr-container'>
-            <div className='hr'></div>
           </div>
         </div>
         <div className='expanded-comments-container'>

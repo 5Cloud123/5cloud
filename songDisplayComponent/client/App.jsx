@@ -330,6 +330,7 @@ export default class App extends React.Component {
 
   // Toggle current place in song using the slider
   handleSliderChange(event) {
+    console.log('handling slider click');
     // Save currentTime in object
     const newSongObj = this.state.currentSongObj;
     newSongObj.currentTime = event.target.value;
@@ -347,12 +348,7 @@ export default class App extends React.Component {
   render() {
     // Destructure state
     const {playButtonState, songPlayerPixelWidth} = this.state;
-    const {
-      currentTime,
-      currentTimeMMSS,
-      durationMMSS,
-      song_art_url,
-    } = this.state.currentSongObj;
+    const {song_art_url} = this.state.currentSongObj;
     const comments = this.state.currentSongObj.comments
       ? this.state.currentSongObj.comments
       : [];
@@ -384,9 +380,6 @@ export default class App extends React.Component {
             <SongPlayer
               currentSongAudio={currentSongAudio}
               currentSongObj={currentSongObj}
-              currentTime={currentTime}
-              currentTimeMMSS={currentTimeMMSS}
-              durationMMSS={durationMMSS}
               songPlayerPixelWidth={songPlayerPixelWidth}
               comments={comments}
               userImages={this.userImages}
