@@ -141,6 +141,8 @@ export default class SongPlayer extends React.Component {
     const {currentTimeMMSS, durationMMSS, currentTime} = currentSongObj;
     const {songPlayerPixelWidth} = this.state;
 
+    const duration = currentSongAudio.duration ? currentSongAudio.duration : 0;
+
     return (
       <div className='song-player'>
         <div className='current-playback-timer-container'>
@@ -186,7 +188,7 @@ export default class SongPlayer extends React.Component {
             <input
               type='range'
               min='0'
-              max={currentSongAudio.duration}
+              max={duration}
               value={currentTime}
               onChange={handleSliderChange}
               className='playback-slider'

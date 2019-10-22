@@ -60,6 +60,11 @@ const calculateMMSS = (seconds) => {
   return [minutes, seconds].filter((v, i) => v !== '00' || i > 0).join(':');
 };
 
+// Calculate random integer
+const getRandomArbitrary = (min, max) => {
+  return Math.round(Math.random() * (max - min) + min);
+};
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -223,7 +228,7 @@ export default class App extends React.Component {
         }
       );
     } else {
-      this.initialGetThreeSongs();
+      this.backgroundGetThreeSongs();
     }
   }
 
