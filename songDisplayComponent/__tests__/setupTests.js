@@ -2,15 +2,15 @@ import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import {configure} from 'enzyme';
 import {shallow} from 'enzyme';
-import App from '../client/App';
+import SongDisplay from '../client/SongDisplay';
 
 configure({adapter: new Adapter()});
 
 describe('Initial Load Tests', () => {
-  // Create shallow of App
+  // Create shallow of SongDisplay
   let wrap;
   it('Renders without crashing', () => {
-    wrap = shallow(<App />);
+    wrap = shallow(<SongDisplay />);
   });
   it('Has a play button', () => {
     expect(wrap.containsMatchingElement(<div className='play-button'></div>));
@@ -48,8 +48,8 @@ describe('Initial Load Tests', () => {
 });
 
 describe('State Tests', () => {
-  // Create shallow of App
-  const wrap = shallow(<App />);
+  // Create shallow of SongDisplay
+  const wrap = shallow(<SongDisplay />);
   it('Can set state', () => {
     wrap.setState({testPasses: true});
     expect(wrap.state('testPasses')).toEqual(true);
@@ -67,5 +67,3 @@ To do a full-rendering test that takes into account the entire component tree
 and lifecycle methods, we can test with mount()
 
 */
-
-// describe('App Test 2', () => {});

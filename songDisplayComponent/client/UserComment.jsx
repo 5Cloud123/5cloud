@@ -2,8 +2,6 @@
 
 const styles = require('./style/SongDisplay.module.css');
 
-const React = require('react');
-
 const UserComment = (props) => {
   // Destructure props
   const {
