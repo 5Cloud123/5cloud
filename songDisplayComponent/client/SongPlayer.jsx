@@ -6,6 +6,7 @@ export default class SongPlayer extends React.Component {
 
     this.state = {
       songPlayerPixelWidth: 0,
+      mouseOver: false,
     };
 
     // Save some example images for user comments
@@ -18,6 +19,8 @@ export default class SongPlayer extends React.Component {
       'url(https://i1.sndcdn.com/avatars-000310841632-oqxf4c-t50x50.jpg)',
       'url(https://i1.sndcdn.com/avatars-000271547302-69b2fg-t50x50.jpg)',
     ];
+
+    this.setState = this.setState.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +43,13 @@ export default class SongPlayer extends React.Component {
 
   // Draw playback waveform bar chart
   drawWaveform() {
+    let color;
+    if (this.state.mouseOver) {
+      color = '#FFFFFF';
+    } else {
+      color = '#CCCCCC';
+    }
+
     const data = this.props.currentSongObj.waveform_data;
 
     // Get chart element
@@ -58,7 +68,7 @@ export default class SongPlayer extends React.Component {
       0
     );
     gradientStroke.addColorStop(0, '#f50');
-    gradientStroke.addColorStop(1, '#CCCCCC');
+    gradientStroke.addColorStop(1, color);
 
     // Create data objects
     var positiveData = {
@@ -123,14 +133,15 @@ export default class SongPlayer extends React.Component {
   render() {
     // Destructure state, props
     const {
-      currentTimeMMSS,
-      durationMMSS,
-      comments,
+      currentSongObj,
       currentSongAudio,
+      comments,
       handleSliderChange,
-      currentTime,
     } = this.props;
+    const {currentTimeMMSS, durationMMSS, currentTime} = currentSongObj;
     const {songPlayerPixelWidth} = this.state;
+
+    const duration = currentSongAudio.duration ? currentSongAudio.duration : 0;
 
     return (
       <div className='song-player'>
@@ -145,6 +156,12 @@ export default class SongPlayer extends React.Component {
         <div
           className='waveform-container'
           ref={(divElement) => (this.divElement = divElement)}
+          onMouseEnter={() => {
+            this.setState({mouseOver: true}, this.drawWaveform);
+          }}
+          onMouseLeave={() => {
+            this.setState({mouseOver: false}, this.drawWaveform);
+          }}
         >
           <canvas
             id='playback-chart'
@@ -164,24 +181,19 @@ export default class SongPlayer extends React.Component {
               );
             })}
           </div>
-        </div>
-        <div className='playback-slider-container'>
-          <input
-            type='range'
-            min='0'
-            max={length}
-            value={currentTime}
-            onChange={handleSliderChange}
-            className='playback-slider'
-            style={{
-              background: `linear-gradient(
-                      90deg, 
-                      #f50 ${(currentSongAudio.currentTime /
-                        currentSongAudio.duration) *
-                        100}%, 
-                      #999999 0%)`,
-            }}
-          />
+          <div className='hr-container'>
+            <div className='hr'></div>
+          </div>
+          <div className='playback-slider-container'>
+            <input
+              type='range'
+              min='0'
+              max={duration}
+              value={currentTime}
+              onChange={handleSliderChange}
+              className='playback-slider'
+            />
+          </div>
         </div>
         <div className='expanded-comments-container'>
           <div className='expanded-comment'></div>

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const express = require('express');
 const path = require('path');
-const db = require('../db/db');
+const db = require('../db/Model');
 
 const app = express();
 
@@ -13,6 +13,7 @@ app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
 
 // Get specific song
 app.get('/query/getSong/:song_id', (req, res) => {
+  console.log('get song server');
   const song_id = req.params.song_id;
   db.getSong(song_id, res);
 });
