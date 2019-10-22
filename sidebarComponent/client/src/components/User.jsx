@@ -1,9 +1,11 @@
 import React from 'react';
 import UserProfile from './UserProfile.jsx';
-import Triangle from './Triangle.jsx';
-import TriangleBorder from './TriangleBorder.jsx';
-import TriangleCover from './TriangleCover.jsx';
-import MouseBridge from './MouseBridge.jsx';
+import {
+  Triangle,
+  TriangleBorder,
+  TriangleCover,
+  MouseBridge
+} from './Triangle.jsx';
 import style from './User.css';
 
 class User extends React.Component {
