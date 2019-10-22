@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 
+import SongPlayer from './SongPlayer';
+
 // Calculate relative date posted
 const calculateDatePosted = (dateInteger) => {
   const today = Date.now();
@@ -68,15 +70,17 @@ export default class App extends React.Component {
       // Store current song's metadata
       currentSongObj: {
         Id: 0,
-        song_id: 'Song_00000',
+        song_id: '',
         song_name: '',
         artist_name: '',
-        upload_time: '',
+        upload_time: 0,
         tag: '',
         song_art_url: '',
         song_data_url: '',
-        background_light: '(168, 12, 20)',
-        background_dark: '(68, 76, 60)',
+        background_light: '(140, 172, 204)',
+        background_dark: '(102, 97, 98)',
+        waveform_data: '',
+        song_duration: 0,
         currentTime: 0,
         currentTimeMMSS: '00',
         durationMMSS: '00:00',
@@ -90,7 +94,6 @@ export default class App extends React.Component {
       playButtonState: 'play',
       // Record ids of songs already played
       songsPlayedIDs: new Set(),
-      songPlayerPixelWidth: 0,
     };
 
     // Bind functions to this
@@ -102,30 +105,14 @@ export default class App extends React.Component {
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
     this.playNextFromQueue = this.playNextFromQueue.bind(this);
-    this.initialGetThreeSongs = this.initialGetThreeSongs.bind(this);
     this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
     this.handleSliderChange = this.handleSliderChange.bind(this);
-    this.drawWaveform = this.drawWaveform.bind(this);
-
-    // Save some example images for user comments
-    this.userImages = [
-      'url(https://i1.sndcdn.com/avatars-000695845801-jyfa5g-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000274853469-3mk2s7-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000469956462-p8hr59-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000228186996-vcp1u4-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000286698547-9rrb5v-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000310841632-oqxf4c-t50x50.jpg)',
-      'url(https://i1.sndcdn.com/avatars-000271547302-69b2fg-t50x50.jpg)',
-    ];
   }
 
   // On mount, get some songs from S3; set interval to get more songs
   componentDidMount() {
     // Get song id from url
     this.getSong();
-    // Save component's width
-    const songPlayerPixelWidth = this.divElement.clientWidth;
-    this.setState({songPlayerPixelWidth});
     // Set listener to get more songs if user has fewer than two songs enqueued
     setInterval(() => {
       if (this.state.songQueueAudio.length < 2) {
@@ -156,8 +143,6 @@ export default class App extends React.Component {
             currentSongAudio: songAudio,
           },
           () => {
-            console.log(this.state.currentSongObj);
-            // Draw waveform playback chart when sonds metadata is loaded
             this.state.currentSongAudio.addEventListener(
               'loadedmetadata',
               () => {
@@ -167,67 +152,8 @@ export default class App extends React.Component {
                   this.state.currentSongAudio.duration
                 );
                 this.setState({currentSongObj});
-                this.drawWaveform();
               }
             );
-          }
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  // Get three songs loaded from AWS
-  initialGetThreeSongs() {
-    axios
-      .get('http://localhost:5001/query/three-songs')
-      .then((response) => {
-        const songObjs = response.data;
-        // Create first song's audio file
-        const firstSongObj = songObjs.pop();
-        // Parse waveform data, calculate relative date posted
-        firstSongObj.waveform_data = JSON.parse(firstSongObj.waveform_data);
-        firstSongObj.date_posted = calculateDatePosted(
-          firstSongObj.upload_time
-        );
-        const firstSongAudio = new Audio(firstSongObj.song_data_url);
-        // firstSongObj.durationMMSS = calculateMMSS(firstSongAudio)
-        // Set to state then do the same for the rest of the songs
-        this.setState(
-          {
-            currentSongObj: firstSongObj,
-            currentSongAudio: firstSongAudio,
-          },
-          () => {
-            // Draw waveform playback chart when sonds metadata is loaded
-            this.state.currentSongAudio.addEventListener(
-              'loadedmetadata',
-              () => {
-                // Calculate total length as string MM:SS
-                const currentSongObj = this.state.currentSongObj;
-                currentSongObj.durationMMSS = calculateMMSS(
-                  this.state.currentSongAudio.duration
-                );
-                this.setState({currentSongObj});
-                this.drawWaveform();
-              }
-            );
-            // Create Audio object for remaining songs
-            const remainingSongsAudio = [];
-            for (let i = 0; i < songObjs.length; i++) {
-              // Parse waveform data, calculate relative date posted
-              songObjs[i].waveform_data = JSON.parse(songObjs[i].waveform_data);
-              songObjs[i].date_posted = calculateDatePosted(
-                songObjs[i].upload_time
-              );
-              remainingSongsAudio.push(new Audio(songObjs[i].song_data_url));
-            }
-            // Set state with new audio objects, song objects
-            this.setState({
-              songQueueAudio: remainingSongsAudio,
-              songQueueObjects: songObjs,
-            });
           }
         );
       })
@@ -291,8 +217,6 @@ export default class App extends React.Component {
           currentSongObj: songObj,
         },
         () => {
-          // Draw waveform playback chart
-          this.drawWaveform();
           // Start current song's playback
           this.playSong();
         }
@@ -384,7 +308,7 @@ export default class App extends React.Component {
     const currentSongObj = this.state.currentSongObj;
     currentSongObj.currentTime = Math.floor(currentTime + 1);
     currentSongObj.currentTimeMMSS = calculateMMSS(currentSongObj.currentTime);
-    this.setState({currentSongObj}, this.drawWaveform);
+    this.setState({currentSongObj});
   }
 
   // Start playback timer for current song; save interval's ID in state
@@ -413,101 +337,17 @@ export default class App extends React.Component {
     // Save currentTime in audio object as well
     const newSongAudio = this.state.currentSongAudio;
     newSongAudio.currentTime = event.target.value;
-    // Persis in state
+    // Persist in state
     this.setState({
-      test: event.target.value,
       currentSongObj: newSongObj,
       currentSongAudio: newSongAudio,
     });
   }
 
-  // Draw playback waveform bar chart
-  drawWaveform() {
-    const data = this.state.currentSongObj.waveform_data;
-
-    // Get chart element
-    const ctx = document.getElementById('playback-chart').getContext('2d');
-
-    // Create color gradient
-    const gradientStroke = ctx.createLinearGradient(
-      this.state.songPlayerPixelWidth *
-        (this.state.currentSongAudio.currentTime /
-          this.state.currentSongAudio.duration),
-      0,
-      this.state.songPlayerPixelWidth *
-        (this.state.currentSongAudio.currentTime /
-          this.state.currentSongAudio.duration) +
-        10,
-      0
-    );
-    gradientStroke.addColorStop(0, '#f50');
-    gradientStroke.addColorStop(1, '#CCCCCC');
-
-    // Create data objects
-    var positiveData = {
-      data: data.positiveValues,
-      backgroundColor: gradientStroke,
-      // backgroundColor: 'rgb(255, 99, 132)',
-    };
-
-    var negativeData = {
-      data: data.negativeValues,
-      backgroundColor: gradientStroke,
-      // backgroundColor: 'rgb(255, 99, 132)',
-    };
-
-    // Create bar chart
-    const myBarChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: data.xValues,
-        datasets: [positiveData, negativeData],
-      },
-      options: {
-        tooltips: {enabled: false},
-        hover: {mode: null},
-        animation: {
-          duration: 0,
-          onProgress: () => {},
-          onComplete: () => {},
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false,
-              stacked: true,
-              gridLines: {
-                color: 'rgba(0, 0, 0, 0)',
-                drawBorder: false,
-              },
-              ticks: {
-                display: false, //this will remove only the label
-              },
-            },
-          ],
-          yAxes: [
-            {
-              stacked: false,
-              gridLines: {
-                color: 'rgba(0, 0, 0, 0)',
-                drawBorder: false,
-              },
-              ticks: {
-                display: false,
-              },
-            },
-          ],
-        },
-        legend: {
-          display: false,
-        },
-      },
-    });
-  }
-
   // Render App component
   render() {
-    const {playButtonState} = this.state;
+    // Destructure state
+    const {playButtonState, songPlayerPixelWidth} = this.state;
     const {
       currentTime,
       currentTimeMMSS,
@@ -522,13 +362,11 @@ export default class App extends React.Component {
       ? this.state.currentSongObj.comments
       : [];
     const currentSongAudio = this.state.currentSongAudio || 60;
-    const length = currentSongAudio.duration || 60;
+    const currentSongObj = this.state.currentSongObj || {};
+
     return (
       <div>
         <div className='nav-bar'></div>
-        {/* <button id='next-song-btn' onClick={this.playNextFromQueue}>
-          Next Song
-        </button> */}
         <div id='playbackCenter' className='outer-player-panel'>
           <div
             className='inner-player-panel'
@@ -572,70 +410,21 @@ export default class App extends React.Component {
             <div className='album-art'>
               <img src={song_art_url} alt='' className='album-art' />
             </div>
-            <div className='song-player'>
-              <div className='current-playback-timer-container'>
-                <div className='current-playback-timer fit-width-to-contents'>
-                  {currentTimeMMSS}
-                </div>
-              </div>
-              <div className='total-song-length-container'>
-                <div className='total-song-length'>{durationMMSS}</div>
-              </div>
-              <div
-                className='waveform-container'
-                ref={(divElement) => (this.divElement = divElement)}
-              >
-                <canvas
-                  id='playback-chart'
-                  ref='canvas'
-                  className='waveform'
-                ></canvas>
-                <div className='user-comment-container'>
-                  {comments.map((comment) => {
-                    return (
-                      <div
-                        className='user-image'
-                        style={{
-                          left:
-                            this.state.songPlayerPixelWidth *
-                            (comment.time_stamp /
-                              this.state.currentSongAudio.duration),
-                          backgroundImage: this.userImages[
-                            comment.time_stamp % this.userImages.length
-                          ],
-                        }}
-                      ></div>
-                    );
-                  })}
-                </div>
-              </div>
-              <div className='playback-slider-container'>
-                <input
-                  type='range'
-                  min='0'
-                  max={length}
-                  value={currentTime}
-                  onChange={this.handleSliderChange}
-                  className='playback-slider'
-                  style={{
-                    background: `linear-gradient(
-                      90deg, 
-                      #f50 ${(this.state.currentSongAudio.currentTime /
-                        this.state.currentSongAudio.duration) *
-                        100}%, 
-                      #999999 0%)`,
-                  }}
-                />
-              </div>
-              <div className='expanded-comments-container'>
-                <div className='expanded-comment'></div>
-              </div>
-            </div>
+            <SongPlayer
+              currentSongAudio={currentSongAudio}
+              currentSongObj={currentSongObj}
+              currentTime={currentTime}
+              currentTimeMMSS={currentTimeMMSS}
+              durationMMSS={durationMMSS}
+              songPlayerPixelWidth={songPlayerPixelWidth}
+              comments={comments}
+              userImages={this.userImages}
+              handleSliderChange={this.handleSliderChange}
+              divElement={this.divElement}
+            />
           </div>
         </div>
       </div>
     );
   }
 }
-
-// ReactDOM.render(<App />, document.querySelector('#app'));
