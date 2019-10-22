@@ -6,6 +6,7 @@ export default class SongPlayer extends React.Component {
 
     this.state = {
       songPlayerPixelWidth: 0,
+      mouseOver: false,
     };
 
     // Save some example images for user comments
@@ -42,6 +43,13 @@ export default class SongPlayer extends React.Component {
 
   // Draw playback waveform bar chart
   drawWaveform() {
+    let color;
+    if (this.state.mouseOver) {
+      color = '#FFFFFF';
+    } else {
+      color = '#CCCCCC';
+    }
+
     const data = this.props.currentSongObj.waveform_data;
 
     // Get chart element
@@ -60,7 +68,7 @@ export default class SongPlayer extends React.Component {
       0
     );
     gradientStroke.addColorStop(0, '#f50');
-    gradientStroke.addColorStop(1, '#CCCCCC');
+    gradientStroke.addColorStop(1, color);
 
     // Create data objects
     var positiveData = {
@@ -146,6 +154,12 @@ export default class SongPlayer extends React.Component {
         <div
           className='waveform-container'
           ref={(divElement) => (this.divElement = divElement)}
+          onMouseEnter={() => {
+            this.setState({mouseOver: true}, this.drawWaveform);
+          }}
+          onMouseLeave={() => {
+            this.setState({mouseOver: false}, this.drawWaveform);
+          }}
         >
           <canvas
             id='playback-chart'
