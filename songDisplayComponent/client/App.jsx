@@ -3,6 +3,9 @@
 import SongPlayer from './SongPlayer';
 import PlayerHead from './PlayerHead';
 
+const React = require('react');
+const axios = require('axios');
+
 const styles = require('./style/SongDisplay.module.css');
 
 // Calculate relative date posted
@@ -120,7 +123,7 @@ export default class App extends React.Component {
   // On mount, get some songs from S3; set interval to get more songs
   componentDidMount() {
     // Get song id from url
-    this.getSong();
+    // this.getSong();
     // Set listener to get more songs if user has fewer than two songs enqueued
     // setInterval(() => {
     //   if (this.state.songQueueAudio.length < 2) {

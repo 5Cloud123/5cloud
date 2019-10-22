@@ -1,5 +1,6 @@
 import UserComment from './UserComment';
 
+const React = require('react');
 const styles = require('./style/SongDisplay.module.css');
 
 export default class SongPlayer extends React.Component {

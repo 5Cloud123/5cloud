@@ -45,9 +45,6 @@ describe('Initial Load Tests', () => {
   it('Has a container for the song playback graph/slider', () => {
     expect(wrap.containsMatchingElement(<div className='song-player'></div>));
   });
-  it('Matches snapshot', () => {
-    expect(wrap).toMatchSnapshot();
-  });
 });
 
 describe('State Tests', () => {
