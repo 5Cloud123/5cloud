@@ -106,12 +106,23 @@ export default class App extends React.Component {
     this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
     this.handleSliderChange = this.handleSliderChange.bind(this);
     this.drawWaveform = this.drawWaveform.bind(this);
+
+    // Save some example images for user comments
+    this.userImages = [
+      'url(https://i1.sndcdn.com/avatars-000695845801-jyfa5g-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000274853469-3mk2s7-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000469956462-p8hr59-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000228186996-vcp1u4-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000286698547-9rrb5v-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000310841632-oqxf4c-t50x50.jpg)',
+      'url(https://i1.sndcdn.com/avatars-000271547302-69b2fg-t50x50.jpg)',
+    ];
   }
 
   // On mount, get some songs from S3; set interval to get more songs
   componentDidMount() {
-    // GET songs from db
-    this.initialGetThreeSongs();
+    // Get song id from url
+    this.getSong();
     // Save component's width
     const songPlayerPixelWidth = this.divElement.clientWidth;
     this.setState({songPlayerPixelWidth});
@@ -124,10 +135,53 @@ export default class App extends React.Component {
     }, 10000);
   }
 
+  // Get specific song for loaded page
+  getSong() {
+    // Get song id from url
+    const splits = document.URL.split('/');
+    const song_id = splits[splits.length - 2];
+    axios
+      .get(`http://localhost:5001/query/getSong/${song_id}`)
+      .then((response) => {
+        const songObj = response.data[0];
+        songObj.comments = response.data[1];
+        // Parse waveform data, calculate relative date posted
+        songObj.waveform_data = JSON.parse(songObj.waveform_data);
+        songObj.date_posted = calculateDatePosted(songObj.upload_time);
+        const songAudio = new Audio(songObj.song_data_url);
+        // Set to state then do the same for the rest of the songs
+        this.setState(
+          {
+            currentSongObj: songObj,
+            currentSongAudio: songAudio,
+          },
+          () => {
+            console.log(this.state.currentSongObj);
+            // Draw waveform playback chart when sonds metadata is loaded
+            this.state.currentSongAudio.addEventListener(
+              'loadedmetadata',
+              () => {
+                // Calculate total length as string MM:SS
+                const currentSongObj = this.state.currentSongObj;
+                currentSongObj.durationMMSS = calculateMMSS(
+                  this.state.currentSongAudio.duration
+                );
+                this.setState({currentSongObj});
+                this.drawWaveform();
+              }
+            );
+          }
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   // Get three songs loaded from AWS
   initialGetThreeSongs() {
     axios
-      .get('http://localhost:5001/three-songs')
+      .get('http://localhost:5001/query/three-songs')
       .then((response) => {
         const songObjs = response.data;
         // Create first song's audio file
@@ -185,7 +239,7 @@ export default class App extends React.Component {
   // Get one song loaded from AWS
   backgroundGetThreeSongs() {
     axios
-      .get('http://localhost:5001/three-songs')
+      .get('http://localhost:5001/query/three-songs')
       .then((response) => {
         const songObjs = response.data;
         // Create Audio object for remaining songs
@@ -464,6 +518,9 @@ export default class App extends React.Component {
       tag,
       song_art_url,
     } = this.state.currentSongObj;
+    const comments = this.state.currentSongObj.comments
+      ? this.state.currentSongObj.comments
+      : [];
     const currentSongAudio = this.state.currentSongAudio || 60;
     const length = currentSongAudio.duration || 60;
     return (
@@ -533,6 +590,24 @@ export default class App extends React.Component {
                   ref='canvas'
                   className='waveform'
                 ></canvas>
+                <div className='user-comment-container'>
+                  {comments.map((comment) => {
+                    return (
+                      <div
+                        className='user-image'
+                        style={{
+                          left:
+                            this.state.songPlayerPixelWidth *
+                            (comment.time_stamp /
+                              this.state.currentSongAudio.duration),
+                          backgroundImage: this.userImages[
+                            comment.time_stamp % this.userImages.length
+                          ],
+                        }}
+                      ></div>
+                    );
+                  })}
+                </div>
               </div>
               <div className='playback-slider-container'>
                 <input
@@ -551,6 +626,9 @@ export default class App extends React.Component {
                       #999999 0%)`,
                   }}
                 />
+              </div>
+              <div className='expanded-comments-container'>
+                <div className='expanded-comment'></div>
               </div>
             </div>
           </div>

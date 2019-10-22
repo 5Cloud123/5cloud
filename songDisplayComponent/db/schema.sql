@@ -6,7 +6,6 @@ USE 5cloud_song_display;
 
 CREATE TABLE songs
 (
-
     Id INT
         NOT NULL
     AUTO_INCREMENT KEY,
@@ -27,5 +26,20 @@ CREATE TABLE songs
     (255),
     background_dark VARCHAR
     (255),
-    waveform_data JSON
+    waveform_data JSON,
+    song_duration INT
+);
+
+    CREATE TABLE comments
+    (
+        Id INT
+            NOT NULL
+        AUTO_INCREMENT KEY,
+    song_id VARCHAR
+        (20),
+    user_name VARCHAR
+        (255),
+    time_stamp INT,
+    comment VARCHAR
+        (255)
 );
