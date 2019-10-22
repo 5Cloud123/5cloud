@@ -3,6 +3,8 @@
 import SongPlayer from './SongPlayer';
 import PlayerHead from './PlayerHead';
 
+const styles = require('./style/SongDisplay.module.css');
+
 // Calculate relative date posted
 const calculateDatePosted = (dateInteger) => {
   const today = Date.now();
@@ -362,10 +364,10 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <div className='nav-bar'></div>
-        <div id='playbackCenter' className='outer-player-panel'>
+        <div className={styles['nav-bar']}></div>
+        <div id='playbackCenter' className={styles['outer-player-panel']}>
           <div
-            className='inner-player-panel'
+            className={styles['inner-player-panel']}
             style={{
               background: `linear-gradient(
                 135deg,
@@ -379,8 +381,8 @@ export default class App extends React.Component {
               playSong={this.playSong}
               pauseSong={this.pauseSong}
             />
-            <div className='album-art'>
-              <img src={song_art_url} alt='' className='album-art' />
+            <div className={styles['album-art']}>
+              <img src={song_art_url} alt='' className={styles['album-art']} />
             </div>
             <SongPlayer
               currentSongAudio={currentSongAudio}

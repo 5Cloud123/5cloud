@@ -1,13 +1,15 @@
 /* eslint-disable camelcase */
 
+const styles = require('./style/SongDisplay.module.css');
+
 const PlayerHead = (props) => {
   const {playButtonState, currentSongObj, playSong, pauseSong} = props;
   const {artist_name, song_name, date_posted, tag} = currentSongObj;
 
   return (
-    <div className='player-head'>
+    <div className={styles['player-head']}>
       <div
-        className='play-button-wrapper button'
+        className={`${styles['play-button-wrapper']} ${styles['button']}`}
         onClick={() => {
           if (playButtonState === 'play') {
             playSong();
@@ -16,23 +18,37 @@ const PlayerHead = (props) => {
           }
         }}
       >
-        <div className={playButtonState + '-button button'}></div>
+        <div
+          className={`${styles[playButtonState + '-button']} ${
+            styles['button']
+          }`}
+        ></div>
       </div>
-      <div className='artist-name-container'>
-        <span className='artist-name fit-width-to-contents'>
-          <a href='#' className='artist-name'>
+      <div className={styles['artist-name-container']}>
+        <span
+          className={`${styles['artist-name']} ${
+            styles['fit-width-to-contents']
+          }`}
+        >
+          <a href='#' className={styles['artist-name']}>
             {artist_name}
           </a>
         </span>
       </div>
-      <div className='song-name-container'>
-        <span className='song-name fit-width-to-contents'>{song_name}</span>
+      <div className={styles['song-name-container']}>
+        <span
+          className={`{styles['song-name']} ${styles['fit-width-to-contents']}`}
+        >
+          {song_name}
+        </span>
       </div>
-      <div className='date-posted-container'>
-        <div className='date-posted'>{date_posted}</div>
+      <div className={styles['date-posted-container']}>
+        <div className={styles['date-posted']}>{date_posted}</div>
       </div>
-      <div className='tags-container'>
-        <div className='tags fit-width-to-contents'>{tag}</div>
+      <div className={styles['tags-container']}>
+        <div className={`${styles['tags']} ${styles['fit-width-to-contents']}`}>
+          {tag}
+        </div>
       </div>
     </div>
   );

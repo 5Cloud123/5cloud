@@ -1,5 +1,7 @@
 import UserComment from './UserComment';
 
+const styles = require('./style/SongDisplay.module.css');
+
 export default class SongPlayer extends React.Component {
   constructor(props) {
     super(props);
@@ -144,17 +146,21 @@ export default class SongPlayer extends React.Component {
     const duration = currentSongAudio.duration ? currentSongAudio.duration : 0;
 
     return (
-      <div className='song-player'>
-        <div className='current-playback-timer-container'>
-          <div className='current-playback-timer fit-width-to-contents'>
+      <div className={styles['song-player']}>
+        <div className={styles['current-playback-timer-container']}>
+          <div
+            className={`${styles['current-playback-timer']} ${
+              styles['fit-width-to-contents']
+            }`}
+          >
             {currentTimeMMSS}
           </div>
         </div>
-        <div className='total-song-length-container'>
-          <div className='total-song-length'>{durationMMSS}</div>
+        <div className={styles['total-song-length-container']}>
+          <div className={styles['total-song-length']}>{durationMMSS}</div>
         </div>
         <div
-          className='waveform-container'
+          className={styles['waveform-container']}
           ref={(divElement) => (this.divElement = divElement)}
           onMouseEnter={() => {
             this.setState({mouseOver: true}, this.drawWaveform);
@@ -166,9 +172,9 @@ export default class SongPlayer extends React.Component {
           <canvas
             id='playback-chart'
             ref='canvas'
-            className='waveform'
+            className={styles['waveform']}
           ></canvas>
-          <div className='user-comment-container'>
+          <div className={styles['user-comment-container']}>
             {comments.map((comment) => {
               return (
                 <UserComment
@@ -181,22 +187,22 @@ export default class SongPlayer extends React.Component {
               );
             })}
           </div>
-          <div className='hr-container'>
-            <div className='hr'></div>
+          <div className={styles['hr-container']}>
+            <div className={styles['hr']}></div>
           </div>
-          <div className='playback-slider-container'>
+          <div className={styles['playback-slider-container']}>
             <input
               type='range'
               min='0'
               max={duration}
               value={currentTime}
               onChange={handleSliderChange}
-              className='playback-slider'
+              className={styles['playback-slider']}
             />
           </div>
         </div>
-        <div className='expanded-comments-container'>
-          <div className='expanded-comment'></div>
+        <div className={styles['expanded-comments-container']}>
+          <div className={styles['expanded-comment']}></div>
         </div>
       </div>
     );
