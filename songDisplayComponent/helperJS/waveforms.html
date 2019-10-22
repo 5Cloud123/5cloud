@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+      integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="waveform"></div>
+    <canvas id="playback-chart"></canvas>
+
+    <script>
+      const dir = 'songs_for_soundcloud/';
+
+      const songs = [
+        '01 Carry On Wayward Son.m4a',
+        '01 Closer (feat. Halsey).m4a',
+        '01 Inside Out (feat. Charlee).m4a',
+        '01 Kings of Summer (feat. Quinn XCII) [Single Version].m4a',
+        '01 No Sleep.m4a',
+        '01 Roses (feat. ROZES).m4a',
+        '01 Something Better (feat. Lady Antebellum).m4a',
+        '01 The Fighting Song.m4a',
+        '01 The Little Things (feat. Angela McCluskey).m4a',
+        '02 Crazy Train.m4a',
+        '02 Touchdown (Island Love Version).m4a',
+        '04 Don_t Worry.m4a',
+        '04 Lay My Claim.m4a',
+        '04 Runaway Train.m4a',
+        '05 Back Then.m4a',
+        '05 Fade Away.m4a',
+        '05 Pay No Mind (feat. Passion Pit).m4a',
+        '05 Pretty Lady.m4a',
+        '05 Starving (feat. Zedd).m4a',
+        '07 Notice Me.m4a',
+        '07 The Buzz (feat. Mataya _ Young Tapz).m4a',
+        '08 Alive 2.m4a',
+        '09 Lionhearted (feat. Urban Cone).m4a',
+        '09 Sleepyhead.m4a',
+        '1-04 Sleepless (feat. Jezzabell Doran).m4a',
+        '10 Keep It Mello (feat. Omar Linx).m4a',
+        '10 Older.m4a',
+        '10 The Drugs.m4a',
+        '13 Sativa.m4a',
+        'Ain_t My Fault (R3hab Remix).mp3',
+        'All We Know (feat. Phoebe Ryan).mp3',
+        'Another Day In Paradise.mp3',
+        'Blame (feat. Elliphant).mp3',
+        'Bones.mp3',
+        'Breathe.mp3',
+        'Bring it Down (Dillistone Remix).mp3',
+        'Burn Wild (Young Bombs Remix).mp3',
+        'Came Up (feat. Post Malone _ Key!).mp3',
+        'Can_t Hide (feat. Ashe).mp3',
+        'Catch Me (feat. Naaz) [Candlelight Remix].mp3',
+        'Collapse 2.0 (feat. Memorecks).mp3',
+        'Don_t Let Me Down (3LAU Remix).mp3',
+        'Easy Go (feat. Delaney Jane).mp3',
+        'Fast Car (feat. Dakota).mp3',
+        'Feel Good (feat. Daya).mp3',
+        'Fight Song.mp3',
+        'Final Song.mp3',
+        'Finish Line (feat. Doe Wright).mp3',
+        'Flare Guns (feat. Chelsea Cutler).mp3',
+        'Fortress (feat. Joni Fatora) [Just A Gent Remix].mp3',
+        'Friend.mp3',
+        'Friends In The Dark (feat. Otis Parker).mp3',
+        'Glory _ Gore (Unlike Pluto remix).mp3',
+        'Hello (Marshmello Remix).mp3',
+        'Hero (feat. Christina Perri).mp3',
+        'I Want U.mp3',
+        'I Won_t Let You Walk Away (feat. Madison Beer).mp3',
+        'In The Name Of Love (feat. Bebe Rexha).mp3',
+        'Infinity (Illenium Remix).mp3',
+        'It_s All On U (feat. Liam O_Donnell).mp3',
+        'It_s Strange (feat. K. Flay).mp3',
+        'Leaves in the Pool.mp3',
+        'Light.mp3',
+        'Limelight (feat. ROZES) [NGHTMRE Remix].mp3',
+        'Lionhearted (Arty Remix) [feat. Urban Cone].mp3',
+        'Lost in You.mp3',
+        'Love Is Alive (feat. Elohim).mp3',
+        'Love _ War (feat. Yade Lauren).mp3',
+        'Make Time.mp3',
+        'Mine (Bearson Remix).mp3',
+        'Mr. Brightside (Two Friends Remix).mp3',
+        'Native Tongue.mp3',
+        'Neighborhood.mp3',
+        'No Coming Down (feat. Alex Wiley _ Sky Montique).mp3',
+        'No Sunshine.mp3',
+        'Nonsense (Live Edit).mp3',
+        'Nonsense (feat. Mark Foster).mp3',
+        'Nothin_s on Fire.mp3',
+        'Perdoname (feat. Adrian Delgado _ Cy Cy).mp3',
+        'Say It (feat. Tove Lo) (Illenium Remix).mp3',
+        'Say It (feat. Tove Lo).mp3',
+        'Shelter.mp3',
+        'Show _ Tell (feat. Claire Ridgely).mp3',
+        'Smoke Filled Room vs. The Buzz.mp3',
+        'Smoke _ Retribution (feat. Vince Staples _ Kučka).mp3',
+        'So Long (feat. Madi).mp3',
+        'Straightjacket.mp3',
+        'Superstar (feat. Krewella).mp3',
+        'Take Me Apart (feat. Remmi).mp3',
+        'Talk Is Overrated (feat. Blackbear).mp3',
+        'The Thrill.mp3',
+        'Thief.mp3',
+        'Things (Taylor Wise Remix).mp3',
+        'Together We_re Screwed (feat. Nevve).mp3',
+        'Troubled (feat. Debs Daughter).mp3',
+        'Until You Were Gone (feat. Emily Warren) [Justin Caruso Remix].mp3',
+        'Wild For The Night (feat. Skrillex _ Birdy Nam Nam).mp3',
+        'Wild Kind (feat. Varpu).mp3',
+        'With You (feat. Quinn XCII).mp3',
+        'Working For It.mp3',
+      ];
+
+      for (let i = 0; i < songs.length; i++) {
+        const audio = new Audio(dir + songs[i]);
+
+        audio.addEventListener('loadedmetadata', () => {
+          console.log([audio.duration, songs[i]]);
+        });
+      }
+    </script>
+
+    <!-- Calculate all waveforms -->
+    <!-- <script src="./waveforms.js"></script> -->
+    <!-- <script src="./calculateSongWaveformData.js"></script> -->
+
+    <!-- <script>
+
+      const positiveValues = [];
+      const negativeValues = [];
+
+      // Get all values
+      for (let i = 0; i < original_data.length - 2; i += 8) {
+        // Add full-size bars to positive values
+        // Add 1/5-size bars to negative values
+        if (original_data[i] >= 0) {
+          positiveValues.push(original_data[i]);
+          negativeValues.push(-(original_data[i] + original_data[i + 2]) / 10);
+        } else {
+          positiveValues.push(-(original_data[i] + original_data[i + 2]) / 2);
+          negativeValues.push(original_data[i] / 8);
+        }
+      }
+
+      // Get empty labels
+      const xValues = original_data.slice(0, original_data.length / 5).map((value) => '');
+
+      // Get chart element
+      const ctx = document.getElementById('playback-chart').getContext('2d');
+
+      // Create color gradient
+      const gradientStroke = ctx.createLinearGradient(100, 0, 110, 0);
+      gradientStroke.addColorStop(0, '#f50');
+      gradientStroke.addColorStop(1, '#999999');
+
+      // Create data objects
+      var positiveData = {
+        data: positiveValues,
+        backgroundColor: gradientStroke,
+        // backgroundColor: 'rgb(255, 99, 132)',
+      };
+
+      var negativeData = {
+        data: negativeValues,
+        backgroundColor: gradientStroke,
+        // backgroundColor: 'rgb(255, 99, 132)',
+      };
+
+      // Create bar chart
+      const myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: xValues,
+          datasets: [positiveData, negativeData],
+        },
+        options: {
+          animation: {
+            duration: 0,
+            onProgress: () => {},
+            onComplete: () => {},
+          },
+          scales: {
+            xAxes: [
+              {
+                stacked: true,
+                gridLines: {
+                  color: 'rgba(0, 0, 0, 0)',
+                  drawBorder: false,
+                },
+                ticks: {
+                  display: false, //this will remove only the label
+                },
+              },
+            ],
+            yAxes: [
+              {
+                stacked: false,
+                gridLines: {
+                  color: 'rgba(0, 0, 0, 0)',
+                  drawBorder: false,
+                },
+                ticks: {
+                  display: false,
+                },
+              },
+            ],
+          },
+          legend: {
+            display: false,
+          },
+        },
+      });
+    </script> -->
+  </body>
+</html>
