@@ -2,7 +2,8 @@ import React from 'react';
 import InteractionContainer from './InteractionContainer.jsx';
 import ItemsContainer from './ItemsContainer.jsx';
 import axios from 'axios';
-import style from './styles/App.css';
+import style from './App.css';
+import 'babel-polyfill';
 
 class App extends React.Component {
   constructor(props) {
@@ -22,13 +23,11 @@ class App extends React.Component {
     axios
       .get(`http://localhost:5000/currentSong/${this.state.currentSongId}`)
       .then(song => {
-        console.log(song, 'this is the current song');
         this.setState({ currentSong: song.data[0] });
       });
     axios
       .get(`http://localhost:5000/relatedtracks/${this.state.currentSongId}`)
       .then(songs => {
-        console.log(songs, 'these are related tracks');
         this.setState({ relatedTracks: songs.data });
       })
       .catch(err => {
@@ -38,7 +37,6 @@ class App extends React.Component {
     axios
       .get(`http://localhost:5000/userlike/${this.state.currentSongId}`)
       .then(users => {
-        console.log(users, 'these are users who have liked the song');
         this.setState({ userLikes: users.data });
       })
       .catch(err => {
@@ -48,7 +46,6 @@ class App extends React.Component {
     axios
       .get(`http://localhost:5000/userrepost/${this.state.currentSongId}`)
       .then(users => {
-        console.log(users, 'these are users who have reposted the song');
         this.setState({ userReposts: users.data });
       })
       .catch(err => {
@@ -58,7 +55,6 @@ class App extends React.Component {
     axios
       .get(`http://localhost:5000/playlistincluded/${this.state.currentSongId}`)
       .then(playlists => {
-        console.log(playlists, 'these are playlists which contain the song');
         this.setState({ playlistsInclud: playlists.data });
       })
       .catch(err => {
@@ -68,7 +64,6 @@ class App extends React.Component {
     axios
       .get(`http://localhost:5000/albumincluded/${this.state.currentSongId}`)
       .then(albums => {
-        console.log(albums, 'these are albums which contain the song');
         this.setState({ albumsInclud: albums.data });
       })
       .catch(err => {
@@ -82,22 +77,30 @@ class App extends React.Component {
       <div className={style.container}>
         <span>React is working!</span>
         <ItemsContainer
+          id="related-tracks"
           type="relatedTracks"
           tracks={this.state.relatedTracks}
         />
         <ItemsContainer
+          id="inclusive-playlists"
           type="playlists"
           playlists={this.state.playlistsInclud}
         />
-        <ItemsContainer type="albums" albums={this.state.albumsInclud} />
+        <ItemsContainer
+          id="inclusive-albums"
+          type="albums"
+          albums={this.state.albumsInclud}
+        />
 
         <InteractionContainer
+          id="user-likes"
           type="likes"
           users={this.state.userLikes}
           song={this.state.currentSong}
           className="interaction-container"
         />
         <InteractionContainer
+          id="user-reposts"
           type="reposts"
           users={this.state.userReposts}
           song={this.state.currentSong}

@@ -1,0 +1,69 @@
+.container {
+  position: absolute;
+  bottom: 55px;
+  left: -55px;
+
+  background: white;
+  border: 0.5px solid grey;
+  height: 200px;
+  width: 150px;
+  border-radius: 5px;
+  box-shadow: 0 2px 2px 2px rgba(224, 221, 221, 0.795);
+
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.art {
+  height: 85px;
+  width: 85px;
+  border-radius: 50%;
+  margin-top: 10px;
+}
+
+.username {
+  color: rgb(182, 174, 174);
+}
+
+.followers-icon {
+  position: relative;
+  left: -5px;
+  bottom: 3px;
+  width: 16px;
+  height: 16px;
+  grid-column: 1;
+}
+
+.follower-count {
+  margin-bottom: 5px;
+  grid-column: 2;
+  font-size: 12px;
+}
+
+.followers {
+  color: rgb(182, 174, 174);
+
+  display: grid;
+  grid-template-columns: 1fr, 1fr;
+  grid-template-rows: 1fr;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+}
+
+.location {
+  color: rgb(182, 174, 174);
+}
+
+.follow-button {
+  border-radius: 3px;
+  background-color: white;
+  height: 22px;
+  margin-bottom: 8px;
+}
+
+.follow-button:focus {
+  outline: 0;
+}

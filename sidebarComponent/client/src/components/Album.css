@@ -1,0 +1,44 @@
+.art {
+  height: 50px;
+  width: 50px;
+  grid-column: 1;
+  grid-row: 1 / span 3;
+}
+
+.username {
+  color: rgb(182, 174, 174);
+}
+
+.username:hover {
+  color: rgb(65, 61, 61);
+}
+
+.title {
+  color: rgb(107, 104, 104);
+}
+
+.title:hover {
+  color: rgb(82, 78, 78);
+}
+
+.year {
+  color: rgb(182, 174, 174);
+}
+
+.info {
+  display: flex-box;
+  flex-flow: column;
+  justify-content: space-evenly;
+  grid-column: 2;
+  justify-self: end;
+  align-content: center;
+  width: 220px;
+}
+.container {
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: 40px, 160px;
+  grid-template-rows: 1, 1, 1;
+  width: 200px;
+  margin: 20px;
+}

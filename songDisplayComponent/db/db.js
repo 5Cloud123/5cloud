@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const mysql = require('mysql');
 
 // Create connection
@@ -15,28 +16,4 @@ connection.connect(function(err) {
   console.log('\nConnected to the MySQL server.\n');
 });
 
-const getTenSongs = (res) => {
-  const query = 'SELECT * FROM songs LIMIT 10;';
-  // Insert information
-  connection.query(query, (err, results, fields) => {
-    if (err) {
-      console.error(err);
-    } else {
-      res.end(JSON.stringify(results));
-    }
-  });
-};
-
-const getAllSongs = (res) => {
-  const query = 'SELECT * FROM songs;';
-  // Insert information
-  connection.query(query, (err, results, fields) => {
-    if (err) {
-      console.error(err);
-    } else {
-      res.end(JSON.stringify(results));
-    }
-  });
-};
-
-module.exports.getTenSongs = getTenSongs;
+module.exports.connection = connection;

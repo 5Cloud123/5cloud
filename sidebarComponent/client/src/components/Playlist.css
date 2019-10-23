@@ -1,0 +1,75 @@
+.art {
+  height: 50px;
+  width: 50px;
+  grid-column: 1;
+  grid-row: 1 / span 3;
+}
+
+.username {
+  color: rgb(182, 174, 174);
+}
+
+.username:hover {
+  color: rgb(82, 78, 78);
+}
+.title {
+  color: rgb(107, 104, 104);
+}
+
+.title:hover {
+  color: rgb(82, 78, 78);
+}
+
+.likes {
+  margin: 7px;
+}
+
+.likes:hover {
+  color: rgb(82, 78, 78);
+}
+
+.like-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+.reposts {
+  margin: 7px;
+}
+
+.reposts:hover {
+  color: rgb(82, 78, 78);
+}
+
+.repost-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+.info {
+  display: flex-box;
+  flex-flow: column;
+  justify-content: space-evenly;
+  grid-column: 2;
+  justify-self: end;
+  align-content: center;
+  width: 220px;
+}
+.icon-bar {
+  display: flexbox;
+  flex-flow: row;
+  flex-grow: 1;
+  justify-content: flex-start;
+
+  color: rgb(182, 174, 174);
+}
+.container {
+  display: grid;
+  grid-template-columns: 40px, 160px;
+  grid-template-rows: 1, 1, 1;
+  grid-gap: 15px;
+  width: 200px;
+  margin: 20px;
+}

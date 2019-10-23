@@ -1,0 +1,72 @@
+* {
+  font: 12px, Arial;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: auto, auto;
+  grid-area: topbar;
+  justify-self: center;
+  align-content: center;
+  color: rgb(182, 174, 174);
+
+  width: 300px;
+  height: 30px;
+  border-bottom: 1px solid gainsboro;
+  margin: 10px;
+}
+
+.topbar:hover .view {
+  color: rgb(82, 78, 78);
+}
+
+.likes-icon {
+  position: relative;
+  bottom: -5px;
+  width: 20px;
+  height: 20px;
+  grid-column: 1;
+  justify-self: start;
+  margin-right: 5px;
+}
+
+.reposts-icon {
+  position: relative;
+  bottom: -5px;
+  width: 20px;
+  height: 20px;
+  grid-column: 1;
+  justify-self: start;
+  margin-right: 5px;
+}
+
+.descriptor {
+  position: absolute;
+  grid-column: 1;
+  justify-self: start;
+  align-self: center;
+  margin-bottom: 5px;
+}
+
+.descriptor-text {
+  position: relative;
+  display: inline-block;
+}
+
+.view {
+  grid-column: 3;
+  justify-self: end;
+  align-self: center;
+}
+
+.master-container {
+  display: grid;
+  grid-template-rows: 25px, 30px;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'topbar'
+    'item';
+  justify-items: center;
+  width: 300px;
+  margin-bottom: 12px;
+}

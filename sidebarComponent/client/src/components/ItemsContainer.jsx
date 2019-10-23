@@ -2,7 +2,7 @@ import React from 'react';
 import Song from './Song.jsx';
 import Album from './Album.jsx';
 import Playlist from './Playlist.jsx';
-import style from './styles/ItemsContainer.css';
+import style from './ItemsContainer.css';
 
 let ItemsContainer = props => {
   if (props.type === 'relatedTracks') {
@@ -16,9 +16,14 @@ let ItemsContainer = props => {
       return (
         <div className={style['master-container']}>
           <div className={style.topbar}>
-            <i className="tracks-icon top-bar-icon"></i>
-            <span>Related tracks</span>
-            <span>View all</span>
+            <div className={style.descriptor}>
+              <img
+                className={style['tracks-icon']}
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCI+PHBhdGggZmlsbD0iIzk5OSIgZD0iTTUgMTJoMnY0SDV6TTIxIDEyaDJ2NGgtMnpNMTcgMTBoMnY4aC0yek05IDhoMnYxMkg5ek0xMyA1aDJ2MThoLTJ6Ii8+PC9zdmc+"
+              />
+              <span className={style['descriptor-text']}>Related Tracks</span>
+            </div>
+            <span className={style.view}>View all</span>
           </div>
 
           <div>
@@ -43,9 +48,14 @@ let ItemsContainer = props => {
       return (
         <div className={style['master-container']}>
           <div className={style.topbar}>
-            <i className="playlists-icon top-bar-icon"></i>
-            <span>In Playlists</span>
-            <span>View all</span>
+            <div className={style.descriptor}>
+              <img
+                className={style['playlists-icon']}
+                src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+aWNfcGxheWxpc3RfMTg8L3RpdGxlPjxnIGZpbGw9IiM5OTkiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTIgNmgxMHYxMEgyeiIvPjxwYXRoIGZpbGwtb3BhY2l0eT0iLjciIGQ9Ik01IDJoMTF2MTBoLTJWNEg1eiIvPjwvZz48L3N2Zz4="
+              />
+              <span className={style['descriptor-text']}>In Playlists</span>
+            </div>
+            <span className={style.view}>View all</span>
           </div>
 
           <div>
@@ -70,8 +80,13 @@ let ItemsContainer = props => {
       return (
         <div className={style['master-container']}>
           <div className={style.topbar}>
-            <i className={style.icon}></i>
-            <span className={style.descriptor}>In Albums</span>
+            <div className={style.descriptor}>
+              <img
+                className={style['playlists-icon']}
+                src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+aWNfcGxheWxpc3RfMTg8L3RpdGxlPjxnIGZpbGw9IiM5OTkiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTIgNmgxMHYxMEgyeiIvPjxwYXRoIGZpbGwtb3BhY2l0eT0iLjciIGQ9Ik01IDJoMTF2MTBoLTJWNEg1eiIvPjwvZz48L3N2Zz4="
+              />
+              <span className={style['descriptor-text']}>In Albums</span>
+            </div>
             <span className={style.view}>View all</span>
           </div>
 

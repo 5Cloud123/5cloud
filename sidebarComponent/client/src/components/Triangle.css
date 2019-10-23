@@ -1,0 +1,44 @@
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-top: 50px solid white;
+
+  position: absolute;
+  bottom: 58px;
+  left: -27px;
+}
+
+.triangle-cover {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid white;
+
+  position: absolute;
+  bottom: 52px;
+  left: 16px;
+  z-index: 110;
+}
+
+.triangle-border {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-top: 51px solid black;
+
+  position: absolute;
+  bottom: 50px;
+  left: -29px;
+}
+
+.bridge {
+  position: absolute;
+  bottom: 37px;
+  left: 5px;
+  width: 30px;
+  height: 15px;
+}

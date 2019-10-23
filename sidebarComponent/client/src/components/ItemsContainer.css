@@ -1,0 +1,82 @@
+.topbar {
+  display: grid;
+  grid-template-columns: auto, auto;
+  grid-area: topbar;
+  justify-self: center;
+  align-items: center;
+  color: rgb(182, 174, 174);
+
+  width: 300px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgb(241, 241, 241);
+}
+
+.topbar:hover .view {
+  color: rgb(82, 78, 78);
+}
+.item {
+  grid-area: item;
+  color: rgb(182, 174, 174);
+}
+
+.descriptor {
+  position: absolute;
+  display: flexbox;
+  flex-flow: row;
+  align-content: flex-start;
+  grid-column: 1;
+  justify-self: start;
+  height: 25px;
+}
+
+.descriptor-text {
+  position: relative;
+  bottom: 15px;
+  display: inline-block;
+}
+
+.view {
+  grid-column: 2;
+  justify-self: end;
+}
+
+.tracks-icon {
+  position: relative;
+  bottom: 8px;
+  width: 28px;
+  height: 28px;
+  grid-column: 1;
+  justify-self: start;
+  margin-right: 3px;
+}
+
+.playlists-icon {
+  position: relative;
+  bottom: 12px;
+  width: 18px;
+  height: 18px;
+  grid-column: 1;
+  justify-self: start;
+  margin-right: 5px;
+  margin-top: 10px;
+}
+
+.albums-icon {
+  width: 18px;
+  height: 18px;
+  grid-column: 1;
+  justify-self: start;
+  margin-right: 10px;
+}
+
+.master-container {
+  display: grid;
+  grid-template-columns: 300px;
+  grid-template-rows: 25px, auto, auto, auto;
+  grid-template-areas:
+    'topbar'
+    'item'
+    'item'
+    'item';
+  justify-items: start;
+}
