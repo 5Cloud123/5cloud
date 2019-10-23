@@ -23,3 +23,6 @@ app.get('/songs', (req, res) => {
     }
   });
 });
+
+//serve bundle
+app.use('/app.js', express.static(path.join(__dirname, '../public/bundle.js')));
