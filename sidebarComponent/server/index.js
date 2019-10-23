@@ -10,6 +10,15 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, '../public/dist')));
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4000'); // update to match the domain you will make the request from
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
+
 app.get('/currentSong/:songid', (req, res) => {
   console.log('being hit with GET req for current song info');
   db.getCurrentSong(req, res);
@@ -39,6 +48,11 @@ app.get('/albumincluded/:songid', (req, res) => {
   console.log('being hit with GET req for albums with song in them');
   db.getInclusiveAlbums(req, res);
 });
+
+app.use(
+  '/app.js',
+  express.static(path.join(__dirname, '../public/dist/bundle.js'))
+);
 
 //new idea: use one route that accepts the song_id and it GETs all of the above information by
 //calling each of the premade mysql methods

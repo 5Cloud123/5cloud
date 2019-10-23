@@ -2,10 +2,10 @@ import React from 'react';
 import InteractionContainer from './InteractionContainer.jsx';
 import ItemsContainer from './ItemsContainer.jsx';
 import axios from 'axios';
-import style from './App.css';
+import style from './Sidebar.css';
 import 'babel-polyfill';
 
-class App extends React.Component {
+class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -111,4 +111,9 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Sidebar;
+
+ReactDOM.render(
+  <Sidebar currentSong="Song_00001" />,
+  document.getElementById('sidebar')
+);
