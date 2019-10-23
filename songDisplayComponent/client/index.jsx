@@ -1,3 +1,3 @@
-import App from './App';
+import SongDisplay from './SongDisplay';
 
-ReactDOM.render(<App />, document.querySelector('#app'));
+ReactDOM.render(<SongDisplay />, document.querySelector('#SongDisplay'));
