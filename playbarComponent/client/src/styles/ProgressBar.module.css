@@ -1,0 +1,72 @@
+img {
+  border: 0;
+  transform: translateY(7px);
+}
+
+button {
+  border: 0;
+  outline: none;
+  background-color: #f2f2f2;
+}
+
+button img:hover {
+  cursor: pointer;
+}
+
+#progressBar {
+  background: linear-gradient(
+    to right,
+    /* grey 0%,
+      grey 0%,
+      grey 0%,
+      grey 100%  */ #ffa500 0%,
+    #ffa500 0%,
+    #fff 0%,
+    #fff 100%
+  );
+  border: solid 1px grey;
+  border-radius: 8px;
+  height: 1px;
+  width: 35%;
+  margin-bottom: 20px;
+  outline: none;
+  transition: background 450ms ease-in;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 0;
+  height: 0;
+}
+
+#progressBar:hover::-webkit-slider-thumb {
+  width: 10px;
+  height: 10px;
+  border: 1px solid orange;
+  border-radius: 50%;
+  background: orange;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+#currentTime {
+  color: #f50;
+  margin-left: 10px;
+  padding-right: 0.5rem;
+  font-size: 0.8rem;
+}
+
+#songDuration {
+  color: #333;
+  cursor: pointer;
+  padding-left: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.progressContainer {
+  display: inline;
+  margin-left: 2rem;
+  padding-bottom: 5rem;
+}

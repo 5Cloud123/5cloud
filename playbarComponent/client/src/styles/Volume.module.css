@@ -1,0 +1,29 @@
+img {
+  border: 0;
+  transform: translateY(7px);
+}
+
+button {
+  border: 0;
+  outline: none;
+  background-color: #f2f2f2;
+}
+
+button img:hover {
+  cursor: pointer;
+}
+
+.volumeContainer {
+  display: inline-block;
+  position: relative;
+  margin-left: 1.5rem;
+}
+
+#volumeSlider {
+  -webkit-appearance: slider-vertical;
+  position: absolute;
+  height: 4rem;
+  right: -3rem;
+  bottom: 1rem;
+  z-index: 2;
+}

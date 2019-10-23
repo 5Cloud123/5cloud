@@ -1,10 +1,12 @@
 img {
   border: 0;
+  transform: translateY(7px);
 }
 
 button {
   border: 0;
   outline: none;
+  background-color: #f2f2f2;
 }
 
 button img:hover {
@@ -13,12 +15,15 @@ button img:hover {
 
 .navbar {
   border-top: 1px solid #cecece;
-  background-color: 'white';
-  overflow: hidden;
+  background-color: #f2f2f2;
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding: 5px 5px;
+  padding-top: 0.2rem;
+  z-index: 1;
+  overflow: visible;
+  margin-top: 10%;
+
   /* margin-left: 10px;
   margin-right: 10px; */
 }
@@ -29,20 +34,24 @@ button img:hover {
   width: 24px;
   height: 24px;
   cursor: pointer;
+  transform: translateY(7px);
 }
 
 #progress-bar {
   background: linear-gradient(
     to right,
-    #ffa500 0%,
+    /* grey 0%,
+    grey 0%,
+    grey 0%,
+    grey 100%  */ #ffa500 0%,
     #ffa500 0%,
     #fff 0%,
     #fff 100%
   );
-  border: solid 1px #ffa500;
+  border: solid 1px grey;
   border-radius: 8px;
   height: 1px;
-  width: 40%;
+  width: 35%;
   margin-bottom: 20px;
   outline: none;
   transition: background 450ms ease-in;
@@ -69,16 +78,22 @@ input[type='range']::-webkit-slider-thumb {
 #current-time {
   color: #f50;
   margin-left: 10px;
+  padding-right: 0.5rem;
+  font-size: 0.8rem;
 }
 
 #song-duration {
   color: #333;
   cursor: pointer;
+  padding-left: 0.5rem;
+  font-size: 0.8rem;
 }
 
 #song-title {
-  color: #999;
+  color: #666;
   cursor: pointer;
+
+  font-size: 11px;
 }
 
 #song-title:hover {
@@ -89,8 +104,135 @@ input[type='range']::-webkit-slider-thumb {
   color: #999;
   cursor: pointer;
   font-size: 11px;
+  padding-left: 0.5rem;
+  line-height: 46px;
 }
 
 #artist-name:hover {
   color: black;
+}
+
+.functions-container {
+  display: inline;
+  margin-left: 6rem;
+  transform: translateY(10px);
+}
+
+.progress-container {
+  display: inline;
+  margin-left: 2rem;
+  padding-bottom: 5rem;
+}
+
+.volume-container {
+  display: inline-block;
+  position: relative;
+  margin-left: 1.5rem;
+}
+
+#volume-slider {
+  -webkit-appearance: slider-vertical;
+  position: absolute;
+  height: 4rem;
+  right: -3rem;
+  bottom: 1rem;
+  z-index: 2;
+}
+
+/* .forward {
+  z-index: 10;
+} */
+
+.art-container {
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+.w3-container {
+  display: inline;
+}
+
+.album-art {
+  border-color: #333;
+  width: 2rem;
+  height: 2rem;
+  border: 0.5px black;
+  cursor: pointer;
+  transform: translateY(10px);
+}
+
+.playlist-container {
+  display: inline;
+  margin-left: 8rem;
+}
+
+#like {
+  width: 1rem;
+  height: 1rem;
+  padding-bottom: 0.3rem;
+  cursor: pointer;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 3rem;
+  padding-right: 8rem;
+  float: right;
+  right: 0;
+  top: 0;
+  width: 40%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+.modal-content {
+  border: 0.5px solid #888;
+  margin-right: 2rem;
+  position: relative;
+  float: right;
+  background-color: white;
+  padding: 20px;
+  margin: auto;
+  width: 80%;
+  height: 80%;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 0.5s;
+  animation-name: animatebottom;
+  animation-duration: 0.5s;
+  font-weight: 100;
+  font-size: 16px;
+}
+
+.clear-btn {
+  margin-right: 5rem;
+}
+
+.close-btn {
+  float: right;
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@-webkit-keyframes animatebottom {
+  from {
+    bottom: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes animatebottom {
+  from {
+    bottom: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }

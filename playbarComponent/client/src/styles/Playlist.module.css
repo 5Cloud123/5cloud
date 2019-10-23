@@ -1,0 +1,35 @@
+img {
+  border: 0;
+  transform: translateY(7px);
+}
+
+button {
+  border: 0;
+  outline: none;
+  background-color: #f2f2f2;
+}
+
+button img:hover {
+  cursor: pointer;
+}
+
+#playlistButton {
+  padding: 0;
+  margin: 0;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transform: translateY(7px);
+}
+
+.playlistContainer {
+  display: inline;
+  margin-left: 8rem;
+}
+
+#like {
+  width: 1rem;
+  height: 1rem;
+  padding-bottom: 0.3rem;
+  cursor: pointer;
+}
