@@ -10,7 +10,7 @@
   "scripts": {
     "start": "nodemon Server/server.js",
     "build": "webpack -w",
-    "seed": "node db/seedDB.js",
+    "seed": "node db/seedCommentsTable.js && node db/seedSongTable.js",
     "test": "jest --verbose"
   },
   "dependencies": {

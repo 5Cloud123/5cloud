@@ -176,6 +176,7 @@ export default class SongPlayer extends React.Component {
           ></canvas>
           <div className={styles['user-comment-container']}>
             {comments.map((comment) => {
+              console.log('COMMENT');
               return (
                 <UserComment
                   comment={comment}
