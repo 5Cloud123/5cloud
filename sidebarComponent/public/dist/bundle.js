@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable camelcase */
 /******/ (function(modules) {
   // webpackBootstrap
   /******/ // The module cache
