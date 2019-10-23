@@ -75,7 +75,6 @@ class Sidebar extends React.Component {
   render() {
     return (
       <div className={style.container}>
-        <span>React is working!</span>
         <ItemsContainer
           id="related-tracks"
           type="relatedTracks"
