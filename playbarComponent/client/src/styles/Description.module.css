@@ -1,0 +1,51 @@
+img {
+  border: 0;
+  transform: translateY(7px);
+}
+
+button {
+  border: 0;
+  outline: none;
+  background-color: #f2f2f2;
+}
+
+button img:hover {
+  cursor: pointer;
+}
+
+#songTitle {
+  color: #666;
+  cursor: pointer;
+
+  font-size: 11px;
+}
+
+#songTitle:hover {
+  color: black;
+}
+
+#artistName {
+  color: #999;
+  cursor: pointer;
+  font-size: 11px;
+  padding-left: 0.5rem;
+  line-height: 46px;
+}
+
+#artistName:hover {
+  color: black;
+}
+
+.artContainer {
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+.albumArt {
+  border-color: #333;
+  width: 2rem;
+  height: 2rem;
+  border: 0.5px black;
+  cursor: pointer;
+  transform: translateY(10px);
+}
