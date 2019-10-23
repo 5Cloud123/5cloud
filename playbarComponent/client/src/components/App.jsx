@@ -254,7 +254,6 @@ class App extends Component {
     });
   }
 
-  //TODO
   handleShuffleToggle() {
     this.setState({ shuffleState: !this.state.shuffleState }, () => {
       this.state.shuffleState;
@@ -262,7 +261,6 @@ class App extends Component {
     });
   }
 
-  //TODO
   handleRepeatToggle() {
     this.setState({ loopState: !this.state.loopState }, () => {
       this.state.loopState
@@ -271,7 +269,6 @@ class App extends Component {
     });
   }
 
-  //TODO
   handleLike() {
     document.getElementById('like').onclick = function() {
       console.log('like clicked!');
@@ -279,7 +276,6 @@ class App extends Component {
     };
   }
 
-  //TODO
   handlePlayListPopup() {
     document.querySelector('.modal').style.display = 'block';
   }
@@ -288,7 +284,6 @@ class App extends Component {
     document.querySelector('.modal').style.display = 'none';
   }
 
-  //TODO
   handleProgressBarSeek(event) {
     var timeline = document.getElementById('progress-bar');
     // timeline.oninput = function() {
