@@ -40,11 +40,13 @@ var seedDb = function(data) {
             //  Load into table 'songs'
             for (let i = 0; i < songs.length; i++) {
               var insertSongsQuery =
-                'INSERT INTO songs(songName,songId, artistName) VALUES (?,?,?)';
+                'INSERT INTO songs(songName,songId, songNameURL, songArtURL, artistName) VALUES (?,?,?,?,?)';
               var songName = songs[i].song_name;
               var songId = songs[i].song_id;
+              var songURL = songs[i].song_data_url;
+              var songArt = songs[i].song_art_url;
               var artistName = songs[i].artist_name;
-              var queryArgs = [songName, songId, artistName];
+              var queryArgs = [songName, songId, songURL, songArt, artistName];
 
               connection.query(insertSongsQuery, queryArgs, (err, results) => {
                 if (err) {

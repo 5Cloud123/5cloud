@@ -2,8 +2,16 @@
   "name": "BottomPlaybar",
   "version": "",
   "description": "",
+  "jest": {
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(js|jsx)$",
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "jsx"
+    ]
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon ./server/index.js",
     "react-dev": "webpack --watch",
     "seed": "node ./database/seed.js"
@@ -20,7 +28,13 @@
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
     "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
+    "jest": "^24.9.0",
+    "react-test-renderer": "^16.10.2",
+    "style-loader": "^1.0.0",
     "webpack": "^4.41.1",
     "webpack-cli": "^3.3.9"
   },

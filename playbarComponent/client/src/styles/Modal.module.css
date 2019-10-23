@@ -1,0 +1,78 @@
+img {
+  border: 0;
+  transform: translateY(7px);
+}
+
+button {
+  border: 0;
+  outline: none;
+  background-color: #f2f2f2;
+}
+
+button img:hover {
+  cursor: pointer;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 3rem;
+  padding-right: 8rem;
+  float: right;
+  right: 0;
+  top: 0;
+  width: 40%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+.modalContent {
+  border: 0.5px solid #888;
+  margin-right: 2rem;
+  position: relative;
+  float: right;
+  background-color: white;
+  padding: 20px;
+  margin: auto;
+  width: 80%;
+  height: 80%;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 0.5s;
+  animation-name: animatebottom;
+  animation-duration: 0.5s;
+  font-weight: 100;
+  font-size: 16px;
+}
+
+.clear-btn {
+  margin-right: 5rem;
+}
+
+.close-btn {
+  float: right;
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@-webkit-keyframes animatebottom {
+  from {
+    bottom: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes animatebottom {
+  from {
+    bottom: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
