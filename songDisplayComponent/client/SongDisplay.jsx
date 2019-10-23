@@ -3,6 +3,11 @@
 import SongPlayer from './SongPlayer';
 import PlayerHead from './PlayerHead';
 
+const React = require('react');
+const axios = require('axios');
+
+const styles = require('./style/SongDisplay.module.css');
+
 // Calculate relative date posted
 const calculateDatePosted = (dateInteger) => {
   const today = Date.now();
@@ -65,7 +70,7 @@ const getRandomArbitrary = (min, max) => {
   return Math.round(Math.random() * (max - min) + min);
 };
 
-export default class App extends React.Component {
+export default class SongDisplay extends React.Component {
   constructor(props) {
     super(props);
 
@@ -104,14 +109,18 @@ export default class App extends React.Component {
 
     // Bind functions to this
     this.setState = this.setState.bind(this);
-    this.recordNextSongsLength = this.recordNextSongsLength.bind(this);
+    this.recordNextSongsLength = this.recordNextSongsLength.bind(
+      this
+    );
     this.playSong = this.playSong.bind(this);
     this.pauseSong = this.pauseSong.bind(this);
     this.incrementTimer = this.incrementTimer.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
     this.playNextFromQueue = this.playNextFromQueue.bind(this);
-    this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(this);
+    this.backgroundGetThreeSongs = this.backgroundGetThreeSongs.bind(
+      this
+    );
     this.handleSliderChange = this.handleSliderChange.bind(this);
   }
 
@@ -139,8 +148,12 @@ export default class App extends React.Component {
         const songObj = response.data[0];
         songObj.comments = response.data[1];
         // Parse waveform data, calculate relative date posted
-        songObj.waveform_data = JSON.parse(songObj.waveform_data);
-        songObj.date_posted = calculateDatePosted(songObj.upload_time);
+        songObj.waveform_data = JSON.parse(
+          songObj.waveform_data
+        );
+        songObj.date_posted = calculateDatePosted(
+          songObj.upload_time
+        );
         const songAudio = new Audio(songObj.song_data_url);
         // Set to state then do the same for the rest of the songs
         this.setState(
@@ -181,11 +194,15 @@ export default class App extends React.Component {
           // Only process, enqueue songs not yet played
           if (!this.state.songsPlayedIDs.has(songObjs.song_id)) {
             // Parse waveform data, calculate relative date posted
-            songObjs[i].waveform_data = JSON.parse(songObjs[i].waveform_data);
+            songObjs[i].waveform_data = JSON.parse(
+              songObjs[i].waveform_data
+            );
             songObjs[i].date_posted = calculateDatePosted(
               songObjs[i].upload_time
             );
-            remainingSongsAudio.push(new Audio(songObjs[i].song_data_url));
+            remainingSongsAudio.push(
+              new Audio(songObjs[i].song_data_url)
+            );
             remainingSongsObjs.push(songObjs[i]);
           }
         }
@@ -209,7 +226,9 @@ export default class App extends React.Component {
       const songObj = songQueueObjects.pop();
       // Set current playback time to 0
       songObj.currentTime = 0;
-      songObj.currentTimeMMSS = calculateMMSS(songObj.currentTime);
+      songObj.currentTimeMMSS = calculateMMSS(
+        songObj.currentTime
+      );
       songObj.durationMMSS = calculateMMSS(songAudio.duration);
       songObj.waveform_data = JSON.parse(songObj.waveform_data);
       // Stop current song's playback
@@ -255,7 +274,10 @@ export default class App extends React.Component {
     if (durationRemaining > 0) {
       if (durationRemaining < 10) {
         // If sinlgle-digit, pad-
-        length += JSON.stringify(durationRemaining).padStart(2, '0');
+        length += JSON.stringify(durationRemaining).padStart(
+          2,
+          '0'
+        );
       } else {
         length += `${durationRemaining}`;
       }
@@ -277,10 +299,13 @@ export default class App extends React.Component {
       this.setState({playButtonState: 'pause'}, () => {
         this.state.currentSongAudio.play();
         // Listen for song to finish
-        this.state.currentSongAudio.addEventListener('ended', () => {
-          // Start next song
-          this.playNextFromQueue();
-        });
+        this.state.currentSongAudio.addEventListener(
+          'ended',
+          () => {
+            // Start next song
+            this.playNextFromQueue();
+          }
+        );
         // Start song timer
         this.startTimer();
         // Record song as having been played
@@ -311,14 +336,19 @@ export default class App extends React.Component {
     const currentTime = this.state.currentSongAudio.currentTime;
     const currentSongObj = this.state.currentSongObj;
     currentSongObj.currentTime = Math.floor(currentTime + 1);
-    currentSongObj.currentTimeMMSS = calculateMMSS(currentSongObj.currentTime);
+    currentSongObj.currentTimeMMSS = calculateMMSS(
+      currentSongObj.currentTime
+    );
     this.setState({currentSongObj});
   }
 
   // Start playback timer for current song; save interval's ID in state
   startTimer() {
     // Update timer every second
-    const timerIntervalID = setInterval(this.incrementTimer, 250);
+    const timerIntervalID = setInterval(
+      this.incrementTimer,
+      250
+    );
     // Record id of interval
     this.setState({
       timerIntervalID,
@@ -349,7 +379,7 @@ export default class App extends React.Component {
     });
   }
 
-  // Render App component
+  // Render SongDisplay component
   render() {
     // Destructure state
     const {playButtonState, songPlayerPixelWidth} = this.state;
@@ -362,15 +392,18 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <div className='nav-bar'></div>
-        <div id='playbackCenter' className='outer-player-panel'>
+        <div className={styles['nav-bar']}></div>
+        <div
+          id='playbackCenter'
+          className={styles['outer-player-panel']}
+        >
           <div
-            className='inner-player-panel'
+            className={styles['inner-player-panel']}
             style={{
               background: `linear-gradient(
-                135deg,
-                rgb${this.state.currentSongObj.background_light} 0%,
-                rgb${this.state.currentSongObj.background_dark} 100%`,
+  135deg,
+  rgb${this.state.currentSongObj.background_light} 0%,
+  rgb${this.state.currentSongObj.background_dark} 100%`,
             }}
           >
             <PlayerHead
@@ -379,8 +412,12 @@ export default class App extends React.Component {
               playSong={this.playSong}
               pauseSong={this.pauseSong}
             />
-            <div className='album-art'>
-              <img src={song_art_url} alt='' className='album-art' />
+            <div className={styles['album-art']}>
+              <img
+                src={song_art_url}
+                alt=''
+                className={styles['album-art']}
+              />
             </div>
             <SongPlayer
               currentSongAudio={currentSongAudio}

@@ -4,7 +4,6 @@ const db = require('./db');
 
 // Get specific song
 module.exports.getSong = (song_id, res) => {
-  console.log('getting song in model');
   const query1 = `SELECT * FROM songs WHERE song_id = '${song_id}' LIMIT 1;`;
   const query2 = `SELECT * FROM comments WHERE song_id = '${song_id}'`;
   // Insert information

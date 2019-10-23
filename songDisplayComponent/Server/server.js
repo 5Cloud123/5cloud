@@ -13,7 +13,6 @@ app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
 
 // Get specific song
 app.get('/query/getSong/:song_id', (req, res) => {
-  console.log('get song server');
   const song_id = req.params.song_id;
   db.getSong(song_id, res);
 });

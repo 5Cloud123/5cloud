@@ -1,4 +1,7 @@
 /* eslint-disable camelcase */
+
+const styles = require('./style/SongDisplay.module.css');
+
 const UserComment = (props) => {
   // Destructure props
   const {
@@ -12,7 +15,7 @@ const UserComment = (props) => {
 
   return (
     <div
-      className='user-image'
+      className={styles['user-image']}
       style={{
         // Set 'left' to 0 if song audio isn't ready/loaded
         left:
