@@ -3,7 +3,6 @@ config.js
 
 # .mp3 files, images
 Public/Assets/
-Public/bundle.js
 helperJS/songs_for_soundcloud/
 
 # Test Files
