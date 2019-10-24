@@ -8,6 +8,16 @@ const app = express();
 // Sidebar is on port 5000; use 5001
 const port = 5001;
 
+// CORS Policy
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
+
 // Serve the static index file from the React app
 app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
 
