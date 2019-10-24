@@ -140,7 +140,6 @@ export default class SongDisplay extends React.Component {
       .then((response) => {
         const songObj = response.data[0];
         songObj.comments = response.data[1];
-        console.log(comments);
         // Parse waveform data, calculate relative date posted
         songObj.waveform_data = JSON.parse(songObj.waveform_data);
         songObj.date_posted = calculateDatePosted(songObj.upload_time);

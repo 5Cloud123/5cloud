@@ -26,6 +26,7 @@ a:hover {
 
 .nav-bar {
   background-image: url('./navbar.png');
+  /* background-image: url('http://localhost:5001/song_00001/navbar.png'); */
   height: 46px;
 }
 
