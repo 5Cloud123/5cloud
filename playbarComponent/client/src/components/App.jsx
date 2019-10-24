@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Player from './Player.jsx';
 import ProgressBar from './ProgressBar.jsx';
-import Volume from './Volume.jsx';
 import Description from './Description.jsx';
 import Playlist from './Playlist.jsx';
 import Modal from './Modal.jsx';
@@ -61,19 +60,21 @@ class App extends Component {
     //     let artList = [];
     //     let artistList = [];
     //     let songNamesList = [];
+    //     let duration = [];
     //     for (let i = 0; i < list.length; i++) {
     //       let song = new Audio(list[i].songNameURL);
     //       artList.push(list[i].songArtURL);
     //       artistList.push(list[i].artistName);
     //       songsList.push(song);
     //       songNamesList.push(list[i].songName);
+    //       duration.push(list[i].duration);
     //     }
 
     //     //   get 50x50
     //     for (let i = 0; i < artList.length; i++) {
     //       artList[i] = artList[i].replace(/500x500/g, '50x50');
     //     }
-
+    //     var time = this.fancyTimeFormat(0);
     //     this.setState(
     //       {
     //         currentList: songsList,
@@ -84,7 +85,7 @@ class App extends Component {
     //         artList: artList,
     //         artistList: artistList,
     //         songNamesList: songNamesList,
-    //         currentTime: '0:00',
+    //         currentTime: time,
     //         duration: songsList[0].duration
     //       },
     //       () => {
@@ -100,7 +101,41 @@ class App extends Component {
     //     console.log('Could not load songs from db!');
     //   });
 
-    list = this.props.songs;
+    list = [
+      {
+        lengthString: 'Please choose a song first!',
+        currentTime: 0,
+        name: 'All I Got',
+        songNameURL:
+          'https://5cloudaudio.s3-us-west-1.amazonaws.com/All_I_Got.mp3',
+        artist: 'Said The Sky',
+        songArtURL:
+          'https://i1.sndcdn.com/artworks-87d2dfb3-404e-46c4-a9c1-ca749b012f52-0-t50x50.jpg',
+        duration: 366
+      },
+      {
+        lengthString: 'Please choose a song first!',
+        currentTime: 0,
+        name: 'Flicker',
+        songNameURL:
+          'https://5cloudaudio.s3-us-west-1.amazonaws.com/flicker.mp3',
+        artist: 'Porter Robinson',
+        songArtURL:
+          'https://i1.sndcdn.com/artworks-000376950786-x9c78f-t50x50.jpg',
+        duration: 316
+      },
+      {
+        lengthString: 'Please choose a song first!',
+        currentTime: 0,
+        name: 'Say My Name',
+        songNameURL:
+          'https://5cloudaudio.s3-us-west-1.amazonaws.com/Say_My_Name.mp3',
+        artist: 'Odesza',
+        songArtURL: 'https://i1.sndcdn.com/artworks-ILVTUNh2LAia-0-t50x50.jpg',
+        duration: 266
+      }
+    ];
+
     let songsList = [];
     let artList = [];
     let artistList = [];
@@ -222,15 +257,16 @@ class App extends Component {
     this.state.currentSong.pause();
   }
 
-  //TODO
   handleVolume(event) {
-    var volumeLevel = document.getElementById('volume-slider');
+    var volumeLevel = document.getElementsByClassName(styles.volumeSlider)[0];
     const mute = volumeLevel.value === '0' ? true : false;
     this.setState({
       volume: event.target.value,
       muteState: mute
     });
     this.state.currentSong.volume = this.state.volume;
+
+    console.log('volume: ', this.state.currentSong.volume);
   }
 
   toggleVolume() {
@@ -241,8 +277,8 @@ class App extends Component {
 
   handleMute() {
     this.setState({ muteState: !this.state.muteState }, () => {
-      // var volume = document.getElementById('volume-slider');
-      // var volume = document.querySelector()
+      var volume = document.getElementsByClassName(styles.volumeSlider)[0];
+
       if (this.state.muteState) {
         this.state.currentSong.muted = true;
         volume.value = 0;
@@ -285,7 +321,9 @@ class App extends Component {
   }
 
   handleProgressBarSeek(event) {
-    var timeline = document.getElementById('progress-bar');
+    // var volume = document.getElementsByClassName(styles.volumeSlider)[0];
+
+    var timeline = document.getElementsByClassName(styles.progressBar)[0];
     // timeline.oninput = function() {
     //   this.style.background =
     //     'linear-gradient(to right, #FFA500 0%, #FFA500 ' +
@@ -294,25 +332,26 @@ class App extends Component {
     //     this.value +
     //     '%, white 100%)';
     // };
-    console.log(timeline.value);
-    // this.setState({
-    //   currentTime: event.target.value
-    // });
-    // this.state.currentSong.currentTime = this.state.currentTime;
-    // console.log(this.state.currentTime);
+    // Save currentTime in object
+    var newSong = this.state.currentSong;
+    newSong.currentTime = event.target.value;
 
-    // const seekingSong = this.state.currentSong;
+    timeline.style.background =
+      'linear-gradient(to right, #FFA500 0%, #FFA500 ' +
+      this.value +
+      '%, #fff ' +
+      this.value +
+      '%, white 100%)';
 
-    // console.log(document.getElementById('progress-bar').value);
-    // this.setState({
-    //   currentSong: seekingSong,
-    //   currentTime: event.target.value
-    // });
+    this.setState({
+      currentSong: newSong,
+      currentTime: event.target.value
+    });
   }
 
   incrementTimer() {
     const oldTime = this.state.currentSong.currentTime;
-    console.log('current songs current time');
+    console.log('current songs current time', this.state.currentTime);
     var newTime = Math.floor(oldTime + 1);
     var formatted = this.fancyTimeFormat(newTime);
 
@@ -346,20 +385,62 @@ class App extends Component {
           loopState={this.state.loopState}
         />
 
-        <ProgressBar
-          currentTime={this.state.currentTime}
-          progressBarSeek={this.handleProgressBarSeek}
-          length={this.fancyTimeFormat(this.state.duration)}
-        />
+        <div className={styles.progressContainer}>
+          <span className={styles.currentTime}>
+            {this.fancyTimeFormat(this.state.currentTime)}
+          </span>
+          <input
+            className={styles.progressBar}
+            type="range"
+            min="0"
+            max={this.state.duration}
+            value={this.state.currentTime}
+            onChange={this.handleProgressBarSeek}
+          />
+          <span className={styles.songDuration}>
+            {this.fancyTimeFormat(this.state.duration)}
+          </span>
+        </div>
 
-        <Volume
-          mute={this.state.muteState}
-          handleMute={this.handleMute}
-          toggleVolume={this.toggleVolume}
-          handleVolume={this.handleVolume}
-          volume={this.state.volume}
-          hover={this.state.hoverState}
-        />
+        <div
+          className={styles.volumeContainer}
+          onMouseEnter={this.toggleVolume}
+          onMouseLeave={this.toggleVolume}
+        >
+          <div>
+            <button onClick={this.handleMute}>
+              {this.state.muteState ? (
+                <img
+                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZmlsbD0iIzMzMyIgZD0iTTE4IDEwLjU4NGwtMi4yOTMtMi4yOTEtMS40MTQgMS40MTQgMi4yOTMgMi4yOTEtMi4yOTEgMi4yOTEgMS40MTQgMS40MTUgMi4yOTItMi4yOTIgMi4yOTQgMi4yOTIgMS40MTQtMS40MTUtMi4yOTMtMi4yOTEgMi4yOTEtMi4yOS0xLjQxNC0xLjQxNS0yLjI5MiAyLjI5MXpNNCA5aDQuMDAyTDEyIDV2MTRjLTIuNDQ2LTIuNjY3LTMuNzc4LTQtMy45OTgtNEg0Vjl6Ii8+PC9zdmc+Cg=="
+                  width="24"
+                  height="24"
+                  alt="submit"
+                />
+              ) : (
+                <img
+                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZmlsbD0iIzMzMyIgZD0iTTQgOWg0LjAwMkwxMiA1djE0Yy0yLjQ0Ni0yLjY2Ny0zLjc3OC00LTMuOTk4LTRINFY5em0xMCA0YTEgMSAwIDAgMCAwLTJWOWEzIDMgMCAwIDEgMCA2di0yeiIvPjwvc3ZnPgo="
+                  width="24"
+                  height="24"
+                  alt="submit"
+                />
+              )}
+            </button>
+          </div>
+
+          {this.state.hoverState && (
+            <div>
+              <input
+                className={styles.volumeSlider}
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                onChange={this.handleVolume}
+                defaultValue={this.state.volume}
+              />
+            </div>
+          )}
+        </div>
 
         <Description
           currentArt={this.state.currentArt}

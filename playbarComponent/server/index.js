@@ -7,7 +7,17 @@ const app = express();
 //sidebar: 5000, songdisplay: 5001
 const PORT = 5002;
 
-app.use(express.static(path.join(__dirname, '../public/')));
+// app.use(express.static(path.join(__dirname, '../public/')));
+app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
+
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4000'); // update to match the domain you will make the request from
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
 
 app.listen(PORT, () => console.log('Server is listening on port ', PORT));
 
@@ -25,4 +35,4 @@ app.get('/songs', (req, res) => {
 });
 
 //serve bundle
-app.use('/app.js', express.static(path.join(__dirname, '../public/bundle.js')));
+// app.use('/app.js', express.static(path.join(__dirname, '../public/bundle.js')));
