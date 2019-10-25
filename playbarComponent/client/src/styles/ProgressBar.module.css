@@ -1,4 +1,4 @@
-img {
+/* img {
   border: 0;
   transform: translateY(7px);
 }
@@ -11,7 +11,7 @@ button {
 
 button img:hover {
   cursor: pointer;
-}
+} */
 
 #progressBar {
   background: linear-gradient(
