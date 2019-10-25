@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Player from './Player.jsx';
-import ProgressBar from './ProgressBar.jsx';
 import Description from './Description.jsx';
 import Playlist from './Playlist.jsx';
 import Modal from './Modal.jsx';
