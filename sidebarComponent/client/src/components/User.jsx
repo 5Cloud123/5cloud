@@ -37,7 +37,7 @@ class User extends React.Component {
         {this.state.hoverState && <TriangleCover />}
         {this.state.hoverState && <MouseBridge />}
 
-        <img className={style.avatar} src={this.props.avatar_url} />
+        <img className={style.avatar} src={this.props.user.avatar_url} />
       </div>
     );
   }
