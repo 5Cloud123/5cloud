@@ -5,8 +5,8 @@ const csvParser = require('csv-parse');
 
 const connection = mysql.createConnection({
   user: 'root',
-  password: '',
-  database: 'musicDB'
+  password: process.env.HR_FRONTEND_MYSQL_PASSWORD,
+  database: 'musicDB',
 });
 
 connection.connect();
@@ -17,7 +17,7 @@ var seedDb = function(data) {
   fs.readFile(
     filePath,
     {
-      encoding: 'utf-8'
+      encoding: 'utf-8',
     },
     (err, csvData) => {
       if (err) {
@@ -28,7 +28,7 @@ var seedDb = function(data) {
         csvData,
         {
           columns: true,
-          delimiter: ','
+          delimiter: ',',
         },
         (err, data) => {
           if (err) {

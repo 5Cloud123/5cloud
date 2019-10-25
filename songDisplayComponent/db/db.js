@@ -3,7 +3,7 @@ const mysql = require('mysql');
 
 // Create connection
 let connection = mysql.createConnection({
-  host: 'localhost',
+  host: 'mysql',
   user: 'root',
   password: process.env.HR_FRONTEND_MYSQL_PASSWORD,
   database: '5cloud_song_display',

@@ -1,9 +1,10 @@
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
+  host: 'mysql',
   user: 'root',
-  password: '',
-  database: 'musicDB'
+  password: process.env.HR_FRONTEND_MYSQL_PASSWORD,
+  database: 'musicDB',
 });
 
 connection.connect(() => console.log('DB is connected!'));

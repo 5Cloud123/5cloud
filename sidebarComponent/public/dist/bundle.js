@@ -4590,7 +4590,7 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! babel-polyfill */\"./node_modules/babel-polyfill/lib/index.js\");\nmodule.exports = __webpack_require__(/*! /Users/Nick/Repos/HackReactor/5cloud/5cloud/sidebarComponent/client/src/components/Sidebar.jsx */\"./client/src/components/Sidebar.jsx\");\n\n\n//# sourceURL=webpack:///multi_babel-polyfill_./client/src/components/Sidebar.jsx?");
+eval("__webpack_require__(/*! babel-polyfill */\"./node_modules/babel-polyfill/lib/index.js\");\nmodule.exports = __webpack_require__(/*! /Users/jonathanolson/HackReactor/FEC/Project/sidebarComponent/client/src/components/Sidebar.jsx */\"./client/src/components/Sidebar.jsx\");\n\n\n//# sourceURL=webpack:///multi_babel-polyfill_./client/src/components/Sidebar.jsx?");
 
 /***/ })
 
