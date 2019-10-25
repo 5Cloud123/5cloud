@@ -65,12 +65,12 @@ let seedUsers = function() {
           console.log(err, 'there was an error parsing');
         } else {
           for (let i = 1; i < output.length; i++) {
-            let queryString = `insert into users (user_id, username, pro_unlimited, follower_count, phys_location) VALUES ("${
+            let queryString = `insert into users (user_id, username, pro_unlimited, follower_count, phys_location, avatar_url) VALUES ("${
               output[i][0]
             }",
             "${output[i][1]}", "${output[i][2]}", "${parseInt(
               output[i][3]
-            )}", "${output[i][4]}")`;
+            )}", "${output[i][4]}", "${output[i][5]}")`;
             db.query(queryString, (err, data) => {
               if (err) {
                 console.log(err, 'there was an error saving records to the DB');
@@ -266,10 +266,10 @@ let seedUserReposts = function() {
   });
 };
 
-seedSongs();
-seedUsers();
-seedPlaylists();
-seedAlbums();
+// seedSongs();
+// seedUsers();
+// seedPlaylists();
+// seedAlbums();
 seedAlbumSongIncluded();
 seedPlaylistSongIncluded();
 seedUserLikes();
