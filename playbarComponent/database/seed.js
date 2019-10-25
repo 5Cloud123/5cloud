@@ -11,7 +11,8 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
-const filePath = '/Users/richardcao/Downloads/5cloud Song List - Sheet1.csv';
+const filePath =
+  '/Users/richardcao/cloud5/5cloud/playbarComponent/database/seedData';
 
 var seedDb = function(data) {
   fs.readFile(
