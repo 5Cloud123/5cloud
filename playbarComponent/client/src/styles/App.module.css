@@ -10,18 +10,18 @@
   margin-top: 10%;
 }
 
-img {
+.img {
   border: 0;
   transform: translateY(7px);
 }
 
-button {
+.button {
   border: 0;
   outline: none;
   background-color: #f2f2f2;
 }
 
-button img:hover {
+.button .img:hover {
   cursor: pointer;
 }
 
