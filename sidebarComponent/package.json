@@ -18,6 +18,7 @@
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-regenerator": "^6.26.0",
+    "cors": "^2.8.5",
     "css-loader": "^3.2.0",
     "csv-parse": "^4.6.3",
     "express": "^4.17.1",
