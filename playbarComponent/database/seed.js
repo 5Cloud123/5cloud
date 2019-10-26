@@ -5,20 +5,19 @@ const csvParser = require('csv-parse');
 
 const connection = mysql.createConnection({
   user: 'root',
-  password: process.env.HR_FRONTEND_MYSQL_PASSWORD,
-  database: 'musicDB',
+  password: '',
+  database: 'musicDB'
 });
 
 connection.connect();
 
-const filePath =
-  '/Users/richardcao/cloud5/5cloud/playbarComponent/database/seedData';
+const filePath = '/Users/richardcao/Downloads/5cloud Song List - Sheet1.csv';
 
 var seedDb = function(data) {
   fs.readFile(
     filePath,
     {
-      encoding: 'utf-8',
+      encoding: 'utf-8'
     },
     (err, csvData) => {
       if (err) {
@@ -29,7 +28,7 @@ var seedDb = function(data) {
         csvData,
         {
           columns: true,
-          delimiter: ',',
+          delimiter: ','
         },
         (err, data) => {
           if (err) {
@@ -41,13 +40,22 @@ var seedDb = function(data) {
             //  Load into table 'songs'
             for (let i = 0; i < songs.length; i++) {
               var insertSongsQuery =
-                'INSERT INTO songs(songName,songId, songNameURL, songArtURL, artistName) VALUES (?,?,?,?,?)';
+                'INSERT INTO songs(songName,songId, songNameURL, songArtURL, artistName, duration) VALUES (?,?,?,?,?,?)';
               var songName = songs[i].song_name;
               var songId = songs[i].song_id;
               var songURL = songs[i].song_data_url;
               var songArt = songs[i].song_art_url;
               var artistName = songs[i].artist_name;
-              var queryArgs = [songName, songId, songURL, songArt, artistName];
+              var duration = songs[i].duration;
+
+              var queryArgs = [
+                songName,
+                songId,
+                songURL,
+                songArt,
+                artistName,
+                duration
+              ];
 
               connection.query(insertSongsQuery, queryArgs, (err, results) => {
                 if (err) {

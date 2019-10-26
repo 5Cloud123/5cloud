@@ -25,8 +25,7 @@ a:hover {
 }
 
 .nav-bar {
-  background-image: url('./navbar.png');
-  /* background-image: url('http://54.153.85.213:5001/song_00001/navbar.png'); */
+  background-image: url('http://http://54.153.85.213/:5001/song_00001/navbar.png');
   height: 46px;
 }
 
@@ -129,7 +128,6 @@ a:hover {
   color: #cccccc;
   background-color: #000000;
   font-size: 1.25em;
-  line-height: 22px;
   margin-bottom: 5px;
   padding: 2px 7px 0 7px !important;
 }
@@ -138,6 +136,7 @@ a:hover {
   grid-column-start: head-col2;
   grid-row-start: head-row2;
   height: 35px;
+  margin-top: 5px;
 }
 
 .song-name {

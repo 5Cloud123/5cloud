@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 let db = require('./index.js');
-
+let faker = require('faker');
 let fs = require('fs');
 let parse = require('csv-parse');
 const results = [];
@@ -65,12 +65,12 @@ let seedUsers = function() {
           console.log(err, 'there was an error parsing');
         } else {
           for (let i = 1; i < output.length; i++) {
-            let queryString = `insert into users (user_id, username, pro_unlimited, follower_count, phys_location) VALUES ("${
+            let queryString = `insert into users (user_id, username, pro_unlimited, follower_count, phys_location, avatar_url) VALUES ("${
               output[i][0]
             }",
             "${output[i][1]}", "${output[i][2]}", "${parseInt(
               output[i][3]
-            )}", "${output[i][4]}")`;
+            )}", "${output[i][4]}", "${output[i][5]}")`;
             db.query(queryString, (err, data) => {
               if (err) {
                 console.log(err, 'there was an error saving records to the DB');
@@ -146,131 +146,176 @@ let seedAlbums = function() {
   });
 };
 
-let seedAlbumSongIncluded = function() {
-  fs.readFile(albumSongIncludedPath, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      parse(data, (err, output) => {
-        if (err) {
-          console.log(err);
-        } else {
-          for (let i = 1; i < output.length; i++) {
-            let queryString = `insert into album_song_included (album, song) VALUES ("${parseInt(
-              output[i][0]
-            )}", "${parseInt(output[i][1])}")`;
-            db.query(queryString, (err, entries) => {
-              if (err) {
-                console.log(
-                  err,
-                  'there was an error saving alubm/song mapping to the DB'
-                );
-              } else {
-                console.log('we saved an album/song mapping to the DB');
-              }
-            });
-          }
-        }
-      });
-    }
-  });
+let seedLikes = function() {
+  for (let i = 0; i < 1000; i++) {
+    let userId = faker.random.number({
+      min: 1,
+      max: 30
+    });
+    let songId = faker.random.number({
+      min: 1,
+      max: 100
+    });
+    let queryString = `insert into song_user_likes (user, song) VALUES (${userId}, ${songId})`;
+    db.query(queryString, (err, entries) => {
+      if (err) {
+        console.log(err, 'there was an error seeding random likes');
+      }
+    });
+  }
 };
 
-let seedPlaylistSongIncluded = function() {
-  fs.readFile(playlistSongIncludedPath, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      parse(data, (err, output) => {
-        if (err) {
-          console.log(err);
-        } else {
-          for (let i = 1; i < output.length; i++) {
-            let queryString = `insert into playlist_song_included (playlist, song) VALUES ("${parseInt(
-              output[i][0]
-            )}", "${parseInt(output[i][1])}")`;
-            db.query(queryString, (err, entries) => {
-              if (err) {
-                console.log(
-                  err,
-                  'there was an error saving playlist/song mapping to the DB'
-                );
-              } else {
-                console.log('we saved a playlist/song mapping to the DB');
-              }
-            });
-          }
-        }
-      });
-    }
-  });
+let seedReposts = function() {
+  for (let i = 0; i < 1000; i++) {
+    let userId = faker.random.number({
+      min: 1,
+      max: 30
+    });
+    let songId = faker.random.number({
+      min: 1,
+      max: 100
+    });
+    let queryString = `insert into song_user_reposts (user, song) VALUES (${userId}, ${songId})`;
+    db.query(queryString, (err, entries) => {
+      if (err) {
+        console.log(err, 'there was an error seeding random reposts');
+      }
+    });
+  }
+};
+let seedAlbumIncludes = function() {
+  for (let i = 0; i < 1000; i++) {
+    let albumId = faker.random.number({
+      min: 1,
+      max: 5
+    });
+    let songId = faker.random.number({
+      min: 1,
+      max: 100
+    });
+    let queryString = `insert into album_song_included (album, song) VALUES (${albumId}, ${songId})`;
+    db.query(queryString, (err, entries) => {
+      if (err) {
+        console.log(err, 'there was an error seeding random albumIncludes');
+      }
+    });
+  }
+};
+let seedPlaylistIncludes = function() {
+  for (let i = 0; i < 1000; i++) {
+    let playlistId = faker.random.number({
+      min: 1,
+      max: 6
+    });
+    let songId = faker.random.number({
+      min: 1,
+      max: 100
+    });
+    let queryString = `insert into playlist_song_included (playlist, song) VALUES (${playlistId}, ${songId})`;
+    db.query(queryString, (err, entries) => {
+      if (err) {
+        console.log(err, 'there was an error seeding random playlist includes');
+      }
+    });
+  }
 };
 
-let seedUserLikes = function() {
-  fs.readFile(songUserLikePath, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      parse(data, (err, output) => {
-        if (err) {
-          console.log(err);
-        } else {
-          for (let i = 1; i < output.length; i++) {
-            let queryString = `insert into song_user_likes (user, song) VALUES ("${parseInt(
-              output[i][0]
-            )}", "${parseInt(output[i][1])}")`;
-            db.query(queryString, (err, entries) => {
-              if (err) {
-                console.log(
-                  err,
-                  'there was an error saving user/like mapping to the DB'
-                );
-              } else {
-                console.log('we saved a user/like mapping to the DB');
-              }
-            });
-          }
-        }
-      });
-    }
-  });
-};
+// let seedAlbumSongIncluded = function() {
+//   fs.readFile(albumSongIncludedPath, (err, data) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       parse(data, (err, output) => {
+//         if (err) {
+//           console.log(err);
+//         } else {
+//           for (let i = 1; i < output.length; i++) {
+//             let queryString = `insert into album_song_included (album, song) VALUES ("${parseInt(
+//               output[i][0]
+//             )}", "${parseInt(output[i][1])}")`;
+//             db.query(queryString, (err, entries) => {
+//               if (err) {
+//                 console.log(
+//                   err,
+//                   'there was an error saving alubm/song mapping to the DB'
+//                 );
+//               } else {
+//                 console.log('we saved an album/song mapping to the DB');
+//               }
+//             });
+//           }
+//         }
+//       });
+//     }
+//   });
+// };
 
-let seedUserReposts = function() {
-  fs.readFile(songUserRepostPath, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      parse(data, (err, output) => {
-        if (err) {
-          console.log(err);
-        } else {
-          for (let i = 1; i < output.length; i++) {
-            let queryString = `insert into song_user_reposts (user, song) VALUES ("${parseInt(
-              output[i][0]
-            )}", "${parseInt(output[i][1])}")`;
-            db.query(queryString, (err, entries) => {
-              if (err) {
-                console.log(
-                  err,
-                  'there was an error saving user/repost mapping to the DB'
-                );
-              } else {
-                console.log('we saved a user/repost mapping to the DB');
-              }
-            });
-          }
-        }
-      });
-    }
-  });
-};
+// let seedPlaylistSongIncluded = function() {
+//   fs.readFile(playlistSongIncludedPath, (err, data) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       parse(data, (err, output) => {
+//         if (err) {
+//           console.log(err);
+//         } else {
+//           for (let i = 1; i < output.length; i++) {
+//             let queryString = `insert into playlist_song_included (playlist, song) VALUES ("${parseInt(
+//               output[i][0]
+//             )}", "${parseInt(output[i][1])}")`;
+//             db.query(queryString, (err, entries) => {
+//               if (err) {
+//                 console.log(
+//                   err,
+//                   'there was an error saving playlist/song mapping to the DB'
+//                 );
+//               } else {
+//                 console.log('we saved a playlist/song mapping to the DB');
+//               }
+//             });
+//           }
+//         }
+//       });
+//     }
+//   });
+// };
 
-seedSongs();
-seedUsers();
-seedPlaylists();
-seedAlbums();
-seedAlbumSongIncluded();
-seedPlaylistSongIncluded();
-seedUserLikes();
-seedUserReposts();
+// let seedUserReposts = function() {
+//   fs.readFile(songUserRepostPath, (err, data) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       parse(data, (err, output) => {
+//         if (err) {
+//           console.log(err);
+//         } else {
+//           for (let i = 1; i < output.length; i++) {
+//             let queryString = `insert into song_user_reposts (user, song) VALUES ("${parseInt(
+//               output[i][0]
+//             )}", "${parseInt(output[i][1])}")`;
+//             db.query(queryString, (err, entries) => {
+//               if (err) {
+//                 console.log(
+//                   err,
+//                   'there was an error saving user/repost mapping to the DB'
+//                 );
+//               } else {
+//                 console.log('we saved a user/repost mapping to the DB');
+//               }
+//             });
+//           }
+//         }
+//       });
+//     }
+//   });
+// };
+
+// seedSongs();
+// seedUsers();
+// seedPlaylists();
+// seedAlbums();
+
+seedLikes();
+seedReposts();
+seedAlbumIncludes();
+seedPlaylistIncludes();
