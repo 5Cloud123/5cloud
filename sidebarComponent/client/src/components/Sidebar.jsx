@@ -5,6 +5,8 @@ import axios from 'axios';
 import style from './Sidebar.css';
 import 'babel-polyfill';
 
+const splits = document.URL.split('/');
+const song_id = splits(splits.length - 2);
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -125,6 +127,6 @@ class Sidebar extends React.Component {
 export default Sidebar;
 
 ReactDOM.render(
-  <Sidebar currentSong="Song_00001" />,
+  <Sidebar currentSong={song_id} />,
   document.getElementById('sidebar')
 );
