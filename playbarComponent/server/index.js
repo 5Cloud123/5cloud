@@ -22,7 +22,7 @@ app.use(function(req, res, next) {
 
 app.listen(PORT, () => console.log('Server is listening on port ', PORT));
 
-app.get('/songs', (req, res) => {
+app.get('/query/getSong/:song_id', (req, res) => {
   var getAllQuery = 'SELECT * FROM songs';
   db.query(getAllQuery, (err, data) => {
     if (err) {
