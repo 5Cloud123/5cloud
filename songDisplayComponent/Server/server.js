@@ -33,7 +33,7 @@ function shouldCompress(req, res) {
 }
 
 // Serve the static index file from the React app
-app.use('/:song_id', expressStaticGzip(path.join(__dirname, '../public/')));
+app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
 
 // Get specific song
 app.get('/query/getSong/:song_id', (req, res) => {
