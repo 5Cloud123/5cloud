@@ -1,9 +1,4 @@
-img {
-  border: 0;
-  transform: translateY(7px);
-}
-
-button {
+/* button {
   border: 0;
   outline: none;
   background-color: #f2f2f2;
@@ -11,7 +6,7 @@ button {
 
 button img:hover {
   cursor: pointer;
-}
+} */
 
 .modal {
   display: none; /* Hidden by default */

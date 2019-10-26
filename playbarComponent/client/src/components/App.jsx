@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Player from './Player.jsx';
-import ProgressBar from './ProgressBar.jsx';
 import Description from './Description.jsx';
 import Playlist from './Playlist.jsx';
 import Modal from './Modal.jsx';
@@ -52,118 +51,125 @@ class App extends Component {
   //initialize array of songs
   loadSongs() {
     let list = [];
-    // axios
-    //   .get('/songs')
-    //   .then(res => {
-    //     list = res.data;
-    //     let songsList = [];
-    //     let artList = [];
-    //     let artistList = [];
-    //     let songNamesList = [];
-    //     let duration = [];
-    //     for (let i = 0; i < list.length; i++) {
-    //       let song = new Audio(list[i].songNameURL);
-    //       artList.push(list[i].songArtURL);
-    //       artistList.push(list[i].artistName);
-    //       songsList.push(song);
-    //       songNamesList.push(list[i].songName);
-    //       duration.push(list[i].duration);
-    //     }
+    axios
 
-    //     //   get 50x50
-    //     for (let i = 0; i < artList.length; i++) {
-    //       artList[i] = artList[i].replace(/500x500/g, '50x50');
-    //     }
-    //     var time = this.fancyTimeFormat(0);
-    //     this.setState(
-    //       {
-    //         currentList: songsList,
-    //         currentSong: songsList[0],
-    //         currentSongTitle: songNamesList[0],
-    //         currentArtist: artistList[0],
-    //         currentArt: artList[0],
-    //         artList: artList,
-    //         artistList: artistList,
-    //         songNamesList: songNamesList,
-    //         currentTime: time,
-    //         duration: songsList[0].duration
-    //       },
-    //       () => {
-    //         console.log('current song', this.state.currentSong);
-    //         let d = this.state.currentSong.duration;
-    //         console.log('d: ', d);
-    //         let dur = this.fancyTimeFormat(this.state.currentSong.duration);
-    //         console.log('duration: ', dur);
-    //       }
-    //     );
-    //   })
-    //   .catch(err => {
-    //     console.log('Could not load songs from db!');
-    //   });
+      .get(
+        'http://ec2-18-188-157-241.us-east-2.compute.amazonaws.com:5002/query/getSong/song_0001'
+        // 'http://localhost:5002/query/getSong/song_0001'
+      )
+      .then(res => {
+        list = res.data;
+        console.log('getting data: ', res.data);
+        let songsList = [];
+        let artList = [];
+        let artistList = [];
+        let songNamesList = [];
+        let duration = [];
+        // for (let i = 0; i < list.length; i++) {
+        for (let i = 0; i < 5; i++) {
+          let song = new Audio(list[i].songNameURL);
+          console.log('song:', song);
+          artList.push(list[i].songArtURL);
+          artistList.push(list[i].artistName);
+          songsList.push(song);
+          songNamesList.push(list[i].songName);
+          duration.push(list[i].duration);
+        }
 
-    list = [
-      {
-        lengthString: 'Please choose a song first!',
-        currentTime: 0,
-        name: 'All I Got',
-        songNameURL:
-          'https://5cloudaudio.s3-us-west-1.amazonaws.com/All_I_Got.mp3',
-        artist: 'Said The Sky',
-        songArtURL:
-          'https://i1.sndcdn.com/artworks-87d2dfb3-404e-46c4-a9c1-ca749b012f52-0-t50x50.jpg',
-        duration: 366
-      },
-      {
-        lengthString: 'Please choose a song first!',
-        currentTime: 0,
-        name: 'Flicker',
-        songNameURL:
-          'https://5cloudaudio.s3-us-west-1.amazonaws.com/flicker.mp3',
-        artist: 'Porter Robinson',
-        songArtURL:
-          'https://i1.sndcdn.com/artworks-000376950786-x9c78f-t50x50.jpg',
-        duration: 316
-      },
-      {
-        lengthString: 'Please choose a song first!',
-        currentTime: 0,
-        name: 'Say My Name',
-        songNameURL:
-          'https://5cloudaudio.s3-us-west-1.amazonaws.com/Say_My_Name.mp3',
-        artist: 'Odesza',
-        songArtURL: 'https://i1.sndcdn.com/artworks-ILVTUNh2LAia-0-t50x50.jpg',
-        duration: 266
-      }
-    ];
+        //   get 50x50
+        for (let i = 0; i < artList.length; i++) {
+          artList[i] = artList[i].replace(/500x500/g, '50x50');
+        }
+        var time = this.fancyTimeFormat(0);
+        this.setState(
+          {
+            currentList: songsList,
+            currentSong: songsList[0],
+            currentSongTitle: songNamesList[0],
+            currentArtist: artistList[0],
+            currentArt: artList[0],
+            artList: artList,
+            artistList: artistList,
+            songNamesList: songNamesList,
+            currentTime: time,
+            duration: duration[0]
+          },
+          () => {
+            console.log('current song', this.state.currentSong);
+            let d = this.state.currentSong.duration;
+            console.log('d: ', d);
+            let dur = this.fancyTimeFormat(this.state.currentSong.duration);
+            console.log('duration: ', dur);
+          }
+        );
+      })
+      .catch(err => {
+        console.log('Could not load songs from db!');
+      });
 
-    let songsList = [];
-    let artList = [];
-    let artistList = [];
-    let songNamesList = [];
-    let duration = [];
-    for (let i = 0; i < list.length; i++) {
-      let song = new Audio(list[i].songNameURL);
-      // console.log('song: ', song);
-      songsList.push(song);
-      artList.push(list[i].songArtURL);
-      artistList.push(list[i].artistName);
-      songNamesList.push(list[i].songName);
-      duration.push(list[i].duration);
-    }
+    // list = [
+    //   {
+    //     lengthString: 'Please choose a song first!',
+    //     currentTime: 0,
+    //     name: 'All I Got',
+    //     songNameURL:
+    //       'https://5cloudaudio.s3-us-west-1.amazonaws.com/All_I_Got.mp3',
+    //     artist: 'Said The Sky',
+    //     songArtURL:
+    //       'https://i1.sndcdn.com/artworks-87d2dfb3-404e-46c4-a9c1-ca749b012f52-0-t50x50.jpg',
+    //     duration: 366
+    //   },
+    //   {
+    //     lengthString: 'Please choose a song first!',
+    //     currentTime: 0,
+    //     name: 'Flicker',
+    //     songNameURL:
+    //       'https://5cloudaudio.s3-us-west-1.amazonaws.com/flicker.mp3',
+    //     artist: 'Porter Robinson',
+    //     songArtURL:
+    //       'https://i1.sndcdn.com/artworks-000376950786-x9c78f-t50x50.jpg',
+    //     duration: 316
+    //   },
+    //   {
+    //     lengthString: 'Please choose a song first!',
+    //     currentTime: 0,
+    //     name: 'Say My Name',
+    //     songNameURL:
+    //       'https://5cloudaudio.s3-us-west-1.amazonaws.com/Say_My_Name.mp3',
+    //     artist: 'Odesza',
+    //     songArtURL: 'https://i1.sndcdn.com/artworks-ILVTUNh2LAia-0-t50x50.jpg',
+    //     duration: 266
+    //   }
+    // ];
 
-    var time = this.fancyTimeFormat(0);
-    // console.log('songsList: ', songsList);
-    this.setState({
-      currentList: songsList,
-      currentSong: songsList[0],
-      currentArt: artList[0],
-      currentArtist: list[0].artist,
-      currentSongTitle: list[0].name,
-      artistList: artistList,
-      songNamesList: songNamesList,
-      currentTime: time,
-      duration: duration[0]
-    });
+    // let songsList = [];
+    // let artList = [];
+    // let artistList = [];
+    // let songNamesList = [];
+    // let duration = [];
+    // for (let i = 0; i < list.length; i++) {
+    //   let song = new Audio(list[i].songNameURL);
+    //   // console.log('song: ', song);
+    //   songsList.push(song);
+    //   artList.push(list[i].songArtURL);
+    //   artistList.push(list[i].artistName);
+    //   songNamesList.push(list[i].songName);
+    //   duration.push(list[i].duration);
+    // }
+
+    // var time = this.fancyTimeFormat(0);
+    // // console.log('songsList: ', songsList);
+    // this.setState({
+    //   currentList: songsList,
+    //   currentSong: songsList[0],
+    //   currentArt: artList[0],
+    //   currentArtist: list[0].artist,
+    //   currentSongTitle: list[0].name,
+    //   artistList: artistList,
+    //   songNamesList: songNamesList,
+    //   currentTime: time,
+    //   duration: duration[0]
+    // });
   }
 
   componentDidMount() {
@@ -408,9 +414,10 @@ class App extends Component {
           onMouseLeave={this.toggleVolume}
         >
           <div>
-            <button onClick={this.handleMute}>
+            <button onClick={this.handleMute} className={styles.button}>
               {this.state.muteState ? (
                 <img
+                  className={styles.img}
                   src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZmlsbD0iIzMzMyIgZD0iTTE4IDEwLjU4NGwtMi4yOTMtMi4yOTEtMS40MTQgMS40MTQgMi4yOTMgMi4yOTEtMi4yOTEgMi4yOTEgMS40MTQgMS40MTUgMi4yOTItMi4yOTIgMi4yOTQgMi4yOTIgMS40MTQtMS40MTUtMi4yOTMtMi4yOTEgMi4yOTEtMi4yOS0xLjQxNC0xLjQxNS0yLjI5MiAyLjI5MXpNNCA5aDQuMDAyTDEyIDV2MTRjLTIuNDQ2LTIuNjY3LTMuNzc4LTQtMy45OTgtNEg0Vjl6Ii8+PC9zdmc+Cg=="
                   width="24"
                   height="24"
@@ -418,6 +425,7 @@ class App extends Component {
                 />
               ) : (
                 <img
+                  className={styles.img}
                   src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZmlsbD0iIzMzMyIgZD0iTTQgOWg0LjAwMkwxMiA1djE0Yy0yLjQ0Ni0yLjY2Ny0zLjc3OC00LTMuOTk4LTRINFY5em0xMCA0YTEgMSAwIDAgMCAwLTJWOWEzIDMgMCAwIDEgMCA2di0yeiIvPjwvc3ZnPgo="
                   width="24"
                   height="24"

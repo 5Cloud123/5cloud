@@ -1,31 +1,31 @@
-user_id,username,pro_unlimited,follower_count,phys_location
-USER 0001,@chknkilla,0,34,"Chicago, USA"
-USER 0002,@barelyhere,0,20,"Atlanta, USA"
-USER 0003,@dankroller,0,21,"New York, USA"
-USER 0004,@droeloeflowjo,0,66,"Berlin, Germany"
-USER 0005,@bigspender,0,88,"Pyongyang, North Korea"
-USER 0006,@hitemwitit,0,90,"Hong Kong, China"
-USER 0007,@migosfanboy,0,21,"Atlanta, USA"
-USER 0008,@smokepurpp,1,40000,"New York, USA"
-USER 0009,@playboicarti,1,1000000,"Atlanta, USA"
-USER 0010,@traplifestyle,0,356,"San Francisco, USA"
-USER 0011,@uzihurt,0,236,"Austin, USA"
-USER 0012,@fattiesallday,0,653,"Chicago, USA"
-USER 0013,@phonksavant,1,55667,"Seattle, USA"
-USER 0014,@trapoutthesubway,0,3445,"Sao Paolo, Brazil"
-USER 0015,@lilbih,0,235,"Seattle, USA"
-USER 0016,@hoodlegend,0,654,"Hong Kong, China"
-USER 0017,@breakitdown,0,223,"Amsterdam, Netherlands"
-USER 0018,@twerkmusiconly,0,64354,"Paris, France"
-USER 0019,@mayIHitThatYeet,1,675,"St. Petersberg, Russia"
-USER 0020,@grabdasteely,0,452,"Atlanta, USA"
-USER 0021,@passthegat,0,65673,"Gary, USA"
-USER 0022,@spraydablock,0,3764,"Sacramento, USA"
-USER 0023,@shoutoutATL,0,3676,"London, England"
-USER 0024,@dirtyDan,1,88463,"Barcelona, Spain"
-USER 0025,@holdingon,0,787658,"Battle Creek, USA"
-USER 0026,@36racks,0,4567,"Philadelphia, USA"
-USER 0027,@streetcleaner,0,35,"Berlin, Germany"
-USER 0028,@ikeepitonme,0,254,"Atlanta, USA"
-USER 0029,@rollitup,0,441,"Austin, USA"
-USER 0030,@swing,0,1,"Dallas, USA"
+user_id,username,pro_unlimited,follower_count,phys_location,avatar_url
+USER 0001,chknkilla,0,34,"Chicago, USA",https://miro.medium.com/max/2000/1*kybxJ9baHi9ixEMqLmiJiw.jpeg
+USER 0002,barelyhere,0,20,"Atlanta, USA",https://t2.genius.com/unsafe/0x1232/https%3A%2F%2Fimages.genius.com%2F4ff7feee123a36774ecb003865bfd77d.1920x1080x1.jpg
+USER 0003,dankroller,0,21,"New York, USA",https://media.gq.com/photos/59132b29ee7e6447b1025d07/16:9/w_2560%2Cc_limit/gq-playboi-carti-lead.jpg
+USER 0004,droeloeflowjo,0,66,"Berlin, Germany",//specials-images.forbesimg.com/imageserve/5a05d8c531358e542c0516b9/416x416.jpg?background=000000&cropX1=1963&cropX2=3944&cropY1=292&cropY2=2271
+USER 0005,bigspender,0,88,"Pyongyang, North Korea",https://i.ticketweb.com/i/00/07/50/69/89_Original.jpg?v=21
+USER 0006,hitemwitit,0,90,"Hong Kong, China",https://media.wmagazine.com/photos/58ed4ffbe5ed6a454af4ed35/4:3/w_1536/playboi%25201.jpg
+USER 0007,migosfanboy,0,21,"Atlanta, USA",https://www.undertheradar.co.nz/images/image.php/playboicarti20141240.jpg?width=1220&cropratio=1.8:1&image=/images/newsImages/playboicarti20141240.jpg
+USER 0008,smokepurpp,1,40000,"New York, USA",https://townsquare.media/site/812/files/2018/11/playboi-carti.jpg?w=1200
+USER 0009,playboicarti,1,1000000,"Atlanta, USA",https://townsquare.media/site/812/files/2018/11/playboi-carti.jpg?w=1200
+USER 0010,traplifestyle,0,356,"San Francisco, USA",https://static.highsnobiety.com/thumbor/qAOa_jO1wqKtq-sPk92rKfT_Od8=/fit-in/480x320/smart/static.highsnobiety.com/wp-content/uploads/2019/10/18101623/playboi-carti-whole-lotta-red.jpg
+USER 0011,uzihurt,0,236,"Austin, USA",https://media.pitchfork.com/photos/5c42708f973b5279a897020b/2:1/w_790/Playboi-Carti.jpg
+USER 0012,fattiesallday,0,653,"Chicago, USA","https://images.complex.com/complex/images/c_limit,dpr_auto,q_90,w_720/fl_lossy,pg_1/thxirmlcgjapeds67ahy/playboi-carti-convicted-in-2018-tour-bus-attack"
+USER 0013,phonksavant,1,55667,"Seattle, USA","https://media.gq.com/photos/59132b29ee7e6447b1025d07/16:9/w_2560,c_limit/gq-playboi-carti-lead.jpg"
+USER 0014,trapoutthesubway,0,3445,"Sao Paolo, Brazil","https://thefader-res.cloudinary.com/private_images/w_760,c_limit,f_auto,q_auto:best/GettyImages-982607556_y1latb/playboi-carti-performs-at-the-staples-center-concert-sponsored-by-sprite-june-23-2018.jpg"
+USER 0015,lilbih,0,235,"Seattle, USA",https://townsquare.media/site/812/files/2019/07/Playboi-Carti.jpg?w=980&q=75
+USER 0016,hoodlegend,0,654,"Hong Kong, China",https://www.billboard.com/files/styles/article_main_image/public/media/Playboi-Carti-BET-hip-hop-awards-billboard-1548.jpg
+USER 0017,breakitdown,0,223,"Amsterdam, Netherlands",https://s3.amazonaws.com/factmag-images/wp-content/uploads/2017/07/17884182_253283841801124_6132048645552105601_n.jpg
+USER 0018,twerkmusiconly,0,64354,"Paris, France",https://i.ticketweb.com/i/00/07/50/69/89_Original.jpg?v=21
+USER 0019,mayIHitThatYeet,1,675,"St. Petersberg, Russia",https://i.ytimg.com/vi/REmZhFKmOmo/maxresdefault.jpg
+USER 0020,grabdasteely,0,452,"Atlanta, USA",https://i.ytimg.com/vi/REmZhFKmOmo/maxresdefault.jpg
+USER 0021,passthegat,0,65673,"Gary, USA",https://i.ytimg.com/vi/REmZhFKmOmo/maxresdefault.jpg
+USER 0022,spraydablock,0,3764,"Sacramento, USA",https://somoconcerts.com/wp-content/uploads/2018/10/PlayboiCarti_image.jpg
+USER 0023,shoutoutATL,0,3676,"London, England",https://s.yimg.com/ny/api/res/1.2/HOjQD_CD_ltCARX0w49kpA--~A/YXBwaWQ9aGlnaGxhbmRlcjtzbT0xO3c9NjgwO2g9NDQw/http://media.zenfs.com/en-US/homerun/complex_music_120/f25f7d23b851c6103a6f8aa54727a9cc
+USER 0024,dirtyDan,1,88463,"Barcelona, Spain",https://trillectro.com/uploads/Playboi-Carti-Supreme-Bubble.jpg
+USER 0025,holdingon,0,787658,"Battle Creek, USA",https://static01.nyt.com/images/2018/07/01/fashion/01ENCOUNTERS1/01ENCOUNTERS1-articleLarge-v2.jpg?quality=75&auto=webp&disable=upscale
+USER 0026,36rack,0,4567,"Philadelphia, USA",https://video-images.vice.com/articles/5a204fcb4caea318e7bb993b/lede/1512067309011-playboi.jpeg?crop=0.5624703087885986xw%3A1xh%3Bcenter%2Ccenter&resize=650%3A*&output-quality=55
+USER 0027,streetcleaner,0,35,"Berlin, Germany","https://images.complex.com/complex/images/c_limit,dpr_auto,q_90,w_720/fl_lossy,pg_1/k5po4cyx7jvaomom4hjl/playboi-carti-getty-jason-koerner"
+USER 0028,ikeepitonme,0,254,"Atlanta, USA",https://imagez.tmz.com/image/bf/o/2017/07/07/bf9365efea8d5da08bb3fd04eb6f11d0_md.jpg
+USER 0029,rollitup,0,441,"Austin, USA",https://www.thescottishsun.co.uk/wp-content/uploads/sites/2/2019/01/NINTCHDBPICT000462465997-e1547760240636.jpg
+USER 0030,swing,0,1,"Dallas, USA",https://i.pinimg.com/originals/b7/6a/b8/b76ab8fc2f0cf01d9458f5cb10c8289f.jpg
