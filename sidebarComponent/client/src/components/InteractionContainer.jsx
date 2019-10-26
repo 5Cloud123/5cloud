@@ -19,7 +19,7 @@ let InteractionContainer = props => {
           <span className={style.view}>View All</span>
         </div>
         <div>
-          {props.users.map((user, index) => {
+          {props.users.slice(0, 9).map((user, index) => {
             return <User key={user.id} user={user} z={index} />;
           })}
         </div>
@@ -42,7 +42,7 @@ let InteractionContainer = props => {
           <span className={style.view}>View All</span>
         </div>
         <div>
-          {props.users.map(user => {
+          {props.users.slice(0, 9).map(user => {
             return <User key={user.id} user={user} />;
           })}
         </div>

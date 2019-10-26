@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import InteractionContainer from './InteractionContainer.jsx';
 import ItemsContainer from './ItemsContainer.jsx';
