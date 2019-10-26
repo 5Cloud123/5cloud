@@ -136,7 +136,7 @@ export default class SongDisplay extends React.Component {
   // Get specific song for loaded page
   getSong() {
     axios
-      .get(`http://54.153.85.213:5001/query/getSong/${this.props.song_id}`)
+      .get(`http://52.9.232.180:5001/query/getSong/${this.props.song_id}`)
       .then((response) => {
         const songObj = response.data[0];
         songObj.comments = response.data[1];
