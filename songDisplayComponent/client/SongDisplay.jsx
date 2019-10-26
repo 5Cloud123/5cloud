@@ -136,7 +136,7 @@ export default class SongDisplay extends React.Component {
   // Get specific song for loaded page
   getSong() {
     axios
-      .get(`http://localhost:5001/query/getSong/${this.props.song_id}`)
+      .get(`http://54.153.85.213:5001/query/getSong/${this.props.song_id}`)
       .then((response) => {
         const songObj = response.data[0];
         songObj.comments = response.data[1];
@@ -173,7 +173,7 @@ export default class SongDisplay extends React.Component {
   // Get one song loaded from AWS
   backgroundGetThreeSongs() {
     axios
-      .get('http://localhost:5001/query/three-songs')
+      .get('http://54.153.85.213:5001/query/three-songs')
       .then((response) => {
         const songObjs = response.data;
         // Create Audio object for remaining songs
