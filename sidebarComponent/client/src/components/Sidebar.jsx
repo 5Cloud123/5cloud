@@ -6,7 +6,7 @@ import style from './Sidebar.css';
 import 'babel-polyfill';
 
 const splits = document.URL.split('/');
-const song_id = splits(splits.length - 2);
+const song_id = splits[splits.length - 2];
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
