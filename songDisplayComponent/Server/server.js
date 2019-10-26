@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const db = require('../db/Model');
+const compression = require('compression')
 
 const app = express();
 
@@ -17,6 +18,9 @@ app.use(function(req, res, next) {
   );
   next();
 });
+
+// Compress files
+app.use(compression())
 
 // Serve the static index file from the React app
 app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
