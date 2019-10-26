@@ -109,6 +109,7 @@ class Sidebar extends React.Component {
         <InteractionContainer
           id="user-likes"
           type="likes"
+          likes={this.state.userLikes.length}
           users={this.state.userLikes}
           song={this.state.currentSong}
           className="interaction-container"
@@ -116,6 +117,7 @@ class Sidebar extends React.Component {
         <InteractionContainer
           id="user-reposts"
           type="reposts"
+          reposts={this.state.userReposts.length}
           users={this.state.userReposts}
           song={this.state.currentSong}
           className="interaction-container"
