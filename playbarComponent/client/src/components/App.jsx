@@ -54,8 +54,8 @@ class App extends Component {
     axios
 
       .get(
-        // 'http://ec2-18-188-157-241.us-east-2.compute.amazonaws.com:5002/query/getSong/song_0001'
-        'http://localhost:5002/query/getSong/song_0001'
+        'http://ec2-18-188-157-241.us-east-2.compute.amazonaws.com:5002/query/getSong/song_0001'
+        // 'http://localhost:5002/query/getSong/song_0001'
       )
       .then(res => {
         list = res.data;
