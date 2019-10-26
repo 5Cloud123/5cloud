@@ -3,7 +3,7 @@ import style from './UserProfile.css';
 let UserProfile = function(props) {
   return (
     <div className={style.container}>
-      <img className={style.art} src="./assets/pictures/sample.jpg" />
+      <img className={style.art} src={props.user.avatar_url} />
       <div className={style.username}>{props.user.username}</div>
       <div className={style.followers}>
         <img
