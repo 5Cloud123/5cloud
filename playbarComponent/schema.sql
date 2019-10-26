@@ -18,6 +18,7 @@ CREATE TABLE songs(
     songNameURL varchar(255), 
     songArtURL varchar(255),
     artistName varchar(255) NOT NULL,
+    duration INT,
     -- artistId INT NOT NULL,
     -- FOREIGN KEY (artistId)
     --     REFERENCES artists(id),
