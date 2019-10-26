@@ -17,7 +17,7 @@ var seedDb = function(data) {
   fs.readFile(
     filePath,
     {
-      encoding: 'utf-8',
+      encoding: 'utf-8'
     },
     (err, csvData) => {
       if (err) {
@@ -28,7 +28,7 @@ var seedDb = function(data) {
         csvData,
         {
           columns: true,
-          delimiter: ',',
+          delimiter: ','
         },
         (err, data) => {
           if (err) {
