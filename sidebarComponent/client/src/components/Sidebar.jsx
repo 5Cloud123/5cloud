@@ -31,7 +31,7 @@ class Sidebar extends React.Component {
       });
     axios
       .get(
-        `http://ec2-18-216-245-70.us-east-2.compute.amazonaws.com/relatedtracks/${this.state.currentSongId}`
+        `http://ec2-18-216-245-70.us-east-2.compute.amazonaws.com:5000/relatedtracks/${this.state.currentSongId}`
       )
       .then(songs => {
         this.setState({ relatedTracks: songs.data });
