@@ -11,6 +11,7 @@ CREATE TABLE users (
   pro_unlimited BOOLEAN DEFAULT 0,
   follower_count INT,
   phys_location VARCHAR(25),
+  avatar_url VARCHAR(250),
 
   PRIMARY KEY(id)
 );
