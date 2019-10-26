@@ -62,7 +62,7 @@ class Sidebar extends React.Component {
       });
 
     axios
-      .get(`http://54.153.85.213:5000/albumincluded/${this.state.currentSongId}`)
+      .get(`http://localhost:5000/albumincluded/${this.state.currentSongId}`)
       .then(albums => {
         this.setState({ albumsInclud: albums.data });
       })
