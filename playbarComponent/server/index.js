@@ -21,18 +21,32 @@ app.use(function(req, res, next) {
 
 app.listen(PORT, () => console.log('Server is listening on port ', PORT));
 
+//get one song
 app.get('/query/getSong/:song_id', (req, res) => {
-  var getAllQuery = 'SELECT * FROM songs';
+  var getAllQuery = `SELECT * FROM songs WHERE songId = '${req.params.song_id}'`;
   db.query(getAllQuery, (err, data) => {
     if (err) {
       res.sendStatus(500);
-      console.log('could not query db');
+      console.log(err);
     } else {
       console.log('Inserted into songs table');
       res.status(200).send(data);
     }
   });
 });
+
+// app.get('/query/getSong/:song_id', (req, res) => {
+//   var getAllQuery = 'SELECT * FROM songs';
+//   db.query(getAllQuery, (err, data) => {
+//     if (err) {
+//       res.sendStatus(500);
+//       console.log('could not query db');
+//     } else {
+//       console.log('Inserted into songs table');
+//       res.status(200).send(data);
+//     }
+//   });
+// });
 
 //serve bundle
 // app.use('/app.js', express.static(path.join(__dirname, '../public/bundle.js')));
