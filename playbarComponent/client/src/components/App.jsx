@@ -52,8 +52,11 @@ class App extends Component {
   //initialize array of songs
   loadSongs() {
     let list = [];
-    axios.get`http://ec2-18-189-170-126.us-east-2.compute.amazonaws.com:5002/query/getSong/${this.props.song_id}`()
-      // `http://localhost:5002/query/getSong/${this.props.song_id}`
+    axios
+      .get(
+        // `http://ec2-18-189-170-126.us-east-2.compute.amazonaws.com:5002/query/getSong/${this.props.song_id}`
+        `http://localhost:5002/query/getSong/${this.props.song_id}`
+      )
       .then(res => {
         list = res.data;
         console.log('getting data: ', res.data);
