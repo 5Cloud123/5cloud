@@ -2,4 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App.jsx';
 
-ReactDOM.render(<App />, document.getElementById('playbar'));
+const splits = document.URL.split('/');
+const song_id = splits[splits.length - 2];
+
+ReactDOM.render(<App song_id={song_id} />, document.getElementById('playbar'));
