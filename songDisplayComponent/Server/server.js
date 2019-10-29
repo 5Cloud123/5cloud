@@ -41,16 +41,4 @@ app.get('/query/getSong/:song_id', (req, res) => {
   db.getSong(song_id, res);
 });
 
-// Return stringified JSON of all 100 song information objects from mysql
-app.get('/query/all-songs', (req, res) => db.getAllSongs(res));
-
-// Return only ten songs
-app.get('/query/ten-songs', (req, res) => db.getTenSongs(res));
-
-// Return only three songs
-app.get('/query/three-songs', (req, res) => db.getThreeRandomSongs(res));
-
-// Return only one song
-app.get('/query/one-song', (req, res) => db.getOneSong(res));
-
 app.listen(port, () => console.log(`Express App running on port ${port}`));
