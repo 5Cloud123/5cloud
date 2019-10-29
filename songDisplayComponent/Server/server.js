@@ -2,7 +2,7 @@
 const express = require('express');
 const path = require('path');
 const db = require('../db/Model');
-const compression = require('compression')
+const compression = require('compression');
 
 const app = express();
 
@@ -20,7 +20,17 @@ app.use(function(req, res, next) {
 });
 
 // Compress files
-app.use(compression())
+app.use(compression({filter: shouldCompress}));
+
+function shouldCompress(req, res) {
+  if (req.headers['x-no-compression']) {
+    // don't compress responses with this request header
+    return false;
+  }
+
+  // fallback to standard filter function
+  return compression.filter(req, res);
+}
 
 // Serve the static index file from the React app
 app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
