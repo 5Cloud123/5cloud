@@ -19,33 +19,8 @@ module.exports.getSong = (song_id, res) => {
   });
 };
 
-module.exports.getOneSong = (req, res) => {
-  const query = 'SELECT * FROM songs LIMIT 1;';
-  // Insert information
-  db.connection.query(query, (err, results, fields) => {
-    if (err) {
-      console.error(err);
-    } else {
-      res.end(JSON.stringify(results));
-    }
-  });
-};
-
-module.exports.getThreeRandomSongs = res => {
-  const query =
-    'SELECT * FROM songs INNER JOIN comments ON songs.song_id = comments.song_id ORDER BY RAND() LIMIT 3;';
-  // const query = 'SELECT * FROM songs ORDER BY song_name DESC LIMIT 3;';
-  // Insert information
-  db.connection.query(query, (err, results, fields) => {
-    if (err) {
-      console.error(err);
-    } else {
-      res.end(JSON.stringify(results));
-    }
-  });
-};
-
-module.exports.insertComments = comments => {
+// Add comments to DB
+module.exports.insertComments = (comments) => {
   const query = `INSERT INTO comments (song_id, user_name, time_stamp, comment) values ${comments}`;
   db.connection.query(query, (err, results, fields) => {
     if (err) {
