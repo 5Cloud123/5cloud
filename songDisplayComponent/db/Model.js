@@ -31,7 +31,7 @@ module.exports.getOneSong = (req, res) => {
   });
 };
 
-module.exports.getThreeRandomSongs = (res) => {
+module.exports.getThreeRandomSongs = res => {
   const query =
     'SELECT * FROM songs INNER JOIN comments ON songs.song_id = comments.song_id ORDER BY RAND() LIMIT 3;';
   // const query = 'SELECT * FROM songs ORDER BY song_name DESC LIMIT 3;';
@@ -45,7 +45,7 @@ module.exports.getThreeRandomSongs = (res) => {
   });
 };
 
-module.exports.insertComments = (comments) => {
+module.exports.insertComments = comments => {
   const query = `INSERT INTO comments (song_id, user_name, time_stamp, comment) values ${comments}`;
   db.connection.query(query, (err, results, fields) => {
     if (err) {

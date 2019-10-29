@@ -6,8 +6,13 @@
 #songTitle {
   color: #666;
   cursor: pointer;
-
+  margin-left: 0.5rem;
   font-size: 11px;
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 2;
+  transform: translateY(-4px);
 }
 
 #songTitle:hover {
@@ -18,8 +23,14 @@
   color: #999;
   cursor: pointer;
   font-size: 11px;
-  padding-left: 0.5rem;
-  line-height: 46px;
+
+  margin-left: 0.5rem;
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  grid-row: 1;
+  transform: translateY(10px);
 }
 
 #artistName:hover {
@@ -27,8 +38,10 @@
 }
 
 .artContainer {
-  display: inline-block;
+  display: inline-grid;
   margin-left: 1rem;
+  grid-template-rows: 2;
+  grid-template-columns: 2;
 }
 
 .albumArt {
@@ -38,4 +51,6 @@
   border: 0.5px black;
   cursor: pointer;
   transform: translateY(10px);
+  grid-column-start: 1;
+  grid-column-end: 1;
 }

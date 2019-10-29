@@ -5,7 +5,7 @@ const csvParser = require('csv-parse');
 
 const connection = mysql.createConnection({
   user: 'root',
-  password: '',
+  password: 'password',
   database: 'musicDB'
 });
 

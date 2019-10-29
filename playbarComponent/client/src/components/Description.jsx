@@ -7,9 +7,9 @@ var Description = props => {
     <div className={styles.artContainer}>
       <img className={styles.albumArt} src={currentArt}></img>
 
-      <span id={styles.artistName}>{currentArtist} </span>
+      <div id={styles.artistName}>{currentArtist} </div>
 
-      <span id={styles.songTitle}>{currentSongTitle} </span>
+      <div id={styles.songTitle}>{currentSongTitle} </div>
     </div>
   );
 };
