@@ -22,6 +22,9 @@ class Song extends React.Component {
         onMouseEnter={this.toggleHover}
         onMouseLeave={this.toggleHover}
       >
+        {this.state.hoverState && (
+          <SongOptions className={style['song-options']} />
+        )}
         <img src={this.props.track.song_art_url} className={style.art} />
         {this.state.hoverState && (
           <div className={style['play-button-container']}>
@@ -33,12 +36,7 @@ class Song extends React.Component {
         )}
         <div className={style.info}>
           <div className={style.username}>{this.props.track.artist_name}</div>
-          <div className={style.title}>
-            {this.state.hoverState && (
-              <SongOptions className={style['song-options']} />
-            )}
-            {this.props.track.song_name}
-          </div>
+          <div className={style.title}>{this.props.track.song_name}</div>
 
           <div className={style['icon-bar']}>
             <span className={style.plays}>
