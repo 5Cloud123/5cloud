@@ -2,8 +2,10 @@ let express = require('express');
 let db = require('../database/methods.js');
 let path = require('path');
 let cors = require('cors');
-
+let compression = require('compression');
 let app = express();
+let minify = require('express-minify');
+
 
 const PORT = 5000;
 
@@ -17,6 +19,8 @@ app.use(express.json());
 //   );
 //   next();
 // });
+app.use(compression());
+app.use(minify());
 app.use('/:songid', express.static(path.join(__dirname, '../public/dist')));
 
 app.get('/currentSong/:songid', (req, res) => {

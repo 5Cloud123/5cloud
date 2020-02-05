@@ -25,14 +25,14 @@ class Sidebar extends React.Component {
   componentDidMount() {
     axios
       .get(
-        `http://ec2-18-216-245-70.us-east-2.compute.amazonaws.com:5000/currentSong/${this.state.currentSongId}`
+        `http://ec2-18-189-195-233.us-east-2.compute.amazonaws.com:5000/currentSong/${this.state.currentSongId}`
       )
       .then(song => {
         this.setState({ currentSong: song.data[0] });
       });
     axios
       .get(
-        `http://ec2-18-216-245-70.us-east-2.compute.amazonaws.com:5000/relatedtracks/${this.state.currentSongId}`
+        `http://ec2-18-189-195-233.us-east-2.compute.amazonaws.com:5000/relatedtracks/${this.state.currentSongId}`
       )
       .then(songs => {
         this.setState({ relatedTracks: songs.data });
@@ -43,7 +43,7 @@ class Sidebar extends React.Component {
 
     axios
       .get(
-        `http://ec2-18-216-245-70.us-east-2.compute.amazonaws.com:5000/userlike/${this.state.currentSongId}`
+        `http://ec2-18-189-195-233.us-east-2.compute.amazonaws.com:5000/userlike/${this.state.currentSongId}`
       )
       .then(users => {
         this.setState({ userLikes: users.data });
@@ -54,7 +54,7 @@ class Sidebar extends React.Component {
 
     axios
       .get(
-        `http://ec2-18-216-245-70.us-east-2.compute.amazonaws.com:5000/userrepost/${this.state.currentSongId}`
+        `http://ec2-18-189-195-233.us-east-2.compute.amazonaws.com:5000/userrepost/${this.state.currentSongId}`
       )
       .then(users => {
         this.setState({ userReposts: users.data });
@@ -65,7 +65,7 @@ class Sidebar extends React.Component {
 
     axios
       .get(
-        `http://ec2-18-216-245-70.us-east-2.compute.amazonaws.com:5000/playlistincluded/${this.state.currentSongId}`
+        `http://ec2-18-189-195-233.us-east-2.compute.amazonaws.com:5000/playlistincluded/${this.state.currentSongId}`
       )
       .then(playlists => {
         this.setState({ playlistsInclud: playlists.data });
@@ -76,7 +76,7 @@ class Sidebar extends React.Component {
 
     axios
       .get(
-        `http://ec2-18-216-245-70.us-east-2.compute.amazonaws.com:5000/albumincluded/${this.state.currentSongId}`
+        `http://ec2-18-189-195-233.us-east-2.compute.amazonaws.com:5000/albumincluded/${this.state.currentSongId}`
       )
       .then(albums => {
         this.setState({ albumsInclud: albums.data });
